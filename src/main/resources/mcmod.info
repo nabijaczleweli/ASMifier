@@ -1,0 +1,16 @@
+[
+{
+  "modid": "MineCrASMer",
+  "name": "ASMifier",
+  "description": "Makes it possible to program in Assembly inside Minecraft.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["nabijaczleweli"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
