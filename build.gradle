@@ -28,6 +28,11 @@ archivesBaseName = "MineCrASMer"
 minecraft {
     version = "${mc_version}-10.13.0.${forge_build}"
     assetDir = "eclipse/assets"
+
+    replaceIn "Reference.scala"
+    replace "@MODID@", "minecrasmer"
+    replace "@MODNAME@", archivesBaseName
+    replace "@MODVER@", project.version
 }
 
 dependencies {
@@ -46,8 +51,7 @@ dependencies {
 
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -55,7 +59,7 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
