@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'scala'
 apply plugin: 'forge'
 
-if (System.getenv().BUILD_NUMBER != null)
+if(System.getenv().BUILD_NUMBER != null)
 	build_number = "build${System.getenv().BUILD_NUMBER}"
 
 version = "${mc_version}-${build_number}"
@@ -30,7 +30,6 @@ minecraft {
     assetDir = "eclipse/assets"
 
     replaceIn "Reference.scala"
-    replace "@MODID@", "minecrasmer"
     replace "@MODNAME@", archivesBaseName
     replace "@MODVER@", project.version
 }

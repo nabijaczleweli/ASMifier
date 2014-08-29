@@ -1,6 +1,6 @@
 [
 {
-  "modid": "MineCrASMer",
+  "modid": "minecrasmer",
   "name": "ASMifier",
   "description": "Makes it possible to program in Assembly inside Minecraft.",
   "version": "${version}",
