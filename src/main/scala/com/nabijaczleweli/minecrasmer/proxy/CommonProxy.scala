@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-import com.nabijaczleweli.minecrasmer.block.BlockComputerOff
+import com.nabijaczleweli.minecrasmer.block.{BlockComputerOn, BlockComputerOff}
 import com.nabijaczleweli.minecrasmer.item.ItemWrench
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
@@ -19,6 +19,7 @@ class CommonProxy extends IProxy {
 		defaultRegisterItem(ItemWrench)
 
 		defaultRegisterBlock(BlockComputerOff)
+		defaultRegisterBlock(BlockComputerOn)
 	}
 
 	final override def registerOreDict() {

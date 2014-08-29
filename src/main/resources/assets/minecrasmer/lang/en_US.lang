@@ -1,3 +1,4 @@
-tile.minecrasmer:computer.name=PC
+tile.minecrasmer:computeroff.name=PC
+tile.minecrasmer:computeron.name=PC
 
 item.minecrasmer:wrench.name=Wrench
