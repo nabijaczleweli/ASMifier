@@ -9,9 +9,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.{IIcon, MathHelper}
 import net.minecraft.world.World
 
-class ComputerGeneric extends Block(Container.materialComputer) {
+class ComputerGeneric(private final val suffix: String) extends Block(Container.materialComputer) {
 	setHardness(.3f) // Glass-like
 	setHarvestLevel("wrench", 0)
+	setBlockName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
 
 	@SideOnly(Side.CLIENT)
 	var computerFront: IIcon = null
@@ -39,7 +40,6 @@ class ComputerGeneric extends Block(Container.materialComputer) {
 
 	override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, entity: EntityLivingBase, stack: ItemStack) =
 		MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F).asInstanceOf[Double] + 0.5D) & 3 match {
-			// Stolen from BlockFurnace
 			case 0 =>
 				world.setBlockMetadataWithNotify(x, y, z, 2, 2)
 			case 1 =>
