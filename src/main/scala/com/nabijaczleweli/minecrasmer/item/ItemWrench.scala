@@ -5,7 +5,6 @@ import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.Block
 import net.minecraft.item.ItemTool
-import net.minecraftforge.common.util.EnumHelper
 
 import scala.collection.JavaConversions._
 

@@ -4,4 +4,8 @@ trait IProxy {
 	def registerItemsAndBlocks(): Unit
 
 	def registerOreDict(): Unit
+
+	def registerGUIs(): Unit
+
+	def registerEvents(): Unit
 }
