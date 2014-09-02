@@ -21,19 +21,24 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 	@SideOnly(Side.CLIENT)
 	var computerSide : IIcon = null
 	@SideOnly(Side.CLIENT)
-	var computerTopBottom: IIcon = null
+	var computerTop: IIcon = null
+	@SideOnly(Side.CLIENT)
+	var computerBottom: IIcon = null
 
 	@SideOnly(Side.CLIENT)
 	override def registerBlockIcons(ir: IIconRegister) {
 		computerFront = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_front"
 		computerSide = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_side"
-		computerTopBottom = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_top_bottom"
+		computerTop = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_top"
+		computerBottom = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_bottom"
 	}
 
 	override def getIcon(side: Int, meta: Int) =
 		side match {
-			case 1 | 0 => // top / bottom
-				computerTopBottom
+			case 0 =>
+				computerBottom
+			case 1 =>
+				computerTop
 			case `meta` =>
 				computerFront
 			case _ =>
