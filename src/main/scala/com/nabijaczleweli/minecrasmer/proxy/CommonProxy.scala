@@ -2,6 +2,7 @@ package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block.{BlockComputerOn, BlockComputerOff}
+import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.handler.BlocksHandler
 import com.nabijaczleweli.minecrasmer.item.ItemWrench
@@ -37,5 +38,9 @@ class CommonProxy extends IProxy {
 
 	override def registerEvents() {
 		MinecraftForge.EVENT_BUS.register(BlocksHandler)
+	}
+
+	override def registerEntities() {
+		GameRegistry.registerTileEntity(classOf[TileEntityComputer], "PComputer")
 	}
 }

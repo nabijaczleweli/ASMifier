@@ -1,11 +1,13 @@
 package com.nabijaczleweli.minecrasmer.block
 
+import java.util.Random
+
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.item.ItemStack
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{IIcon, MathHelper}
 import net.minecraft.world.World
 
@@ -49,4 +51,10 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 			case 3 =>
 				world.setBlockMetadataWithNotify(x, y, z, 4, 2)
 		}
+
+	override def getItemDropped(meta: Int, rand: Random, fortune: Int) =
+		Item getItemFromBlock BlockComputerOff
+
+	override def canSilkHarvest =
+		false
 }

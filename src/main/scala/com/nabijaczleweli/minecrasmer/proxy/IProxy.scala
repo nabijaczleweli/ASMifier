@@ -8,4 +8,6 @@ trait IProxy {
 	def registerGUIs(): Unit
 
 	def registerEvents(): Unit
+
+	def registerEntities(): Unit
 }

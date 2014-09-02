@@ -16,6 +16,7 @@ object MineCrASMer {
 		proxy.registerItemsAndBlocks()
 		proxy.registerEvents()
 		proxy.registerGUIs()
+		proxy.registerEntities()
 	}
 
 	@EventHandler
