@@ -2,11 +2,12 @@ package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.ChatComponentText
 import net.minecraft.world.World
 
 object BlockComputerOff extends ComputerGeneric("off") {
-	final val onButtonSwitchPixels = (List[Int](13, 13, 11, 10, 11, 12, 13, 14, 15, 15),
-					                          List[Int](0 , 1 , 1 , 2 , 3 , 4 , 4 , 4 , 3 , 1 ))
+	final val onButtonSwitchPixels = (13 :: 13 :: 11 :: 10 :: 11 :: 12 :: 13 :: 14 :: 15 :: 15 :: Nil,
+					                          0  ::  1 ::  1 ::  2 ::  3 ::  4 ::  4 ::  4 ::  3 ::  1 :: Nil)
 
 	setCreativeTab(CreativeTabMineCrASMer)
 
@@ -14,9 +15,10 @@ object BlockComputerOff extends ComputerGeneric("off") {
 		side match {
 			case 1 =>
 				if(onButtonSwitchPixels._1.contains(Math.floor(clickX * 16)) && onButtonSwitchPixels._2.contains(Math.floor(clickZ * 16))) {
-					if(!world.isRemote)
+					if(!world.isRemote) {
+						player addChatMessage new ChatComponentText("Booting MC-DOS...")
 						world.setBlock(x, y, z, BlockComputerOn, world.getBlockMetadata(x, y, z), 2 | 4)
-					BlockComputerOn.onBlockActivated(world, x, y, z, player, side, clickX, clickY, clickZ)
+					}
 					true
 				} else
 					false
