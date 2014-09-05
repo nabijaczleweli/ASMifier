@@ -18,7 +18,7 @@ object GUIComputer extends GuiScreen {
 	private final lazy val textureStartX = (width - textureWidth) / 2
 	private final lazy val textureStartY = (height - textureHeight) / 2
 
-	private final var lines: Array[String] = null
+	private final var lines: Array[String] = _
 
 	fontRendererObj = null
 
