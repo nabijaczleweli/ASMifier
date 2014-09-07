@@ -19,4 +19,5 @@ object Container {
 
 	lazy val scoopEmpty = new ItemScoop(Blocks.air)
 	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid)
+	var foreignScoops: List[ItemScoop] = Nil
 }

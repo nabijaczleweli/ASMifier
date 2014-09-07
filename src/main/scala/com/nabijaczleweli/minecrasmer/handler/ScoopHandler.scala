@@ -3,14 +3,14 @@ package com.nabijaczleweli.minecrasmer.handler
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.reference.Container
-import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.block.{Block, BlockDynamicLiquid, BlockStaticLiquid}
 import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
-import net.minecraftforge.fluids.{FluidStack, BlockFluidBase, IFluidHandler}
+import net.minecraftforge.fluids._
 
 object ScoopHandler {
 	var scoops = Map[Block, Item](
@@ -77,10 +77,33 @@ object ScoopHandler {
 		new ItemStack(scoop.get)
 	}
 
+	def getFluidFromScoop(scoop: ItemScoop) = {
+		scoop.contains match {
+			case fl: IFluidBlock =>
+				fl.getFluid
+			case bl: BlockStaticLiquid =>
+				bl match {
+					case Blocks.water =>
+						FluidRegistry.WATER
+					case Blocks.lava =>
+						FluidRegistry.LAVA
+				}
+			case bl: BlockDynamicLiquid =>
+				bl match {
+					case Blocks.flowing_water =>
+						FluidRegistry.WATER
+					case Blocks.flowing_lava =>
+						FluidRegistry.LAVA
+				}
+			case _ =>
+				null
+		}
+	}
+
 	def emptyScoop(world: World, pos: MovingObjectPosition, scoop: ItemStack): ItemStack = {
 		var block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ)
 		val scoopItem = scoop.getItem.asInstanceOf[ItemScoop]
-		val scoopContains = scoopItem.contains.asInstanceOf[BlockFluidBase]
+		val scoopContains = scoopItem.contains
 		val addMeta = (modX: Int, modY: Int, modZ: Int) => {
 			val metadata = world.getBlockMetadata(pos.blockX + modX, pos.blockY + modY, pos.blockZ + modZ)
 			if(metadata == 7)
@@ -99,7 +122,7 @@ object ScoopHandler {
 					case null =>
 					case ti if ti.length > 0 =>
 						val fluid = ti(0).fluid.getFluid
-						if(fluid == scoopContains.getFluid || fluid == null)
+						if(fluid == getFluidFromScoop(scoopItem) || fluid == null)
 							if(te.canFill(direction, fluid)) {
 								val fs = new FluidStack(fluid, ItemScoop.capacity)
 								te.fill(direction, fs, false) match {

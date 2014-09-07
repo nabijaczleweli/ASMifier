@@ -1,4 +1,5 @@
 tile.minecrasmer:computeroff.name=PC
 tile.minecrasmer:computeron.name=PC (on)
+tile.minecrasmer:liquidcrystal.name=Liquid crystal
 
 item.minecrasmer:wrench.name=Wrench

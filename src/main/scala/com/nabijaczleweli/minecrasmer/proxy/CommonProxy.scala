@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
-import com.nabijaczleweli.minecrasmer.block.{BlockLiquidCrystalFluid, BlockComputerOff, BlockComputerOn}
+import com.nabijaczleweli.minecrasmer.block.{BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid}
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.handler.BlocksHandler
@@ -12,7 +12,7 @@ import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, FluidRegistry}
+import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, IFluidBlock}
 import net.minecraftforge.oredict.OreDictionary
 
 class CommonProxy extends IProxy {
@@ -24,9 +24,9 @@ class CommonProxy extends IProxy {
 		def defaultRegisterBlock(bl: Block) =
 			GameRegistry.registerBlock(bl, bl.getUnlocalizedName.substring(bl.getUnlocalizedName.indexOf(':') + 1))
 		@inline
-		def defaultRegisterScoop(fl: Fluid, it: ItemScoop) =
-			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(fl.getName, ItemScoop.capacity), new ItemStack(it),
-			                                              new ItemStack(Container.scoopEmpty))
+		def defaultRegisterScoop(it: ItemScoop) =
+			FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(it.contains.asInstanceOf[IFluidBlock].getFluid.getName, ItemScoop.capacity),
+			                                              new ItemStack(it), new ItemStack(Container.scoopEmpty))
 
 		defaultRegisterItem(ItemWrench)
 		defaultRegisterItem(Container.scoopEmpty)
@@ -36,7 +36,7 @@ class CommonProxy extends IProxy {
 		defaultRegisterBlock(BlockComputerOn)
 		defaultRegisterBlock(BlockLiquidCrystalFluid)
 
-		defaultRegisterScoop(Container.liquidCrystal, Container.scoopLiquidCrystal)
+		defaultRegisterScoop(Container.scoopLiquidCrystal)
 	}
 
 	final override def registerOreDict() {

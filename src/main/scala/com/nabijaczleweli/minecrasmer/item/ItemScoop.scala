@@ -22,12 +22,11 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 			it getItemStackDisplayName new ItemStack(it)
 	}
 
-	println(s"scoop${if(empty) "Empty" else {
+	setUnlocalizedName(s"scoop${if(empty) "Empty" else {
 		val bldr = new StringBuilder(contains.getUnlocalizedName substring 5)
 		bldr.setCharAt(0, bldr.charAt(0).toUpper)
 		bldr
 	}}")
-	setUnlocalizedName(s"scoop${if(empty) "Empty" else {contains.getUnlocalizedName.charAt(5).toUpper + contains.getUnlocalizedName substring 6}}")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setMaxStackSize(1)
 	if(!empty)

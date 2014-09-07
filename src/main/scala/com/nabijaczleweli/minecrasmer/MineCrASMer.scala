@@ -1,13 +1,21 @@
 package com.nabijaczleweli.minecrasmer
 
-import com.nabijaczleweli.minecrasmer.compat.{Vanilla, AE2}
+import com.nabijaczleweli.minecrasmer.compat.{AE2, Vanilla}
+import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
+import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
+import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.util.ImplicitConvertions._
 import cpw.mods.fml.common.Mod.EventHandler
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import cpw.mods.fml.common.{Mod, SidedProxy}
+import net.minecraft.item.ItemStack
+import net.minecraftforge.fluids._
+
+import scala.collection.JavaConversions._
 
 @Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2", modLanguage = "scala")
 object MineCrASMer {
@@ -18,11 +26,6 @@ object MineCrASMer {
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
-		proxy.registerFluids()
-		proxy.registerItemsAndBlocks()
-		proxy.registerGUIs()
-		proxy.registerEntities()
-
 		for(compat <- compats)
 			if(compat.hasAllLoaded)
 				if(compat.preLoad)
@@ -31,13 +34,15 @@ object MineCrASMer {
 					log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
 			else
 				log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its preloading failed."
+
+		proxy.registerFluids()
+		proxy.registerItemsAndBlocks()
+		proxy.registerGUIs()
+		proxy.registerEntities()
 	}
 
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
-		proxy.registerEvents()
-		proxy.registerOreDict()
-
 		for(compat <- compats)
 			if(compat.hasAllLoaded)
 				if(compat.load)
@@ -46,10 +51,31 @@ object MineCrASMer {
 					log info s"Loading compat ${compat.getClass.getSimpleName} failed."
 			else
 				log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its loading failed."
+
+		proxy.registerEvents()
+		proxy.registerOreDict()
 	}
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
 
+	}
+
+	@EventHandler
+	def processIMCs(event: IMCEvent) {
+		for(message <- event.getMessages)
+			message.key match {
+				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
+					val nbt = message.getNBTValue
+					val itemStack = ItemStack loadItemStackFromNBT (nbt getCompoundTag "itemstack")
+					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(nbt getString "fluid-name", ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
+
+					val item = itemStack.getItem.asInstanceOf[ItemScoop]
+					Container.foreignScoops ::= item
+					ScoopHandler.scoops += item.contains -> item
+
+					log info s"Successfully registered scoop with ${item.getUnlocalizedName substring 10}."
+				case _ =>
+			}
 	}
 }

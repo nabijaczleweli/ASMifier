@@ -7,12 +7,9 @@ object ImplicitConvertions {
 	implicit class CompatConv(compat: ICompat) {
 		def hasAllLoaded = {
 			var allModsLoaded = true
-			for(modid <- compat.getModIDs if allModsLoaded) {
-				println(s"$modid:$allModsLoaded")
+			for(modid <- compat.getModIDs if allModsLoaded)
 				if(!(modid == null || isModLoaded(modid)))
 					allModsLoaded = false
-				println(s"$modid:${modid == null || isModLoaded(modid)}:$allModsLoaded")
-			}
 			allModsLoaded
 		}
 	}
