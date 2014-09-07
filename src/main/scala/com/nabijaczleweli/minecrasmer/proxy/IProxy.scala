@@ -10,4 +10,6 @@ trait IProxy {
 	def registerEvents(): Unit
 
 	def registerEntities(): Unit
+
+	def registerFluids(): Unit
 }
