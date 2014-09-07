@@ -9,12 +9,11 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
-import net.minecraftforge.fluids.BlockFluidBase
-
-import scala.collection.mutable
+import net.minecraftforge.common.util.ForgeDirection
+import net.minecraftforge.fluids.{FluidStack, BlockFluidBase, IFluidHandler}
 
 object ScoopHandler {
-	var scoops = mutable.HashMap[Block, Item] (
+	var scoops = Map[Block, Item](
 		Blocks.air -> Container.scoopEmpty,
 		BlockLiquidCrystalFluid -> Container.scoopLiquidCrystal
 	)
@@ -25,6 +24,28 @@ object ScoopHandler {
 		var posModifZ = 0
 		var block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ)
 		var scoop = scoops get block
+
+		world.getTileEntity(pos.blockX, pos.blockY, pos.blockZ) match {
+			case null =>
+			case te: IFluidHandler =>
+				val direction = ForgeDirection getOrientation pos.sideHit
+				te getTankInfo direction match {
+					case null =>
+					case ti if ti.length > 0 =>
+						val fluid = ti(0).fluid.getFluid
+						scoop = scoops get fluid.getBlock
+						if(scoop.isDefined)
+							if(te.canDrain(direction, fluid))
+								te.drain(direction, ItemScoop.capacity, false) match {
+									case stack if stack.amount == ItemScoop.capacity =>
+										te.drain(direction, ItemScoop.capacity, true)
+										return new ItemStack(scoop.get)
+									case _ =>
+								}
+					case _ =>
+				}
+			case _ =>
+		}
 
 		if(scoop.isEmpty) {
 			pos.sideHit match {
@@ -56,7 +77,7 @@ object ScoopHandler {
 		new ItemStack(scoop.get)
 	}
 
-	def emptyScoop(world: World, pos: MovingObjectPosition, scoop: ItemStack) = {
+	def emptyScoop(world: World, pos: MovingObjectPosition, scoop: ItemStack): ItemStack = {
 		var block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ)
 		val scoopItem = scoop.getItem.asInstanceOf[ItemScoop]
 		val scoopContains = scoopItem.contains.asInstanceOf[BlockFluidBase]
@@ -68,6 +89,29 @@ object ScoopHandler {
 				world.setBlockMetadataWithNotify(pos.blockX + modX, pos.blockY + modY, pos.blockZ + modZ, metadata + 1, 1 | 2)
 				new ItemStack(scoopItem.getContainerItem, 1, 0)
 			}
+		}
+
+		world.getTileEntity(pos.blockX, pos.blockY, pos.blockZ) match {
+			case null =>
+			case te: IFluidHandler =>
+				val direction = ForgeDirection getOrientation pos.sideHit
+				te getTankInfo direction match {
+					case null =>
+					case ti if ti.length > 0 =>
+						val fluid = ti(0).fluid.getFluid
+						if(fluid == scoopContains.getFluid || fluid == null)
+							if(te.canFill(direction, fluid)) {
+								val fs = new FluidStack(fluid, ItemScoop.capacity)
+								te.fill(direction, fs, false) match {
+									case ItemScoop.capacity =>
+										te.fill(direction, fs, true)
+										return new ItemStack(scoopItem.getContainerItem, 1, 0)
+									case _ =>
+								}
+							}
+					case _ =>
+				}
+			case _ =>
 		}
 
 		if(block == scoopContains)
