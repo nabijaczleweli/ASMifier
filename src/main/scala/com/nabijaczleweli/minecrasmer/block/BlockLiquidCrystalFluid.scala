@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
-import net.minecraft.world.{IBlockAccess, World}
+import net.minecraft.world.{World, IBlockAccess}
 import net.minecraftforge.fluids.BlockFluidFinite
 
 object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal, Material.water) {
@@ -13,6 +13,8 @@ object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal,
 	var stillIcon: IIcon = _
 	@SideOnly(Side.CLIENT)
 	var flowingIcon: IIcon = _
+
+	setBlockName(Reference.NAMESPACED_PREFIX + "liquidcrystal")
 
 	override def getIcon(side: Int, meta: Int) =
 		if(side == 0 || side == 1)
@@ -36,7 +38,4 @@ object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal,
 			false
 		else
 			super.displaceIfPossible(world, x, y, z)
-
-	override def getUnlocalizedName =
-		"tile.liquidcrystal"
 }

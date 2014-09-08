@@ -5,7 +5,7 @@ import com.nabijaczleweli.minecrasmer.block.{BlockComputerOff, BlockComputerOn, 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.handler.BlocksHandler
-import com.nabijaczleweli.minecrasmer.item.{ItemScoop, ItemWrench}
+import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemPlastic, ItemScoop, ItemWrench}
 import com.nabijaczleweli.minecrasmer.reference.Container
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.GameRegistry
@@ -31,6 +31,8 @@ class CommonProxy extends IProxy {
 		defaultRegisterItem(ItemWrench)
 		defaultRegisterItem(Container.scoopEmpty)
 		defaultRegisterItem(Container.scoopLiquidCrystal)
+		defaultRegisterItem(ItemPlastic)
+		defaultRegisterItem(ItemPCB)
 
 		defaultRegisterBlock(BlockComputerOff)
 		defaultRegisterBlock(BlockComputerOn)
@@ -41,6 +43,12 @@ class CommonProxy extends IProxy {
 
 	final override def registerOreDict() {
 		OreDictionary.registerOre("toolWrench", ItemWrench)
+
+		val is = new ItemStack(ItemPlastic)
+		for(i <- ItemPlastic.monomerDamage to ItemPlastic.plasticDamage) {
+			is setItemDamage i
+			OreDictionary.registerOre(ItemPlastic oreDictName i, is)
+		}
 	}
 
 	override def registerGUIs() {

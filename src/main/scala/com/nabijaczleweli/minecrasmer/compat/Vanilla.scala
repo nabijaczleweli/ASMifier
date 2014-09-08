@@ -10,8 +10,8 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.FluidRegistry
 
 class Vanilla extends ICompat {
-	private lazy val lavaScoop = new ItemScoop(Blocks.lava)
-	private lazy val waterScoop = new ItemScoop(Blocks.water)
+	private lazy val lavaScoop = new ItemScoop(Blocks.lava, 0xec0808)
+	private lazy val waterScoop = new ItemScoop(Blocks.water, 0x344df4)
 
 	override def getModIDs =
 		Nil

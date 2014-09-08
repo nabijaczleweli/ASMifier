@@ -2,42 +2,41 @@ package com.nabijaczleweli.minecrasmer.item
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
+import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
+import com.nabijaczleweli.minecrasmer.util.StringUtils._
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.Block
+import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemBucket, ItemStack}
-import net.minecraft.util.MovingObjectPosition
+import net.minecraft.util.{MovingObjectPosition, StatCollector}
 import net.minecraft.world.World
 import net.minecraftforge.fluids.FluidContainerRegistry
-import com.nabijaczleweli.minecrasmer.reference.Container.log
 
-class ItemScoop(val contains: Block) extends ItemBucket(contains) {
+class ItemScoop(val contains: Block, val color: Int) extends ItemBucket(contains) {
 	val empty = contains == Blocks.air
 	protected lazy val containsDisplayName = Item getItemFromBlock contains match {
 		case null =>
-			log error s"Someone registered a scoop with an unregistered block inside! Block name: ${contains.getUnlocalizedName}"
+			log error s"Someone created a scoop with an unregistered block inside! Block name: ${contains.getUnlocalizedName}"
 			"<null>"
 		case it =>
 			it getItemStackDisplayName new ItemStack(it)
 	}
 
-	setUnlocalizedName(s"scoop${if(empty) "Empty" else {
-		val bldr = new StringBuilder(contains.getUnlocalizedName substring 5)
-		bldr.setCharAt(0, bldr.charAt(0).toUpper)
-		bldr
-	}}")
+	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}scoop${if(empty) "Empty" else {contains.getUnlocalizedName substring 5 substring ":" toUpper 0}}")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setMaxStackSize(1)
 	if(!empty)
-		setContainerItem(Container.scoopEmpty)  // This requires empty scoop to be created before any others!
-	setTextureName(Reference.NAMESPACED_PREFIX + s"${if(empty) "empty" else "full"}scoop")
+		setContainerItem(Container.scoopEmpty)
+	setTextureName(Reference.NAMESPACED_PREFIX + "scoop_empty")
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		if(empty)
-			"Empty scoop"
+			super.getItemStackDisplayName(is)
 		else
-			s"Scoop with $containsDisplayName"
+			StatCollector.translateToLocalFormatted(s"item.${Reference.NAMESPACED_PREFIX}scoopFilled.name", containsDisplayName)
 
 	override def onItemRightClick(is: ItemStack, world: World, player: EntityPlayer) = {
 		val mop = getMovingObjectPositionFromPlayer(world, player, empty)
@@ -72,6 +71,17 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 
 	override def getMaxDamage =
 		0
+
+	@SideOnly(Side.CLIENT)
+	override def registerIcons(registry: IIconRegister) {
+		super.registerIcons(registry)
+	}
+
+	override def getColorFromItemStack(is: ItemStack, pass: Int) =
+		if(empty)
+			super.getColorFromItemStack(is, pass)
+		else
+			color
 }
 
 object ItemScoop {

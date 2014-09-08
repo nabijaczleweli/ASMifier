@@ -17,7 +17,7 @@ object Container {
 
 	lazy val liquidCrystal = new Fluid("liquidcrystal") setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock BlockLiquidCrystalFluid.asInstanceOf[Block]
 
-	lazy val scoopEmpty = new ItemScoop(Blocks.air)
-	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid)
+	lazy val scoopEmpty = new ItemScoop(Blocks.air, 0)
+	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid, 0x00FF00)
 	var foreignScoops: List[ItemScoop] = Nil
 }

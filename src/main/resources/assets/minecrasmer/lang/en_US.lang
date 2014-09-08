@@ -1,7 +1,24 @@
+# Blocks
 tile.minecrasmer:computeroff.name=PC
 tile.minecrasmer:computeron.name=PC (on)
 tile.minecrasmer:liquidcrystal.name=Liquid crystal
 
+
+# Items
 item.minecrasmer:wrench.name=Wrench
 
+item.minecrasmer:scoopEmpty.name=Empty scoop
+item.minecrasmer:scoopFilled.name=Scoop with %s
+
+item.minecrasmer:plastic.monomer.name=Monomer
+item.minecrasmer:plastic.polymer.name=Polymer
+item.minecrasmer:plastic.plastic.name=Plastic
+
+item.minecrasmer:PCB.noelements.name=Empty %s
+item.minecrasmer:PCB.elements.name=%s with elements
+item.minecrasmer:PCB.withlcd.name=%s with LCD
+item.minecrasmer:PCB.lcd.name=LCD
+
+
+# Tabs
 itemGroup.ASMifier.name=ASMifier
