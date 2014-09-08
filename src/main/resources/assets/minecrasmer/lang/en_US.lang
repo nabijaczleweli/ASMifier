@@ -3,3 +3,5 @@ tile.minecrasmer:computeron.name=PC (on)
 tile.minecrasmer:liquidcrystal.name=Liquid crystal
 
 item.minecrasmer:wrench.name=Wrench
+
+itemGroup.ASMifier.name=ASMifier
