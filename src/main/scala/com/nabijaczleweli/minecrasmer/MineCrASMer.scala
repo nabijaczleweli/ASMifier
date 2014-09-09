@@ -1,13 +1,14 @@
 package com.nabijaczleweli.minecrasmer
 
+import com.nabijaczleweli.minecrasmer.compat.waila.Waila
 import com.nabijaczleweli.minecrasmer.compat.{AE2, Vanilla}
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
-import com.nabijaczleweli.minecrasmer.reference.Container
+import com.nabijaczleweli.minecrasmer.reference.{Configuration, Container}
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
-import com.nabijaczleweli.minecrasmer.util.ImplicitConvertions._
+import com.nabijaczleweli.minecrasmer.util.CompatUtil._
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
@@ -17,23 +18,26 @@ import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = null
 
-	val compats = new AE2 :: new Vanilla :: Nil
+	val compats = new AE2 :: new Vanilla :: new Waila :: Nil
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
+		Configuration load event.getSuggestedConfigurationFile
+
 		for(compat <- compats)
-			if(compat.hasAllLoaded)
-				if(compat.preLoad)
-					log info s"Successfully preloaded compat ${compat.getClass.getSimpleName}."
+			if(compat.shouldPreLoad)
+				if(compat.hasAllLoaded)
+					if(compat.preLoad)
+						log info s"Successfully preloaded compat ${compat.getClass.getSimpleName}."
+					else
+						log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
 				else
-					log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
-			else
-				log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its preloading failed."
+					log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its preloading failed."
 
 		proxy.registerFluids()
 		proxy.registerItemsAndBlocks()
@@ -44,13 +48,14 @@ object MineCrASMer {
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
 		for(compat <- compats)
-			if(compat.hasAllLoaded)
-				if(compat.load)
-					log info s"Successfully loaded compat ${compat.getClass.getSimpleName}."
+			if(compat.shouldLoad)
+				if(compat.hasAllLoaded)
+					if(compat.load)
+						log info s"Successfully loaded compat ${compat.getClass.getSimpleName}."
+					else
+						log info s"Loading compat ${compat.getClass.getSimpleName} failed."
 				else
-					log info s"Loading compat ${compat.getClass.getSimpleName} failed."
-			else
-				log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its loading failed."
+					log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its loading failed."
 
 		proxy.registerEvents()
 		proxy.registerOreDict()

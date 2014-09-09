@@ -22,7 +22,7 @@ object ItemPlastic extends Item {
 	val plasticDamage = 2
 
 	def oreDictName(dmg: Int) =
-		"material" + subIconNames(MathHelper.clamp_int(dmg, 0, ItemPlastic.subIconNames.length - 1)) toUpper 0
+		"material" + (subIconNames(MathHelper.clamp_int(dmg, 0, ItemPlastic.subIconNames.length - 1)) toUpper 0)
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "plastic")
 	setCreativeTab(CreativeTabMineCrASMer)
