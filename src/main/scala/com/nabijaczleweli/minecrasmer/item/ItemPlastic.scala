@@ -15,7 +15,7 @@ object ItemPlastic extends Item {
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
 
 	@SideOnly(Side.CLIENT)
-	private val icons = new Array[IIcon](subIconNames.length)
+	private lazy val icons = new Array[IIcon](subIconNames.length)
 
 	val monomerDamage = 0
 	val polymerDamage = 1

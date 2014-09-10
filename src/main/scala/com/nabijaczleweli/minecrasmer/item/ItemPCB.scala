@@ -14,7 +14,7 @@ object ItemPCB extends Item {
 	private val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
 	private val subNameNames = Array[String]("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
-	private val icons = new Array[IIcon](subIconNames.length)
+	private lazy val icons = new Array[IIcon](subIconNames.length)
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1

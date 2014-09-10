@@ -3,7 +3,7 @@ package com.nabijaczleweli.minecrasmer.proxy
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block.{BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid}
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.gui.GUIHandler
+import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.handler.BlocksHandler
 import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemPlastic, ItemScoop, ItemWrench}
 import com.nabijaczleweli.minecrasmer.reference.Container

@@ -16,33 +16,31 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 	setHarvestLevel("wrench", 0)
 	setBlockName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
 
+	protected final val computerFrontIndex  = 0
+	protected final val computerSideIndex   = 1
+	protected final val computerTopIndex    = 2
+	protected final val computerBottomIndex = 3
 	@SideOnly(Side.CLIENT)
-	var computerFront: IIcon = null
-	@SideOnly(Side.CLIENT)
-	var computerSide : IIcon = null
-	@SideOnly(Side.CLIENT)
-	var computerTop: IIcon = null
-	@SideOnly(Side.CLIENT)
-	var computerBottom: IIcon = null
+	protected final lazy val icons = new Array[IIcon](4)
 
 	@SideOnly(Side.CLIENT)
 	override def registerBlockIcons(ir: IIconRegister) {
-		computerFront = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_front"
-		computerSide = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_side"
-		computerTop = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_top"
-		computerBottom = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_bottom"
+		icons(computerFrontIndex) = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_front"
+		icons(computerSideIndex) = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_side"
+		icons(computerTopIndex) = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_top"
+		icons(computerBottomIndex) = ir registerIcon Reference.NAMESPACED_PREFIX + "computer_bottom"
 	}
 
 	override def getIcon(side: Int, meta: Int) =
 		side match {
 			case 0 =>
-				computerBottom
+				icons(computerBottomIndex)
 			case 1 =>
-				computerTop
+				icons(computerTopIndex)
 			case `meta` =>
-				computerFront
+				icons(computerFrontIndex)
 			case _ =>
-				computerSide
+				icons(computerSideIndex)
 		}
 
 	override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, entity: EntityLivingBase, stack: ItemStack) =

@@ -9,22 +9,22 @@ import net.minecraft.world.{World, IBlockAccess}
 import net.minecraftforge.fluids.BlockFluidFinite
 
 object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal, Material.water) {
+	private final val stillIconIndex = 0
+	private final val flowingIconIndex = 1
 	@SideOnly(Side.CLIENT)
-	var stillIcon: IIcon = _
-	@SideOnly(Side.CLIENT)
-	var flowingIcon: IIcon = _
+	private final lazy val icons = new Array[IIcon](2)
 
 	setBlockName(Reference.NAMESPACED_PREFIX + "liquidcrystal")
 
 	override def getIcon(side: Int, meta: Int) =
 		if(side == 0 || side == 1)
-			stillIcon
+			icons(stillIconIndex)
 		else
-			flowingIcon
+			icons(flowingIconIndex)
 
 	override def registerBlockIcons(register: IIconRegister) {
-		stillIcon = register registerIcon Reference.NAMESPACED_PREFIX + "liquidcrystal_still"
-		flowingIcon = register registerIcon Reference.NAMESPACED_PREFIX + "liquidcrystal_flow"
+		icons(stillIconIndex) = register registerIcon Reference.NAMESPACED_PREFIX + "liquidcrystal_still"
+		icons(flowingIconIndex) = register registerIcon Reference.NAMESPACED_PREFIX + "liquidcrystal_flow"
 	}
 
 	override def canDisplace(world: IBlockAccess, x: Int, y: Int, z: Int) =

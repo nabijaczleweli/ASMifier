@@ -5,9 +5,7 @@ import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.Block
-import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemBucket, ItemStack}
@@ -71,11 +69,6 @@ class ItemScoop(val contains: Block, val color: Int) extends ItemBucket(contains
 
 	override def getMaxDamage =
 		0
-
-	@SideOnly(Side.CLIENT)
-	override def registerIcons(registry: IIconRegister) {
-		super.registerIcons(registry)
-	}
 
 	override def getColorFromItemStack(is: ItemStack, pass: Int) =
 		if(empty)
