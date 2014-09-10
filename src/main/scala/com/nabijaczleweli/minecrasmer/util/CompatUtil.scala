@@ -3,6 +3,7 @@ package com.nabijaczleweli.minecrasmer.util
 import com.nabijaczleweli.minecrasmer.compat.ICompat
 import com.nabijaczleweli.minecrasmer.reference.{Reference, Configuration}
 import cpw.mods.fml.common.Loader.isModLoaded
+import com.nabijaczleweli.minecrasmer.util.StringUtils._
 
 object CompatUtil {
 	implicit class CompatConv(compat: ICompat) {
@@ -17,12 +18,25 @@ object CompatUtil {
 		def getModList =
 			if(compat.getModIDs.isEmpty)
 				"Vanilla"
-			else
-				for(modid <- compat.getModIDs) yield
-					if(modid == null)
-						"Vanilla"
-					else
-						modid
+			else {
+				val itr = {
+					for(modid <- compat.getModIDs) yield
+						if(modid == null)
+							"Vanilla"
+						else
+							modid
+				}.iterator
+				var modids = new StringBuilder(itr.next())
+				while(itr.hasNext)
+					modids ++= {
+						val modid = itr.next()
+						if(itr.hasNext)
+							s", $modid"
+						else
+							s" and $modid"
+					}
+				modids
+			}
 
 		def getModIds =
 			if(compat.getModIDs.isEmpty)
@@ -34,7 +48,7 @@ object CompatUtil {
 						if(modid == null)
 							"Vanilla"
 						else
-							modid
+							modid toUpper 0
 					}
 				modids
 			}
