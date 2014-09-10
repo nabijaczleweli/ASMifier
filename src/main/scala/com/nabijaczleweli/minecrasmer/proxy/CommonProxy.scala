@@ -7,6 +7,7 @@ import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.handler.BlocksHandler
 import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemPlastic, ItemScoop, ItemWrench}
 import com.nabijaczleweli.minecrasmer.reference.Container
+import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
@@ -68,4 +69,8 @@ class CommonProxy extends IProxy {
 	}
 
 	override def registerRenderers() {}
+
+	final override def registerOreGen() {
+		GameRegistry.registerWorldGenerator(WorldGenLiquidCrystal, 1)
+	}
 }

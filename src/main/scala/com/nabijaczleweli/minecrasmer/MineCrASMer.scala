@@ -59,6 +59,7 @@ object MineCrASMer {
 
 		proxy.registerEvents()
 		proxy.registerOreDict()
+		proxy.registerOreGen()
 	}
 
 	@EventHandler

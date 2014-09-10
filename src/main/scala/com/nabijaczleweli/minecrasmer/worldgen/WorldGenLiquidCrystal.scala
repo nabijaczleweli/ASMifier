@@ -15,24 +15,27 @@ object WorldGenLiquidCrystal extends IWorldGenerator {
 
 	private var generatedChunks = 0L
 
-	override def generate(random: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkProvider, chunkProvider: IChunkProvider) {
-		generatedChunks %= treshold
+	override def generate(random: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkProvider, chunkProvider: IChunkProvider) =
+		world.getBiomeGenForCoords(chunkX, chunkZ).biomeName match {
+			case "Hell" | "Sky" =>
+			case _ =>
+				generatedChunks %= treshold
 
-		if(generatedChunks == 0)
-			if(random.nextInt(bigVeinProbability) == 0) {
-				val baseY = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2
-				val baseX = chunkX * 16 + random.nextInt(14) + 1
-				val baseZ = chunkZ * 16 + random.nextInt(14) + 1
-				world.setBlock(baseX, baseY, baseZ, BlockLiquidCrystalFluid, 8, 1 | 2)
-				world.setBlock(baseX + 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
-				world.setBlock(baseX - 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
-				world.setBlock(baseX, baseY, baseZ + 1, BlockLiquidCrystalFluid, 2, 1 | 2)
-				world.setBlock(baseX, baseY, baseZ - 1, BlockLiquidCrystalFluid, 2, 1 | 2)
-			} else {
-				val yLevel = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax)
-				world.setBlock(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16), BlockLiquidCrystalFluid, random.nextInt(4), 1 | 2)
-			}
+				if(generatedChunks == 0)
+					if(random.nextInt(bigVeinProbability) == 0) {
+						val baseY = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2
+						val baseX = chunkX * 16 + random.nextInt(14) + 1
+						val baseZ = chunkZ * 16 + random.nextInt(14) + 1
+						world.setBlock(baseX, baseY, baseZ, BlockLiquidCrystalFluid, 8, 1 | 2)
+						world.setBlock(baseX + 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
+						world.setBlock(baseX - 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
+						world.setBlock(baseX, baseY, baseZ + 1, BlockLiquidCrystalFluid, 2, 1 | 2)
+						world.setBlock(baseX, baseY, baseZ - 1, BlockLiquidCrystalFluid, 2, 1 | 2)
+					} else {
+						val yLevel = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax)
+						world.setBlock(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16), BlockLiquidCrystalFluid, random.nextInt(4), 1 | 2)
+					}
 
-		generatedChunks += 1
-	}
+				generatedChunks += 1
+		}
 }

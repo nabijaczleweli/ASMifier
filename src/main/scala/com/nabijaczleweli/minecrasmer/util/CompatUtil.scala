@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer.util
 
 import com.nabijaczleweli.minecrasmer.compat.ICompat
-import com.nabijaczleweli.minecrasmer.reference.Configuration
+import com.nabijaczleweli.minecrasmer.reference.{Reference, Configuration}
 import cpw.mods.fml.common.Loader.isModLoaded
 
 object CompatUtil {
@@ -40,13 +40,13 @@ object CompatUtil {
 			}
 
 		def shouldPreLoad = {
-			val toRet = Configuration.config.get("compatibility", s"preLoad$getModIds", true, s"Should the compat with $getModList be preLoaded.").getBoolean
+			val toRet = Configuration.config.get(Reference.CONFIG_COMPAT_CATEGORY, s"preLoad$getModIds", true, s"Should the compat with $getModList be preLoaded.").getBoolean
 			Configuration.saveIfNeeded()
 			toRet
 		}
 
 		def shouldLoad = {
-			val toRet = Configuration.config.get("compatibility", s"load$getModIds", true, s"Should the compat with $getModList be loaded.").getBoolean
+			val toRet = Configuration.config.get(Reference.CONFIG_COMPAT_CATEGORY, s"load$getModIds", true, s"Should the compat with $getModList be loaded.").getBoolean
 			Configuration.saveIfNeeded()
 			toRet
 		}

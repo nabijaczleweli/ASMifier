@@ -14,4 +14,6 @@ trait IProxy {
 	def registerFluids(): Unit
 
 	def registerRenderers(): Unit
+
+	def registerOreGen(): Unit
 }

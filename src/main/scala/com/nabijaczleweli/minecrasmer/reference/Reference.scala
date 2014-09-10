@@ -8,4 +8,7 @@ object Reference {
 	final val CLIENT_PROXY_PATH = "com.nabijaczleweli.minecrasmer.proxy.ClientProxy"
 	final val SERVER_PROXY_PATH = "com.nabijaczleweli.minecrasmer.proxy.ServerProxy"
 	final val NAMESPACED_PREFIX = MOD_ID + ":"
+
+	final val CONFIG_WORLDGEN_CATEGORY = "world_generation"
+	final val CONFIG_COMPAT_CATEGORY = "compatibility"
 }
