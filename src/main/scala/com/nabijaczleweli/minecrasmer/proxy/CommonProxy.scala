@@ -66,4 +66,6 @@ class CommonProxy extends IProxy {
 	override def registerFluids() {
 		FluidRegistry registerFluid Container.liquidCrystal
 	}
+
+	override def registerRenderers() {}
 }

@@ -63,7 +63,7 @@ object MineCrASMer {
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
-
+		proxy.registerRenderers()
 	}
 
 	@EventHandler
