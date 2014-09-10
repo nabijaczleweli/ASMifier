@@ -14,50 +14,39 @@ object CompatUtil {
 			allModsLoaded
 		}
 
-		def shouldPreLoad = {
-			val toRet = Configuration.config.get("compatibility", s"preLoad${
-				if(compat.getModIDs.isEmpty)
-					"Vanilla"
-				else {
-					var modids = new StringBuilder
-					for(modid <- compat.getModIDs)
-						modids ++= (if(modid == null) "Vanilla" else modid)
-					modids
-				}
-			}", true, s"Should the compat with ${
-				if(compat.getModIDs.isEmpty)
-					"Vanilla"
-				else
-					for(modid <- compat.getModIDs) yield
+		def getModList =
+			if(compat.getModIDs.isEmpty)
+				"Vanilla"
+			else
+				for(modid <- compat.getModIDs) yield
+					if(modid == null)
+						"Vanilla"
+					else
+						modid
+
+		def getModIds =
+			if(compat.getModIDs.isEmpty)
+				"Vanilla"
+			else {
+				var modids = new StringBuilder
+				for(modid <- compat.getModIDs)
+					modids ++= {
 						if(modid == null)
 							"Vanilla"
 						else
 							modid
-			} be preLoaded.").getBoolean
+					}
+				modids
+			}
+
+		def shouldPreLoad = {
+			val toRet = Configuration.config.get("compatibility", s"preLoad$getModIds", true, s"Should the compat with $getModList be preLoaded.").getBoolean
 			Configuration.saveIfNeeded()
 			toRet
 		}
 
 		def shouldLoad = {
-			val toRet = Configuration.config.get("compatibility", s"load${
-				if(compat.getModIDs.isEmpty)
-					"Vanilla"
-				else {
-					var modids = new StringBuilder
-					for(modid <- compat.getModIDs)
-						modids ++= (if(modid == null) "Vanilla" else modid)
-					modids
-				}
-			}", true, s"Should the compat with ${
-				if(compat.getModIDs.isEmpty)
-					"Vanilla"
-				else
-					for(modid <- compat.getModIDs) yield
-						if(modid == null)
-							"Vanilla"
-						else
-							modid
-			} be loaded.").getBoolean
+			val toRet = Configuration.config.get("compatibility", s"load$getModIds", true, s"Should the compat with $getModList be loaded.").getBoolean
 			Configuration.saveIfNeeded()
 			toRet
 		}
