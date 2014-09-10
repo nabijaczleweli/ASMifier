@@ -10,8 +10,8 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.FluidRegistry
 
 class Vanilla extends ICompat {
-	private lazy val lavaScoop = new ItemScoop(Blocks.lava, 0xec0808)
-	private lazy val waterScoop = new ItemScoop(Blocks.water, 0x344df4)
+	private lazy val lavaScoop = new ItemScoop(Blocks.lava, FluidRegistry.LAVA, 0xec0808)
+	private lazy val waterScoop = new ItemScoop(Blocks.water, FluidRegistry.WATER, 0x344df4)
 
 	override def getModIDs =
 		Nil
@@ -30,11 +30,9 @@ class Vanilla extends ICompat {
 		val nbt = new NBTTagCompound
 		val itemNBT = new NBTTagCompound
 
-		nbt.setString("fluid-name", FluidRegistry.LAVA.getName)
 		nbt.setTag("itemstack", new ItemStack(lavaScoop) writeToNBT itemNBT)
 		FMLInterModComms.sendMessage(Reference.MOD_ID, "register-scoop", nbt.copy().asInstanceOf[NBTTagCompound])
 
-		nbt.setString("fluid-name", FluidRegistry.WATER.getName)
 		nbt.setTag("itemstack", new ItemStack(waterScoop) writeToNBT itemNBT)
 		FMLInterModComms.sendMessage(Reference.MOD_ID, "register-scoop", nbt.copy().asInstanceOf[NBTTagCompound])
 		true

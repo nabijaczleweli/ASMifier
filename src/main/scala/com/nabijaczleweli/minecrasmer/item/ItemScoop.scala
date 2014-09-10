@@ -5,16 +5,22 @@ import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import net.minecraft.block.Block
+import net.minecraft.block.{Block, BlockAir}
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemBucket, ItemStack}
 import net.minecraft.util.{MovingObjectPosition, StatCollector}
 import net.minecraft.world.World
-import net.minecraftforge.fluids.FluidContainerRegistry
+import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, IFluidBlock}
 
-class ItemScoop(val contains: Block, val color: Int) extends ItemBucket(contains) {
-	val empty = contains == Blocks.air
+class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends ItemBucket(contains) {
+	def this(block: Block with IFluidBlock, color: Int) =
+		this(block, block.getFluid, color)
+
+	def this(block: BlockAir) =
+		this(block, null, 0)
+
+
+	val empty = contains.isInstanceOf[BlockAir] || fluid == null
 	protected lazy val containsDisplayName = Item getItemFromBlock contains match {
 		case null =>
 			log error s"Someone created a scoop with an unregistered block inside! Block name: ${contains.getUnlocalizedName}"

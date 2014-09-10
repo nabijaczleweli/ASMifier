@@ -5,9 +5,9 @@ import com.nabijaczleweli.minecrasmer.compat.{AE2, Vanilla}
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
-import com.nabijaczleweli.minecrasmer.reference.{Configuration, Container}
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
+import com.nabijaczleweli.minecrasmer.reference.{Configuration, Container}
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
@@ -71,15 +71,20 @@ object MineCrASMer {
 		for(message <- event.getMessages)
 			message.key match {
 				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
-					val nbt = message.getNBTValue
-					val itemStack = ItemStack loadItemStackFromNBT (nbt getCompoundTag "itemstack")
-					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(nbt getString "fluid-name", ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
+					try {
+						val nbt = message.getNBTValue
+						val itemStack = ItemStack loadItemStackFromNBT (nbt getCompoundTag "itemstack")
+						FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(itemStack.getItem.asInstanceOf[ItemScoop].fluid.getName, ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
 
-					val item = itemStack.getItem.asInstanceOf[ItemScoop]
-					Container.foreignScoops ::= item
-					ScoopHandler.scoops += item.contains -> item
+						val item = itemStack.getItem.asInstanceOf[ItemScoop]
+						Container.foreignScoops ::= item
+						ScoopHandler.scoops += item.contains -> item
 
-					log info s"Successfully registered scoop with ${item.getUnlocalizedName substring 10}."
+						log info s"Successfully registered scoop with ${item.fluid.getName}."
+					} catch {
+						case exc: Throwable =>
+							log warn s"Unable to register scoop from ${message.getSender}, exception type: $exc"
+					}
 				case _ =>
 			}
 	}
