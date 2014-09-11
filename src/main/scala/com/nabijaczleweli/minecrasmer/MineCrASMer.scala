@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer
 
 import com.nabijaczleweli.minecrasmer.compat.waila.Waila
-import com.nabijaczleweli.minecrasmer.compat.{AE2, Vanilla}
+import com.nabijaczleweli.minecrasmer.compat._
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
@@ -21,7 +21,7 @@ import scala.collection.JavaConversions._
 @Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
-	var proxy: IProxy = null
+	var proxy: IProxy = _
 
 	val compats = new AE2 :: new Vanilla :: new Waila :: Nil
 
@@ -29,15 +29,18 @@ object MineCrASMer {
 	def preInit(event: FMLPreInitializationEvent) {
 		Configuration load event.getSuggestedConfigurationFile
 
-		for(compat <- compats)
-			if(compat.shouldPreLoad)
-				if(compat.hasAllLoaded)
-					if(compat.preLoad)
+		for(compat <- compats if compat.shouldPreLoad)
+			if(compat.hasAllLoaded)
+				(compat preLoad event.getSide: CompatResult) match {
+					case Successful =>
 						log info s"Successfully preloaded compat ${compat.getClass.getSimpleName}."
-					else
+					case Failed =>
 						log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
-				else
-					log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its preloading failed."
+					case WrongSide =>
+						log info s"Didn\'t preload compat ${compat.getClass.getSimpleName} on ${event.getSide}."
+				}
+			else
+				log info s"Could not find all mods for compat ${compat.getClass.getSimpleName}, hence its preloading failed."
 
 		proxy.registerFluids()
 		proxy.registerItemsAndBlocks()
@@ -47,15 +50,18 @@ object MineCrASMer {
 
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
-		for(compat <- compats)
-			if(compat.shouldLoad)
-				if(compat.hasAllLoaded)
-					if(compat.load)
+		for(compat <- compats if compat.shouldLoad)
+			if(compat.hasAllLoaded)
+				(compat load event.getSide: CompatResult) match {
+					case Successful =>
 						log info s"Successfully loaded compat ${compat.getClass.getSimpleName}."
-					else
+					case Failed =>
 						log info s"Loading compat ${compat.getClass.getSimpleName} failed."
-				else
-					log info s"Could not find all mods for ${compat.getClass.getSimpleName}, hence its loading failed."
+					case WrongSide =>
+						log info s"Didn\'t load compat ${compat.getClass.getSimpleName} on ${event.getSide}."
+				}
+			else
+				log info s"Could not find all mods for compat ${compat.getClass.getSimpleName}, hence its loading failed."
 
 		proxy.registerEvents()
 		proxy.registerOreDict()

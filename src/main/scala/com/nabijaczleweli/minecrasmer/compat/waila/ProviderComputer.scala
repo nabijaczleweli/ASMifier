@@ -4,11 +4,13 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
 import com.nabijaczleweli.minecrasmer.reference.Reference
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.{ItemBlock, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.StatCollector
 
+@SideOnly(Side.CLIENT)
 object ProviderComputer extends IWailaDataProvider {
 	final val displayTag = {
 		val t = new NBTTagCompound

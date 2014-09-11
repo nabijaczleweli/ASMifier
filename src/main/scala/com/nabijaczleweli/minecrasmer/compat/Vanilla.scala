@@ -4,6 +4,7 @@ import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import cpw.mods.fml.common.event.FMLInterModComms
 import cpw.mods.fml.common.registry.GameRegistry
+import cpw.mods.fml.relauncher.Side
 import net.minecraft.init.Blocks
 import net.minecraft.item.{ItemStack, Item}
 import net.minecraft.nbt.NBTTagCompound
@@ -16,17 +17,18 @@ class Vanilla extends ICompat {
 	override def getModIDs =
 		Nil
 
-	override def preLoad = {
+	override def preLoad(side: Side) = {
 		@inline
 		def defaultRegisterItem(it: Item) =
 			GameRegistry.registerItem(it, it.getUnlocalizedName.substring(it.getUnlocalizedName.indexOf(':') + 1))
 
 		defaultRegisterItem(lavaScoop)
 		defaultRegisterItem(waterScoop)
-		true
+
+		Successful
 	}
 
-	override def load = {
+	override def load(side: Side) = {
 		val nbt = new NBTTagCompound
 		val itemNBT = new NBTTagCompound
 
@@ -35,6 +37,7 @@ class Vanilla extends ICompat {
 
 		nbt.setTag("itemstack", new ItemStack(waterScoop) writeToNBT itemNBT)
 		FMLInterModComms.sendMessage(Reference.MOD_ID, "register-scoop", nbt.copy().asInstanceOf[NBTTagCompound])
-		true
+
+		Successful
 	}
 }
