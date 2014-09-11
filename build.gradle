@@ -19,7 +19,7 @@ apply plugin: 'scala'
 apply plugin: 'forge'
 
 if(System.getenv().BUILD_NUMBER != null)
-	build_number = "build${System.getenv().BUILD_NUMBER}"
+	build_number = System.getenv().BUILD_NUMBER
 
 version = "${mc_version}-${build_number}"
 group = "com.nabijaczleweli.minecrasmer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
