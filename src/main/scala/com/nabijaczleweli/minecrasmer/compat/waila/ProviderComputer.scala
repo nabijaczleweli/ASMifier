@@ -48,7 +48,7 @@ object ProviderComputer extends IWailaDataProvider {
 		currenttip
 
 	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
-		currenttip add s"State: ${if(itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a.isInstanceOf[BlockComputerOn.type]) "ON " else "OFF"}"
+		currenttip add (StatCollector translateToLocal s"hud.minecrasmer:compat.waila.computer.state.${if(itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a.isInstanceOf[BlockComputerOn.type]) "on" else "off"}.name")
 		currenttip
 	}
 
