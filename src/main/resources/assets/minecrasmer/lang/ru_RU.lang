@@ -1,0 +1,30 @@
+# Blocks
+tile.minecrasmer:computer.neutral.name=Компютер
+tile.minecrasmer:computeroff.name=Компютер
+tile.minecrasmer:computeron.name=Компютер (Бключён)
+tile.minecrasmer:liquidcrystal.name=Сжиженный хрусталь
+
+
+# Items
+item.minecrasmer:wrench.name=Ключ
+
+item.minecrasmer:scoopEmpty.name=Полыя шумовка
+item.minecrasmer:scoopFilled.name=Содержание шумовки: %s
+
+item.minecrasmer:plastic.monomer.name=Мономер
+item.minecrasmer:plastic.polymer.name=Полимер
+item.minecrasmer:plastic.plastic.name=Пластик
+
+item.minecrasmer:PCB.noelements.name=Пробелная %s
+item.minecrasmer:PCB.elements.name=%s с элементами
+item.minecrasmer:PCB.withlcd.name=%s с экраном
+item.minecrasmer:PCB.lcd.name=экраном
+
+
+# Tabs
+itemGroup.ASMifier.name=АСМифайер
+
+
+# GUI
+hud.minecrasmer:compat.waila.computer.state.on.name=Положение: Бключён
+hud.minecrasmer:compat.waila.computer.state.off.name=Положение: Быключён
