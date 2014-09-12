@@ -3,11 +3,14 @@ package com.nabijaczleweli.minecrasmer.worldgen
 import java.util.Random
 
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
+import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.util.IConfigurable
 import cpw.mods.fml.common.IWorldGenerator
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
+import net.minecraftforge.common.config.Configuration
 
-object WorldGenLiquidCrystal extends IWorldGenerator {
+object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 	var treshold = 5
 	var bigVeinProbability = 300
 	var baseGenerationLevel = 30
@@ -38,4 +41,12 @@ object WorldGenLiquidCrystal extends IWorldGenerator {
 
 				generatedChunks += 1
 		}
+
+	override def load(config: Configuration) {
+		baseGenerationLevel = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "baseGenLiquidCrystalLvl", baseGenerationLevel, s"Base level of generation; 2..60; default: $baseGenerationLevel", 2, 60).getInt
+		bigVeinProbability = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "propGenLiquidCrystalBigVein", bigVeinProbability,
+		                                s"Probability of generating a big vein (1/x); 0..${Int.MaxValue}; default: $bigVeinProbability", 0, Int.MaxValue).getInt
+		offLevelMax = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "deviationGenLiquidCrystalMax", offLevelMax, s"Maximal deviation of level of generation; 0..50; default: $offLevelMax", 0, 50).getInt
+		treshold = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "chunkGenLiquidCrystalTreshold", treshold, s"Amount of chunks of which generation will happen (1/x); 1..500; default: $treshold").getInt
+	}
 }
