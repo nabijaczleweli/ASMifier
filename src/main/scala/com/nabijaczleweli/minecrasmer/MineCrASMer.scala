@@ -38,6 +38,8 @@ object MineCrASMer {
 						log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
 					case WrongSide =>
 						log info s"Didn\'t preload compat ${compat.getClass.getSimpleName} on ${event.getSide}."
+					case result =>
+						log warn s"Preloading compat ${compat.getClass.getSimpleName} has returned an unhandled result, ${if(result.completed) "but it still finished" else "and it failed to finish"}."
 				}
 			else
 				log info s"Could not find all mods for compat ${compat.getClass.getSimpleName}, hence its preloading failed."
@@ -59,6 +61,8 @@ object MineCrASMer {
 						log info s"Loading compat ${compat.getClass.getSimpleName} failed."
 					case WrongSide =>
 						log info s"Didn\'t load compat ${compat.getClass.getSimpleName} on ${event.getSide}."
+					case result =>
+						log warn s"Loading compat ${compat.getClass.getSimpleName} has returned an unhandled result, ${if(result.completed) "but it still finished" else "and it failed to finish"}."
 				}
 			else
 				log info s"Could not find all mods for compat ${compat.getClass.getSimpleName}, hence its loading failed."
