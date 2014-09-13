@@ -16,15 +16,16 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 	var baseGenerationLevel = 30
 	var offLevelMax = 3
 
-	private var generatedChunks = 0L
+	private var chunksBeforeGenerating = 0
 
 	override def generate(random: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkProvider, chunkProvider: IChunkProvider) =
 		world.getBiomeGenForCoords(chunkX, chunkZ).biomeName match {
 			case "Hell" | "Sky" =>
 			case _ =>
-				generatedChunks %= treshold
+				if(chunksBeforeGenerating < 0)
+					chunksBeforeGenerating = treshold
 
-				if(generatedChunks == 0)
+				if(chunksBeforeGenerating == 0)
 					if(random.nextInt(bigVeinProbability) == 0) {
 						val baseY = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2
 						val baseX = chunkX * 16 + random.nextInt(14) + 1
@@ -39,7 +40,7 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 						world.setBlock(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16), BlockLiquidCrystalFluid, random.nextInt(4), 1 | 2)
 					}
 
-				generatedChunks += 1
+				chunksBeforeGenerating -= 1
 		}
 
 	override def load(config: Configuration) {
@@ -48,5 +49,7 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 		                                s"Probability of generating a big vein (1/x); 0..${Int.MaxValue}; default: $bigVeinProbability", 0, Int.MaxValue).getInt
 		offLevelMax = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "deviationGenLiquidCrystalMax", offLevelMax, s"Maximal deviation of level of generation; 0..50; default: $offLevelMax", 0, 50).getInt
 		treshold = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "chunkGenLiquidCrystalTreshold", treshold, s"Amount of chunks of which generation will happen (1/x); 1..500; default: $treshold").getInt
+
+		chunksBeforeGenerating = new Random() nextInt treshold
 	}
 }
