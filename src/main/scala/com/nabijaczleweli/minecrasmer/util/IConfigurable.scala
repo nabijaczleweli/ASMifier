@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer.util
 
-import net.minecraftforge.common.config
+import net.minecraftforge.common.config.Configuration
 
 trait IConfigurable {
-	def load(config: config.Configuration): Unit
+	def load(config: Configuration): Unit
 }
