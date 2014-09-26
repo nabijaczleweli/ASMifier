@@ -70,6 +70,7 @@ object MineCrASMer {
 		proxy.registerEvents()
 		proxy.registerOreDict()
 		proxy.registerOreGen()
+		proxy.registerRecipes()
 	}
 
 	@EventHandler

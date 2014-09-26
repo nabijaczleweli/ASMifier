@@ -16,4 +16,6 @@ trait IProxy {
 	def registerRenderers(): Unit
 
 	def registerOreGen(): Unit
+
+	def registerRecipes(): Unit
 }
