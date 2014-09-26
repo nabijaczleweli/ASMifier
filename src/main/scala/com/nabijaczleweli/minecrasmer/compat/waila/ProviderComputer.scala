@@ -7,40 +7,14 @@ import com.nabijaczleweli.minecrasmer.reference.Reference
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.{ItemBlock, ItemStack}
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.StatCollector
 
 @SideOnly(Side.CLIENT)
 object ProviderComputer extends IWailaDataProvider {
-	final val displayTag = {
-		val t = new NBTTagCompound
-		t.setString("Name", StatCollector translateToLocal s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name")
-		t
-	}
-	final val rootTag = {
-		val t = new NBTTagCompound
-		t.setTag("display", displayTag)
-		t
-	}
-
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val is = accessor.getStack.copy()
 		is setItemDamage 3  // Facing to user to right-hand side
-
-		var setRoot = false
-		var setDisplay = false
-		if(!is.hasTagCompound)
-			setRoot = true
-		else
-			if(!is.stackTagCompound.hasKey("display"))
-				setDisplay = true
-
-		if(setRoot)
-			is.stackTagCompound = rootTag
-		else
-			if(setDisplay)
-				is.stackTagCompound.setTag("display", displayTag)
-
+		is setStackDisplayName (StatCollector translateToLocal s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name")
 		is
 	}
 
