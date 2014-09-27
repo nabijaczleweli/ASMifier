@@ -8,6 +8,7 @@ object GUIHandler extends IGuiHandler {
 	override def getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int) =
 		ID match {
 			case GUIComputer.id =>
+				GUIComputer.init(world, x, y, z)
 				GUIComputer
 			case _ =>
 				null

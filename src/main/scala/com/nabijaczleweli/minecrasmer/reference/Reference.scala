@@ -11,4 +11,5 @@ object Reference {
 
 	final val CONFIG_WORLDGEN_CATEGORY = "world_generation"
 	final val CONFIG_COMPAT_CATEGORY = "compatibility"
+	final val CONFIG_COMPUTE_CATEGORY = "computing"
 }

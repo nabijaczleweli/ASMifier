@@ -2,11 +2,12 @@ package com.nabijaczleweli.minecrasmer.reference
 
 import java.io.File
 
+import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import net.minecraftforge.common.config.Configuration
 
 object Configuration {
-	private val toLoad = WorldGenLiquidCrystal :: Nil
+	private val toLoad = WorldGenLiquidCrystal :: TileEntityComputer :: Nil
 
 	var config: Configuration = _
 
