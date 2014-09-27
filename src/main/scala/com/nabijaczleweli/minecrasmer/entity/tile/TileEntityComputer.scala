@@ -2,20 +2,21 @@ package com.nabijaczleweli.minecrasmer.entity.tile
 
 import com.nabijaczleweli.minecrasmer.computing.Opcode
 import com.nabijaczleweli.minecrasmer.reference.Reference
-import com.nabijaczleweli.minecrasmer.util.IConfigurable
-import net.minecraft.tileentity.TileEntity
+import com.nabijaczleweli.minecrasmer.util.NBTUtil._
+import com.nabijaczleweli.minecrasmer.util.{IConfigurable, SimpleDataProcessingTileEntity}
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.config.Configuration
 
 import scala.collection.mutable
+import scala.util.Random
 
-class TileEntityComputer extends TileEntity {
-	val lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", "")
+class TileEntityComputer extends SimpleDataProcessingTileEntity {
+	var lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", new Random().nextInt().toString)
 	val instructions = mutable.Queue[Opcode]()
 
 	var curopcode: Opcode = _
 	var opcodeprocessingticks = 0
 
-	var totalticks = 0
 	override def updateEntity() {
 		super.updateEntity()
 		for(clock <- 1 to TileEntityComputer.clocksPerSec) {
@@ -25,6 +26,7 @@ class TileEntityComputer extends TileEntity {
 				else
 					curopcode = instructions.dequeue()
 			processOpcode()
+			markDirty()
 		}
 	}
 
@@ -35,8 +37,19 @@ class TileEntityComputer extends TileEntity {
 		if(opcodeprocessingticks == curopcode.getTicks) {
 			opcodeprocessingticks = 0
 			curopcode = null
-			return
 		}
+	}
+
+	override def readFromNBT(tag: NBTTagCompound) {
+		super.readFromNBT(tag)
+
+		lines = tag readStringArray "lines"
+	}
+
+	override def writeToNBT(tag: NBTTagCompound) {
+		super.writeToNBT(tag)
+
+		lines.writeToNBT(tag, "lines")
 	}
 }
 
