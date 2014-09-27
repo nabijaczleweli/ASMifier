@@ -44,11 +44,10 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 		}
 
 	override def load(config: Configuration) {
-		baseGenerationLevel = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "baseGenLiquidCrystalLvl", baseGenerationLevel, s"Base level of generation; 2..60; default: $baseGenerationLevel", 2, 60).getInt
-		bigVeinProbability = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "propGenLiquidCrystalBigVein", bigVeinProbability,
-		                                s"Probability of generating a big vein (1/x); 0..${Int.MaxValue}; default: $bigVeinProbability", 0, Int.MaxValue).getInt
-		offLevelMax = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "deviationGenLiquidCrystalMax", offLevelMax, s"Maximal deviation of level of generation; 0..50; default: $offLevelMax", 0, 50).getInt
-		treshold = config.get(Reference.CONFIG_WORLDGEN_CATEGORY, "chunkGenLiquidCrystalTreshold", treshold, s"Amount of chunks of which generation will happen (1/x); 1..500; default: $treshold").getInt
+		baseGenerationLevel = config.getInt("baseGenLiquidCrystalLvl", Reference.CONFIG_WORLDGEN_CATEGORY, baseGenerationLevel, 2, 60, "Base level of generation")
+		bigVeinProbability = config.getInt("propGenLiquidCrystalBigVein", Reference.CONFIG_WORLDGEN_CATEGORY, bigVeinProbability, 0, Int.MaxValue, "Probability of generating a big vein (1/x)")
+		offLevelMax = config.getInt("deviationGenLiquidCrystalMax", Reference.CONFIG_WORLDGEN_CATEGORY, offLevelMax, 0, 50, "Maximal deviation of level of generation")
+		treshold = config.getInt("chunkGenLiquidCrystalTreshold", Reference.CONFIG_WORLDGEN_CATEGORY, treshold, 0, 500, "Amount of chunks of which generation will happen (1/x)")
 
 		chunksBeforeGenerating = new Random() nextInt treshold
 	}

@@ -11,6 +11,6 @@
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["appliedenergistics2"]
+  "dependencies": ["appliedenergistics2", "Waila"]
 }
 ]
