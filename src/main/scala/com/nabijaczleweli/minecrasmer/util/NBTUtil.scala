@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.util
 
-import net.minecraft.nbt.{NBTTagString, NBTTagList, NBTTagCompound}
+import net.minecraft.nbt.{NBTBase, NBTTagString, NBTTagList, NBTTagCompound}
 
 object NBTUtil {
 	implicit class StringArraySaver(strarr: Array[String]) {
@@ -21,7 +21,7 @@ object NBTUtil {
 			if(!hasTag(tagName))
 				new Array[String](0)
 			else {
-				val arrNBT = tag.getTag(tagName).asInstanceOf[NBTTagList]
+				val arrNBT = tag.getTagList(tagName, NBTBase.NBTTypes.toSeq indexOf "STRING")
 
 				val result = new Array[String](tag getInteger (tagName + "Amount"))
 				for(i <- 0 until result.length)
@@ -29,5 +29,11 @@ object NBTUtil {
 				result
 			}
 		}
+	}
+
+	trait NBTReloadable {
+		def readFromNBT(tag: NBTTagCompound): Unit
+
+		def writeToNBT(tag: NBTTagCompound): Unit
 	}
 }
