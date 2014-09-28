@@ -1,8 +1,9 @@
 package com.nabijaczleweli.minecrasmer.computing
 
-/** @author nabijaczleweli -Xss1m
-  * @since  28.09.14
-  */
-trait MulticlockedComputer {
+trait MulticlockedComputer extends Computer {
+	val clockSpeed: Int
 
+	override def processorTick() =
+		for(clock <- 1 to clockSpeed)
+			super.processorTick()
 }
