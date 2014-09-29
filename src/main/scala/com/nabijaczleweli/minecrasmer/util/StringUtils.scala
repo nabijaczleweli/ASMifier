@@ -6,6 +6,8 @@ object StringUtils {
 	implicit class Utils(string: String) {
 		def substring(toFind: String) =
 			string match {
+				case `toFind` =>
+					""
 				case str if str contains toFind =>
 					str substring ((str indexOf toFind) + 1)
 				case str =>
@@ -17,5 +19,15 @@ object StringUtils {
 			bldr.setCharAt(idx, bldr.charAt(idx).toUpper)
 			bldr.toString()
 		}
+
+		def before(toFind: String) =
+			string match {
+				case `toFind` =>
+					""
+				case str if str contains toFind =>
+					str.substring(0, str indexOf toFind)
+				case str =>
+					str
+			}
 	}
 }
