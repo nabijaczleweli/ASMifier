@@ -1,10 +1,9 @@
 package com.nabijaczleweli.minecrasmer.render.gui
 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.util.MineCrASMerLocation
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.gui.{FontRenderer, GuiScreen}
-import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import org.lwjgl.input.Keyboard
 import org.lwjgl.opengl.GL11._
@@ -13,7 +12,7 @@ import org.lwjgl.opengl.GL11._
 object GUIComputer extends GuiScreen {
 	val id = 0
 
-	private final val resourceGUI   = new ResourceLocation(Reference.MOD_ID, "textures/gui/computer.png")
+	private final val resourceGUI   = new MineCrASMerLocation("textures/gui/computer.png")
 	private final val textureWidth  = 200
 	private final val textureHeight = 150
 	private final val screenContentOffsetX = 5
@@ -33,7 +32,7 @@ object GUIComputer extends GuiScreen {
 		super.initGui()
 		Keyboard enableRepeatEvents true
 		if(fontRendererObj == null) // Such that we don't get java.lang.ExceptionInInitializerError
-			fontRendererObj = new FontRenderer(mc.gameSettings, new ResourceLocation(Reference.MOD_ID, "textures/gui/ascii.png"), mc.renderEngine, false)
+			fontRendererObj = new FontRenderer(mc.gameSettings, new MineCrASMerLocation("textures/gui/ascii.png"), mc.renderEngine, false)
 	}
 
 	override def drawScreen(mouseX: Int, mouseY: Int, f: Float) {
