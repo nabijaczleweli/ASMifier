@@ -54,19 +54,15 @@ object CompatUtil {
 			}
 
 		def shouldPreLoad = {
-			val toRet = Configuration.config.get(Reference.CONFIG_COMPAT_CATEGORY, s"preLoad$getModIds", true, s"Should the compat with $getModList be preLoaded.").getBoolean
+			val toRet = Configuration.config.getBoolean(s"preLoad$getModIds", Reference.CONFIG_COMPAT_CATEGORY, true, s"Should the compat with $getModList be preLoaded.")
 			Configuration.saveIfNeeded()
 			toRet
 		}
 
 		def shouldLoad = {
-			val toRet = Configuration.config.get(Reference.CONFIG_COMPAT_CATEGORY, s"load$getModIds", true, s"Should the compat with $getModList be loaded.").getBoolean
+			val toRet = Configuration.config.getBoolean(s"load$getModIds", Reference.CONFIG_COMPAT_CATEGORY, true, s"Should the compat with $getModList be loaded.")
 			Configuration.saveIfNeeded()
 			toRet
 		}
-	}
-
-	trait CompatExcludable {
-
 	}
 }
