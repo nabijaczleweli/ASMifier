@@ -20,5 +20,5 @@ class AE2 extends ICompat {
 	}
 
 	override def preLoad(side: Side) =
-		Successful
+		Empty
 }

@@ -65,4 +65,8 @@ object CompatUtil {
 			toRet
 		}
 	}
+
+	trait CompatExcludable {
+
+	}
 }

@@ -34,6 +34,8 @@ object MineCrASMer {
 				(compat preLoad event.getSide: CompatResult) match {
 					case Successful =>
 						log info s"Successfully preloaded compat ${compat.getClass.getSimpleName}."
+					case Empty =>
+						log info s"Nothing to preload for compat ${compat.getClass.getSimpleName}."
 					case Failed =>
 						log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
 					case WrongSide =>
@@ -57,6 +59,8 @@ object MineCrASMer {
 				(compat load event.getSide: CompatResult) match {
 					case Successful =>
 						log info s"Successfully loaded compat ${compat.getClass.getSimpleName}."
+					case Empty =>
+						log info s"Nothing to load for compat ${compat.getClass.getSimpleName}."
 					case Failed =>
 						log info s"Loading compat ${compat.getClass.getSimpleName} failed."
 					case WrongSide =>

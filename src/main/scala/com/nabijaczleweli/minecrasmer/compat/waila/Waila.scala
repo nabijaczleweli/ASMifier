@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import com.nabijaczleweli.minecrasmer.compat.{WrongSide, Failed, Successful, ICompat}
+import com.nabijaczleweli.minecrasmer.compat._
 import cpw.mods.fml.common.event.FMLInterModComms
 import cpw.mods.fml.relauncher.Side
 import cpw.mods.fml.relauncher.Side.CLIENT
@@ -10,7 +10,7 @@ class Waila extends ICompat {
 		"Waila" :: Nil
 
 	override def preLoad(side: Side) =
-		Successful
+		Empty
 
 	override def load(side: Side) =
 		side match {
