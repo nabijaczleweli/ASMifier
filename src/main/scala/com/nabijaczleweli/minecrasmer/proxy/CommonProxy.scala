@@ -1,8 +1,8 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
-import com.nabijaczleweli.minecrasmer.block.{BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid}
-import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
+import com.nabijaczleweli.minecrasmer.block.{BlockOverclocker, BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid}
+import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityOverclocker, TileEntityComputer}
 import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
@@ -24,9 +24,10 @@ class CommonProxy extends IProxy {
 		ItemPlastic.register()
 		ItemPCB.register()
 
+		BlockLiquidCrystalFluid.register()
 		BlockComputerOff.register()
 		BlockComputerOn.register()
-		BlockLiquidCrystalFluid.register()
+		BlockOverclocker.register()
 
 		Container.scoopEmpty.register()
 		Container.scoopLiquidCrystal.register()
@@ -53,6 +54,7 @@ class CommonProxy extends IProxy {
 
 	override def registerEntities() {
 		GameRegistry.registerTileEntity(classOf[TileEntityComputer], "PComputer")
+		GameRegistry.registerTileEntity(classOf[TileEntityOverclocker], "Overclocker")
 	}
 
 	override def registerFluids() {
