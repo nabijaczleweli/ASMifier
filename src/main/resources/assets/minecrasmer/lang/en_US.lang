@@ -3,6 +3,7 @@ tile.minecrasmer:computer.neutral.name=PC
 tile.minecrasmer:computeroff.name=PC
 tile.minecrasmer:computeron.name=PC (on)
 tile.minecrasmer:liquidcrystal.name=Liquid crystal
+tile.minecrasmer:overclocker.name=Overclocker
 
 
 # Items
