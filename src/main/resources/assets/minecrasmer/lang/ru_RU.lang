@@ -3,7 +3,7 @@ tile.minecrasmer:computer.neutral.name=Компютер
 tile.minecrasmer:computeroff.name=Компютер
 tile.minecrasmer:computeron.name=Компютер (Бключён)
 tile.minecrasmer:liquidcrystal.name=Сжиженный хрусталь
-tile.minecrasmer:overclocker.name=Оверклокер
+tile.minecrasmer:accessory_overclocker.name=Оверклокер
 
 
 # Items

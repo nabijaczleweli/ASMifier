@@ -3,7 +3,7 @@ tile.minecrasmer:computer.neutral.name=Komputer
 tile.minecrasmer:computeroff.name=Komputer
 tile.minecrasmer:computeron.name=Komputer (włączony)
 tile.minecrasmer:liquidcrystal.name=Ciekły kryształ
-tile.minecrasmer:liquidcrystal.name=Przetaktowywacz
+tile.minecrasmer:accessory_overclocker.name=Przetaktowywacz
 
 
 # Items
