@@ -68,10 +68,6 @@ class CommonProxy extends IProxy {
 	}
 
 	final override def registerRecipes() {
-		@inline
-		implicit def obj[T](any: T) =  //  This needs to be a thing, even tho anything isInstanceOf[Object], but ForgeGradle's scalac doesn't understand it
-			any.asInstanceOf[Object]
-
 		GameRegistry.addSmelting(Container.scoopLiquidCrystal, new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage), 5)
 
 		val LCD = new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage)
@@ -79,10 +75,11 @@ class CommonProxy extends IProxy {
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(plastic, "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer"))
-		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, obj("PPP"), obj("PLP"), obj("PGP"), obj('P'), obj("materialPlastic"), obj('L'), obj(new ItemStack(Container.scoopLiquidCrystal)), obj('G'), obj("nuggetGold")))
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage), obj(" L "), obj("GPG"), obj('P'), obj(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)), obj('L'), obj(LCD), obj('G'),
-		                                           obj("nuggetGold")))
-		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, obj(" G "), obj("PNP"), obj(" Gp"), obj('P'), obj(plastic), obj('G'), obj("paneGlass"), obj('N'), obj("nuggetGold"), obj('p'), obj(Blocks.piston)))
-		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, obj(" G "), obj("PNP"), obj(" Gp"), obj('P'), obj(plastic), obj('G'), obj("paneGlass"), obj('N'), obj("nuggetGold"), obj('p'), obj(Blocks.sticky_piston)))
+		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, new ItemStack(Container.scoopLiquidCrystal), 'G': Character, "nuggetGold"))
+		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, new ItemStack(Container.scoopLiquidCrystal), 'G': Character, "nuggetGold"))
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage), " L ", "GPG", 'P': Character, new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), 'L': Character, LCD, 'G': Character,
+		                                           "nuggetGold"))
+		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.piston))
+		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.sticky_piston))
 	}
 }
