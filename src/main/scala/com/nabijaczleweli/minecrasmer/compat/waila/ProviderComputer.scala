@@ -3,6 +3,7 @@ package com.nabijaczleweli.minecrasmer.compat.waila
 import java.util
 
 import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
+import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
@@ -22,8 +23,13 @@ object ProviderComputer extends IWailaDataProvider {
 		currenttip
 
 	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
-		currenttip add (StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.${
-			if(itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a.isInstanceOf[BlockComputerOn.type]) "on" else "off"}.name")
+		val block = itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a
+		val position = accessor.getPosition
+		val world = accessor.getWorld
+
+		currenttip add (StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.${if(block.isInstanceOf[BlockComputerOn.type]) "on" else "off"}.name")
+		currenttip add StatCollector.translateToLocalFormatted(s"hud.${Reference.MOD_ID}:compat.waila.computer.clock.name",
+		                                                       world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityComputer].clockSpeed.asInstanceOf[Object])
 		currenttip
 	}
 

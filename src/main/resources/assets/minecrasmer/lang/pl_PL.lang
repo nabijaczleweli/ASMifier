@@ -29,3 +29,5 @@ itemGroup.ASMifier.name=ASMifier
 # GUI
 hud.minecrasmer:compat.waila.computer.state.on.name=Stan: Włączony
 hud.minecrasmer:compat.waila.computer.state.off.name=Stan: Wyłączony
+hud.minecrasmer:compat.waila.computer.clock.name=Bazowy zegar: %d
+hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Mnożnik: %f

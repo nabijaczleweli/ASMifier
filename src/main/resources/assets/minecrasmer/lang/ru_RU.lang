@@ -29,3 +29,5 @@ itemGroup.ASMifier.name=АСМифайер
 # GUI
 hud.minecrasmer:compat.waila.computer.state.on.name=Положение: Бключён
 hud.minecrasmer:compat.waila.computer.state.off.name=Положение: Быключён
+hud.minecrasmer:compat.waila.computer.clock.name=Базовы часы: %d
+hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Множитель: %f
