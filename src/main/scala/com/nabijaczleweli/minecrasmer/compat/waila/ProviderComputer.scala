@@ -26,10 +26,12 @@ object ProviderComputer extends IWailaDataProvider {
 		val block = itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a
 		val position = accessor.getPosition
 		val world = accessor.getWorld
+		val on = block.isInstanceOf[BlockComputerOn.type]
 
-		currenttip add (StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.${if(block.isInstanceOf[BlockComputerOn.type]) "on" else "off"}.name")
-		currenttip add StatCollector.translateToLocalFormatted(s"hud.${Reference.MOD_ID}:compat.waila.computer.clock.name",
-		                                                       world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityComputer].clockSpeed.asInstanceOf[Object])
+		currenttip add (StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.${if(on) "on" else "off"}.name")
+		if(on)
+			currenttip add StatCollector.translateToLocalFormatted(s"hud.${Reference.MOD_ID}:compat.waila.computer.clock.name",
+			                                                       world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityComputer].clockSpeed: Integer)
 		currenttip
 	}
 
