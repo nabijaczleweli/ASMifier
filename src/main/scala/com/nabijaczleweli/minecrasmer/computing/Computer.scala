@@ -1,5 +1,6 @@
 package com.nabijaczleweli.minecrasmer.computing
 
+import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.NBTUtil.NBTReloadable
 import net.minecraft.nbt.{NBTBase, NBTTagCompound, NBTTagList, NBTTagString}
 
@@ -33,10 +34,15 @@ trait Computer extends NBTReloadable {
 		val instructionsNbt = tag getCompoundTag "instructions"
 		val size = instructionsNbt getInteger "size"
 		for(i <- 0 until size) {
-			val path = instructionsNbt.getTagList("loaderList", NBTBase.NBTTypes.toSeq indexOf "STRING") getStringTagAt i
-			val loaderClass = Class forName path
-			val method = loaderClass.getMethod("openFromNBT", classOf[NBTTagCompound])
-			instructions enqueue method.invoke(null, instructionsNbt getCompoundTag "instructionList").asInstanceOf[Opcode]
+			try {
+				val path = instructionsNbt.getTagList("loaderList", Computer.stringTagIndex) getStringTagAt i
+				val loaderClass = Class forName path
+				val method = loaderClass.getMethod("openFromNBT", classOf[NBTTagCompound])
+				instructions enqueue method.invoke(null, instructionsNbt getCompoundTag "instructionList").asInstanceOf[Opcode]
+			} catch {
+				case _: Throwable =>
+					Container.log warn s"Loading Opcode #$i failed! Skipping..."
+			}
 		}
 	}
 
@@ -55,4 +61,8 @@ trait Computer extends NBTReloadable {
 		instructionsNbt.setTag("instructionList", instructionListNbt)
 		tag.setTag("instructions", instructionsNbt)
 	}
+}
+
+object Computer {
+	val stringTagIndex = NBTBase.NBTTypes.toSeq indexOf "STRING"
 }

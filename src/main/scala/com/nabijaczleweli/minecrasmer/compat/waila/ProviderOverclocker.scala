@@ -1,13 +1,16 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
 import java.util
+import java.lang
 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityOverclocker
 import com.nabijaczleweli.minecrasmer.reference.Reference
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.StatCollector
 
+@SideOnly(Side.CLIENT)
 object ProviderOverclocker extends IWailaDataProvider {
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		null
@@ -20,7 +23,7 @@ object ProviderOverclocker extends IWailaDataProvider {
 		val world = accessor.getWorld
 
 		currenttip add StatCollector.translateToLocalFormatted(s"hud.${Reference.MOD_ID}:compat.waila.accessory.overclocker.multiplier.name",
-		                                                       world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityOverclocker].multiplier.asInstanceOf[Object])
+		                                                       world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityOverclocker].multiplier: lang.Float)
 		currenttip
 	}
 
