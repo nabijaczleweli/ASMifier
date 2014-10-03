@@ -1,8 +1,8 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
-import com.nabijaczleweli.minecrasmer.block.{BlockOverclocker, BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid}
-import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityOverclocker, TileEntityComputer}
+import com.nabijaczleweli.minecrasmer.block.{BlockComputerOff, BlockComputerOn, BlockLiquidCrystalFluid, BlockOverclocker}
+import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityComputer, TileEntityOverclocker}
 import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
@@ -17,7 +17,7 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fluids.FluidRegistry
-import net.minecraftforge.oredict.{OreDictionary, ShapedOreRecipe, ShapelessOreRecipe}
+import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
 
 class CommonProxy extends IProxy {
 	final override def registerItemsAndBlocks() {
@@ -35,13 +35,8 @@ class CommonProxy extends IProxy {
 	}
 
 	final override def registerOreDict() {
-		OreDictionary.registerOre("toolWrench", ItemWrench)
-
-		val is = new ItemStack(ItemPlastic)
-		for(i <- ItemPlastic.monomerDamage to ItemPlastic.plasticDamage) {
-			is setItemDamage i
-			OreDictionary.registerOre(ItemPlastic oreDictName i, is)
-		}
+		ItemWrench.registerOreDict()
+		ItemPlastic.registerOreDict()
 	}
 
 	override def registerGUIs() {

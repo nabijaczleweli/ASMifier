@@ -5,6 +5,7 @@ import java.util
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
@@ -12,8 +13,9 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{IIcon, MathHelper, StatCollector}
+import net.minecraftforge.oredict.OreDictionary
 
-object ItemPlastic extends Item {
+object ItemPlastic extends Item with IOreDictRegisterable {
 	Container.eventBus register this
 
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
@@ -59,5 +61,13 @@ object ItemPlastic extends Item {
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
 		for(nameIdx <- subIconNames.indices)
 			localizedNames(nameIdx) = StatCollector translateToLocal s"$getUnlocalizedName.${subIconNames(nameIdx)}.name"
+	}
+
+	override def registerOreDict() {
+		val is = new ItemStack(this)
+		for(i <- monomerDamage to plasticDamage) {
+			is setItemDamage i
+			OreDictionary.registerOre(oreDictName(i), is)
+		}
 	}
 }
