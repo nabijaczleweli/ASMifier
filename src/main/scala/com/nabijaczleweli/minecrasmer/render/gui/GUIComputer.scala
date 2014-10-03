@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer.render.gui
 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.util.MineCrASMerLocation
+import com.nabijaczleweli.minecrasmer.resource.MineCrASMerLocation
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.gui.{FontRenderer, GuiScreen}
 import net.minecraft.world.World

@@ -2,6 +2,7 @@ package com.nabijaczleweli.minecrasmer.reference
 
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
+import cpw.mods.fml.common.eventhandler.EventBus
 import net.minecraft.block.BlockAir
 import net.minecraft.block.material.{MapColor, Material}
 import net.minecraft.init.Blocks
@@ -20,4 +21,6 @@ object Container {
 	lazy val scoopEmpty = new ItemScoop(Blocks.air.asInstanceOf[BlockAir])
 	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid, 0x00FF00)
 	var foreignScoops: List[ItemScoop] = Nil
+
+	val eventBus = new EventBus
 }
