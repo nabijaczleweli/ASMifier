@@ -3,19 +3,25 @@ package com.nabijaczleweli.minecrasmer.item
 import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
-import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
+import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.util.StringUtils._
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{StatCollector, IIcon, MathHelper}
-import com.nabijaczleweli.minecrasmer.util.StringUtils._
+import net.minecraft.util.{IIcon, MathHelper, StatCollector}
 
 object ItemPlastic extends Item {
+	Container.eventBus register this
+
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
 
 	@SideOnly(Side.CLIENT)
 	private lazy val icons = new Array[IIcon](subIconNames.length)
+	@SideOnly(Side.CLIENT)
+	private lazy val localizedNames = new Array[String](subIconNames.length)
 
 	val monomerDamage = 0
 	val polymerDamage = 1
@@ -41,11 +47,17 @@ object ItemPlastic extends Item {
 			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i)
 
 	override def getItemStackDisplayName(is: ItemStack) =
-		StatCollector translateToLocal (getUnlocalizedName + '.' + subIconNames(MathHelper.clamp_int(is.getItemDamage, 0, subIconNames.length)) + ".name")
+		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subIconNames.length))
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) =
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until icons.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
+
+	@SubscribeEvent
+	def onResourcesReloaded(event: ResourcesReloadedEvent) {
+		for(nameIdx <- subIconNames.indices)
+			localizedNames(nameIdx) = StatCollector translateToLocal s"$getUnlocalizedName.${subIconNames(nameIdx)}.name"
+	}
 }

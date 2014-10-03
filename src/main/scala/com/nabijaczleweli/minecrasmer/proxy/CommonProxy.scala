@@ -12,6 +12,7 @@ import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.GameRegistry
+import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraftforge.common.MinecraftForge
@@ -24,7 +25,7 @@ class CommonProxy extends IProxy {
 		ItemPlastic.register()
 		ItemPCB.register()
 
-		BlockLiquidCrystalFluid.register()
+		(BlockLiquidCrystalFluid: Block).register()
 		BlockComputerOff.register()
 		BlockComputerOn.register()
 		BlockOverclocker.register()

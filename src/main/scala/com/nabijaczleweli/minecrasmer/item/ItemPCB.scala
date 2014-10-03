@@ -3,7 +3,9 @@ package com.nabijaczleweli.minecrasmer.item
 import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
-import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
+import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
@@ -11,10 +13,14 @@ import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{StatCollector, IIcon, MathHelper}
 
 object ItemPCB extends Item {
+	Container.eventBus register this
+
 	private val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
 	private val subNameNames = Array[String]("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
 	private lazy val icons = new Array[IIcon](subIconNames.length)
+	@SideOnly(Side.CLIENT)
+	private lazy val localizedNames = new Array[String](subNameNames.length)
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1
@@ -35,17 +41,22 @@ object ItemPCB extends Item {
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) {
 		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + String.format(subIconNames(i), "pcb_")
+			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_")
 	}
 
 	override def getItemStackDisplayName(is: ItemStack) =
-		StatCollector.translateToLocalFormatted(getUnlocalizedName + '.' + subNameNames(MathHelper.clamp_int(is.getItemDamage, 0, subNameNames.length)) + ".name",
-		                                        "PCB")
+		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subNameNames.length))
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) {
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until icons.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
+	}
+
+	@SubscribeEvent
+	def onResourcesReloaded(event: ResourcesReloadedEvent) {
+		for(nameIdx <- subNameNames.indices)
+			localizedNames(nameIdx) = StatCollector.translateToLocalFormatted(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name", "PCB")
 	}
 }

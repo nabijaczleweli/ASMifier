@@ -6,8 +6,10 @@ import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.proxy.ClientProxy
 import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
+import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.common.FMLCommonHandler
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.{Block, BlockAir}
 import net.minecraft.client.renderer.texture.IIconRegister
@@ -23,7 +25,6 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 
 	def this(block: BlockAir) =
 		this(block, null, 0)
-
 
 	val empty = contains.isInstanceOf[BlockAir] || fluid == null
 	protected lazy val containsDisplayName = Item getItemFromBlock contains match {
@@ -50,7 +51,7 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		if(empty)
 			super.getItemStackDisplayName(is)
 		else
-			StatCollector.translateToLocalFormatted(s"item.${Reference.NAMESPACED_PREFIX}scoopFilled.name", containsDisplayName)
+			ItemScoop.localizedName(0).format(containsDisplayName)
 
 	override def onItemRightClick(is: ItemStack, world: World, player: EntityPlayer) = {
 		val mop = getMovingObjectPositionFromPlayer(world, player, empty)
@@ -101,5 +102,15 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 }
 
 object ItemScoop {
+	Container.eventBus register this
+
 	val capacity = FluidContainerRegistry.BUCKET_VOLUME / 7
+
+	@SideOnly(Side.CLIENT)
+	private lazy val localizedName = new Array[String](1)
+
+	@SubscribeEvent
+	def onResourcesReloaded(event: ResourcesReloadedEvent) {
+		localizedName(0) = StatCollector translateToLocal s"item.${Reference.NAMESPACED_PREFIX}scoopFilled.name"
+	}
 }

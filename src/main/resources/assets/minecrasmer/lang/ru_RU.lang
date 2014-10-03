@@ -19,7 +19,7 @@ item.minecrasmer:plastic.plastic.name=Пластик
 item.minecrasmer:PCB.noelements.name=Пробелная %s
 item.minecrasmer:PCB.elements.name=%s с элементами
 item.minecrasmer:PCB.withlcd.name=%s с экраном
-item.minecrasmer:PCB.lcd.name=экраном
+item.minecrasmer:PCB.lcd.name=Екран
 
 
 # Tabs
