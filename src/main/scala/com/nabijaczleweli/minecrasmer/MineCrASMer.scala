@@ -31,7 +31,7 @@ object MineCrASMer {
 
 		for(compat <- compats if compat.shouldPreLoad)
 			if(compat.hasAllLoaded)
-				(compat preLoad event.getSide: CompatResult) match {
+				compat preLoad event.getSide match {
 					case Successful =>
 						log info s"Successfully preloaded compat ${compat.getClass.getSimpleName}."
 					case Empty =>
@@ -56,7 +56,7 @@ object MineCrASMer {
 	def init(event: FMLInitializationEvent) {
 		for(compat <- compats if compat.shouldLoad)
 			if(compat.hasAllLoaded)
-				(compat load event.getSide: CompatResult) match {
+				compat load event.getSide match {
 					case Successful =>
 						log info s"Successfully loaded compat ${compat.getClass.getSimpleName}."
 					case Empty =>
@@ -88,8 +88,7 @@ object MineCrASMer {
 			message.key match {
 				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
 					try {
-						val nbt = message.getNBTValue
-						val itemStack = ItemStack loadItemStackFromNBT (nbt getCompoundTag "itemstack")
+						val itemStack = ItemStack loadItemStackFromNBT (message.getNBTValue getCompoundTag "itemstack")
 						FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(itemStack.getItem.asInstanceOf[ItemScoop].fluid.getName, ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
 
 						val item = itemStack.getItem.asInstanceOf[ItemScoop]
@@ -99,7 +98,7 @@ object MineCrASMer {
 						log info s"Successfully registered scoop with ${item.fluid.getName}."
 					} catch {
 						case exc: Throwable =>
-							log warn s"Unable to register scoop from ${message.getSender}, exception type: $exc"
+							log warn s"Unable to register scoop from ${message.getSender}, exception: $exc"
 					}
 				case _ =>
 			}
