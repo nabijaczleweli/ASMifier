@@ -6,6 +6,7 @@ import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import cpw.mods.fml.common.Optional
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
@@ -13,12 +14,14 @@ import net.minecraft.item.{ItemBlock, ItemStack}
 import net.minecraft.util.StatCollector
 
 @SideOnly(Side.CLIENT)
+@Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
 	var PCName: String = _
 	var PCOffState: String = _
 	var PCOnState: String = _
 	var PCBaseClockSpeed: String = _
 
+	@Optional.Method(modid = "Waila")
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val is = accessor.getStack.copy()
 		is setItemDamage 3  // Facing to user to right-hand side
@@ -26,9 +29,11 @@ object ProviderComputer extends IWailaDataProvider {
 		is
 	}
 
+	@Optional.Method(modid = "Waila")
 	override def getWailaHead(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
 
+	@Optional.Method(modid = "Waila")
 	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val block = itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a
 		val position = accessor.getPosition
@@ -44,6 +49,7 @@ object ProviderComputer extends IWailaDataProvider {
 		currenttip
 	}
 
+	@Optional.Method(modid = "Waila")
 	override def getWailaTail(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
 
