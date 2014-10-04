@@ -31,10 +31,12 @@ object RegistrationUtils {
 	implicit class ScoopUtils(item: ItemScoop) {
 		@inline
 		def register() {
-			item.asInstanceOf[Item].register()
-			if(!item.empty)
-				FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(item.contains.asInstanceOf[IFluidBlock].getFluid.getName, ItemScoop.capacity), new ItemStack(item),
-				                                              new ItemStack(Container.scoopEmpty))
+			(item: Item).register()
+			item.contains match {
+				case contains: IFluidBlock if !item.empty =>
+					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(contains.getFluid.getName, ItemScoop.capacity), new ItemStack(item), new ItemStack (Container.scoopEmpty) )
+				case _ =>
+			}
 		}
 	}
 }
