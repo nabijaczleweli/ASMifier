@@ -68,14 +68,15 @@ class CommonProxy extends IProxy {
 
 		val LCD = new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage)
 		val emptyPCB = new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)
+		val LCDPCB = new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
+		val crystalScoop = new ItemStack(Container.scoopLiquidCrystal)
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(plastic, "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer"))
-		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, new ItemStack(Container.scoopLiquidCrystal), 'G': Character, "nuggetGold"))
-		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, new ItemStack(Container.scoopLiquidCrystal), 'G': Character, "nuggetGold"))
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage), " L ", "GPG", 'P': Character, new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), 'L': Character, LCD, 'G': Character,
-		                                           "nuggetGold"))
-		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.piston))
-		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.sticky_piston))
+		new ShapelessOreRecipe(plastic, "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer").register()
+		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
+		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
+		new ShapedOreRecipe(LCDPCB, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, "nuggetGold").register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.piston).register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.sticky_piston).register()
 	}
 }
