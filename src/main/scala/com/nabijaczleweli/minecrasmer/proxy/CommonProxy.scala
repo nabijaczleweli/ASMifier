@@ -71,10 +71,12 @@ class CommonProxy extends IProxy {
 		val LCDPCB = new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val crystalScoop = new ItemStack(Container.scoopLiquidCrystal)
+		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
+		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
 
-		new ShapelessOreRecipe(plastic, "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer").register()
-		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
-		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, "materialPlastic", 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
+		new ShapelessOreRecipe(plastic, polymerOre, polymerOre, polymerOre, polymerOre).register()
+		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
+		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, "nuggetGold").register()
 		new ShapedOreRecipe(LCDPCB, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, "nuggetGold").register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.piston).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, "paneGlass", 'N': Character, "nuggetGold", 'p': Character, Blocks.sticky_piston).register()

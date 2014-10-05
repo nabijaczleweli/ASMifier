@@ -2,13 +2,18 @@ package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Reference, Container}
+import cpw.mods.fml.common.Optional
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.IIcon
 import net.minecraft.world.{IBlockAccess, World}
+import net.minecraftforge.common.util.ForgeDirection
+import pneumaticCraft.api.block.IPneumaticWrenchable
 
-class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer) {
+@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
+class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer) with IPneumaticWrenchable {
 	setHardness(.3f) // Glass-like
 	setHarvestLevel("wrench", 0)
 	setBlockName(s"${Reference.NAMESPACED_PREFIX}accessory_$suffix")
@@ -76,4 +81,19 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 			blockIcon
 		else
 			icons(0)
+
+	@Optional.Method(modid = "PneumaticCraft")
+	override def rotateBlock(world: World, player: EntityPlayer, x: Int, y: Int, z: Int, side: ForgeDirection) =
+		rotateBlock(world, x, y, z, side, invert = player.isSneaking)
+
+	override def rotateBlock(worldObj: World, x: Int, y: Int, z: Int, axis: ForgeDirection) =
+		rotateBlock(worldObj, x, y, z, axis, invert = false)
+
+	def rotateBlock(world: World, x: Int, y: Int, z: Int, side: ForgeDirection, invert: Boolean) =
+		if(!world.isRemote) {
+			val sideIndex = ForgeDirection.VALID_DIRECTIONS indexOf side
+			world.setBlockMetadataWithNotify(x, y, z, if(invert) sideIndex ^ 1 else sideIndex, 1 | 2)
+			true
+		} else
+			false
 }

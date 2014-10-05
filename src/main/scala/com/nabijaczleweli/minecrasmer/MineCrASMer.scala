@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer
 
-import com.nabijaczleweli.minecrasmer.compat.waila.Waila
 import com.nabijaczleweli.minecrasmer.compat._
+import com.nabijaczleweli.minecrasmer.compat.waila.Waila
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
@@ -18,12 +18,12 @@ import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _
 
-	val compats = new AE2 :: new Vanilla :: new Waila :: Nil
+	val compats = new AE2 :: new Vanilla :: new Waila :: new PneumaticCraft :: Nil
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {

@@ -3,15 +3,20 @@ package com.nabijaczleweli.minecrasmer.block
 import java.util.Random
 
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
+import cpw.mods.fml.common.Optional
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{IIcon, MathHelper}
 import net.minecraft.world.World
+import net.minecraftforge.common.util.ForgeDirection
+import pneumaticCraft.api.block.IPneumaticWrenchable
 
-class ComputerGeneric(private final val suffix: String) extends Block(Container.materialComputer) {
+@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
+class ComputerGeneric(private final val suffix: String) extends Block(Container.materialComputer) with IPneumaticWrenchable {
 	setHardness(.3f) // Glass-like
 	setHarvestLevel("wrench", 0)
 	setBlockName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
@@ -44,20 +49,54 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 		}
 
 	override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, entity: EntityLivingBase, stack: ItemStack) =
-		MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F).asInstanceOf[Double] + 0.5D) & 3 match {
+		world.setBlockMetadataWithNotify(x, y, z, MathHelper.floor_double((entity.rotationYaw * 4F / 360F).toDouble + .5D) & 3 match {
 			case 0 =>
-				world.setBlockMetadataWithNotify(x, y, z, 2, 2)
+				2
 			case 1 =>
-				world.setBlockMetadataWithNotify(x, y, z, 5, 2)
+				5
 			case 2 =>
-				world.setBlockMetadataWithNotify(x, y, z, 3, 2)
+				3
 			case 3 =>
-				world.setBlockMetadataWithNotify(x, y, z, 4, 2)
-		}
+				4
+		}, 2)
 
 	override def getItemDropped(meta: Int, rand: Random, fortune: Int) =
 		Item getItemFromBlock BlockComputerOff
 
 	override def canSilkHarvest =
 		false
+
+	override def getValidRotations(worldObj: World, x: Int, y: Int, z: Int) =
+		ComputerGeneric.sideRotations
+
+	@Optional.Method(modid = "PneumaticCraft")
+	override def rotateBlock(world: World, player: EntityPlayer, x: Int, y: Int, z: Int, side: ForgeDirection) =
+		rotateBlock(world, x, y, z, side, invert = player.isSneaking)
+
+	override def rotateBlock(worldObj: World, x: Int, y: Int, z: Int, axis: ForgeDirection) =
+		rotateBlock(worldObj, x, y, z, axis, invert = false)
+
+	def rotateBlock(world: World, x: Int, y: Int, z: Int, side: ForgeDirection, invert: Boolean) =
+		if(!world.isRemote)
+			ComputerGeneric.sideToMeta get side match {
+				case None =>
+					false
+				case Some(meta) =>
+					world.setBlockMetadataWithNotify(x, y, z, if(invert) meta ^ 1 else meta, 1 | 2)
+					true
+			}
+		else
+			false
+}
+
+object ComputerGeneric {
+	import net.minecraftforge.common.util.ForgeDirection._
+
+	val sideRotations = Array(EAST, NORTH, SOUTH, WEST)
+	val sideToMeta = Map(
+		WEST -> 4,
+		NORTH -> 2,
+		EAST -> 5,
+		SOUTH -> 3
+	)
 }
