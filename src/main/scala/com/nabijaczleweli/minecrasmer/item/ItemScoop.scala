@@ -6,7 +6,7 @@ import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.proxy.ClientProxy
 import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableStrings, ReloadableString, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
@@ -15,9 +15,12 @@ import net.minecraft.block.{Block, BlockAir}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{Item, ItemBucket, ItemStack}
-import net.minecraft.util.{IIcon, MovingObjectPosition, StatCollector}
+import net.minecraft.util.{IIcon, MovingObjectPosition}
 import net.minecraft.world.World
 import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, IFluidBlock}
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends ItemBucket(contains) {
 	def this(block: Block with IFluidBlock, color: Int) =
@@ -51,7 +54,7 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		if(empty)
 			super.getItemStackDisplayName(is)
 		else
-			ItemScoop.localizedName(0).format(containsDisplayName)
+			ItemScoop localizedName 0 format containsDisplayName
 
 	override def onItemRightClick(is: ItemStack, world: World, player: EntityPlayer) = {
 		val mop = getMovingObjectPositionFromPlayer(world, player, empty)
@@ -107,10 +110,11 @@ object ItemScoop {
 	val capacity = FluidContainerRegistry.BUCKET_VOLUME / 7
 
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedName = new Array[String](1)
+	private lazy val localizedName = new ReloadableStrings(Future(List(new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoopFilled.name"))))
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		localizedName(0) = StatCollector translateToLocal s"item.${Reference.NAMESPACED_PREFIX}scoopFilled.name"
+		localizedName.reload()
 	}
 }

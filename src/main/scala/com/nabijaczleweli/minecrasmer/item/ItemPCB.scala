@@ -4,13 +4,16 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.resource._
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{StatCollector, IIcon, MathHelper}
+import net.minecraft.util.{IIcon, MathHelper}
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object ItemPCB extends Item {
 	Container.eventBus register this
@@ -20,7 +23,10 @@ object ItemPCB extends Item {
 	@SideOnly(Side.CLIENT)
 	private lazy val icons = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new Array[String](subNameNames.length)
+	private lazy val localizedNames = new ReloadableStrings(Future({
+		                                                               for(nameIdx <- subIconNames.indices) yield
+			                                                               new AutoFormattingReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name", "PCB")
+	                                                               }.toList))
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1
@@ -55,8 +61,8 @@ object ItemPCB extends Item {
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		for(nameIdx <- subNameNames.indices)
-			localizedNames(nameIdx) = StatCollector.translateToLocalFormatted(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name", "PCB")
+		localizedNames.reload()
 	}
 }

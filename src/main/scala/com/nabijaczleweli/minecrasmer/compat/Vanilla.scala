@@ -2,11 +2,11 @@ package com.nabijaczleweli.minecrasmer.compat
 
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import cpw.mods.fml.common.event.FMLInterModComms
-import cpw.mods.fml.common.registry.GameRegistry
 import cpw.mods.fml.relauncher.Side
 import net.minecraft.init.Blocks
-import net.minecraft.item.{ItemStack, Item}
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.FluidRegistry
 
@@ -18,12 +18,8 @@ class Vanilla extends ICompat {
 		Nil
 
 	override def preLoad(side: Side) = {
-		@inline
-		def defaultRegisterItem(it: Item) =
-			GameRegistry.registerItem(it, it.getUnlocalizedName.substring(it.getUnlocalizedName.indexOf(':') + 1))
-
-		defaultRegisterItem(lavaScoop)
-		defaultRegisterItem(waterScoop)
+		(lavaScoop: Item).register()
+		(waterScoop: Item).register()
 
 		Successful
 	}

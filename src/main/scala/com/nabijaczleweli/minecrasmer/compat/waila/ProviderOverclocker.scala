@@ -4,18 +4,17 @@ import java.{lang, util}
 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityOverclocker
 import com.nabijaczleweli.minecrasmer.reference.Reference
-import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
 import cpw.mods.fml.common.Optional
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.ItemStack
-import net.minecraft.util.StatCollector
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderOverclocker extends IWailaDataProvider {
-	var multiplierMessage: String = _
+	var multiplierMessage = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.accessory.overclocker.multiplier.name")
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
@@ -40,7 +39,8 @@ object ProviderOverclocker extends IWailaDataProvider {
 		currenttip
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		multiplierMessage = StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.accessory.overclocker.multiplier.name"
+		multiplierMessage.reload()
 	}
 }

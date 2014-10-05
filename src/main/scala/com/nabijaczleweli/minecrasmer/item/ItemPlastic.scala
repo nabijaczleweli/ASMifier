@@ -4,7 +4,7 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
@@ -12,8 +12,11 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{IIcon, MathHelper, StatCollector}
+import net.minecraft.util.{IIcon, MathHelper}
 import net.minecraftforge.oredict.OreDictionary
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object ItemPlastic extends Item with IOreDictRegisterable {
 	Container.eventBus register this
@@ -23,7 +26,10 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	private lazy val icons = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new Array[String](subIconNames.length)
+	private lazy val localizedNames = new ReloadableStrings(Future({
+		                                                               for(nameIdx <- subIconNames.indices) yield
+			                                                               new ReloadableString(s"$getUnlocalizedName.${subIconNames(nameIdx)}.name")
+	                                                               }.toList))
 
 	val monomerDamage = 0
 	val polymerDamage = 1
@@ -58,9 +64,9 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		for(nameIdx <- subIconNames.indices)
-			localizedNames(nameIdx) = StatCollector translateToLocal s"$getUnlocalizedName.${subIconNames(nameIdx)}.name"
+		localizedNames.reload()
 	}
 
 	override def registerOreDict() {

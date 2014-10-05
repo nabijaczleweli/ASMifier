@@ -5,21 +5,20 @@ import java.util
 import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.reference.Reference
-import com.nabijaczleweli.minecrasmer.resource.ResourcesReloadedEvent
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
 import cpw.mods.fml.common.Optional
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.{ItemBlock, ItemStack}
-import net.minecraft.util.StatCollector
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
-	var PCName: String = _
-	var PCOffState: String = _
-	var PCOnState: String = _
-	var PCBaseClockSpeed: String = _
+	var PCName = new ReloadableString(s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name")
+	var PCOffState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.off.name")
+	var PCOnState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.on.name")
+	var PCBaseClockSpeed = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.clock.name")
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
@@ -54,10 +53,11 @@ object ProviderComputer extends IWailaDataProvider {
 		currenttip
 
 	@SubscribeEvent
-	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		PCName = StatCollector translateToLocal s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name"
-		PCOffState = StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.off.name"
-		PCOnState = StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.state.on.name"
-		PCBaseClockSpeed = StatCollector translateToLocal s"hud.${Reference.MOD_ID}:compat.waila.computer.clock.name"
+	@SideOnly(Side.CLIENT)
+	def onResourcesReloaded(event: ResourcesReloadedEvent) = {
+		PCName.reload()
+		PCOffState.reload()
+		PCOnState.reload()
+		PCBaseClockSpeed.reload()
 	}
 }
