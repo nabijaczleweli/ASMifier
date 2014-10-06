@@ -13,17 +13,18 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import cpw.mods.fml.common.{Mod, SidedProxy}
+import cpw.mods.fml.relauncher.Side
 import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:`", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _
 
-	val compats = new AE2 :: new Vanilla :: new Waila :: new PneumaticCraft :: Nil
+	val compats = new AE2 :: new Vanilla :: new Waila :: new PneumaticCraft :: new MFR :: Nil
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
@@ -40,8 +41,10 @@ object MineCrASMer {
 						log info s"Preloading compat ${compat.getClass.getSimpleName} failed."
 					case WrongSide =>
 						log info s"Didn\'t preload compat ${compat.getClass.getSimpleName} on ${event.getSide}."
-					case result =>
-						log warn s"Preloading compat ${compat.getClass.getSimpleName} has returned an unhandled result, ${if(result.completed) "but it still finished" else "and it failed to finish"}."
+					case Completed() =>
+						log warn s"Preloading compat ${compat.getClass.getSimpleName} has returned an unhandled result, but it still finished."
+					case Uncompleted() =>
+						log warn s"Preloading compat ${compat.getClass.getSimpleName} has returned an unhandled result, and it failed to finish."
 				}
 			else
 				log info s"Could not find all mods for compat ${compat.getClass.getSimpleName}, hence its preloading failed."

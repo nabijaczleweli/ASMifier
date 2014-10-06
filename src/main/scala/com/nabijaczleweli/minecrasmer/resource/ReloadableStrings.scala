@@ -18,10 +18,7 @@ class ReloadableStrings extends ISimpleReloadable {
 		this
 		fut onSuccess {
 			case list =>
-				strings = list filter {
-					case obj =>
-						classOf[ReloadableString] isAssignableFrom obj.getClass
-				}
+				strings = list filter {obj => classOf[ReloadableString] isAssignableFrom obj.getClass}
 		}
 	}
 
