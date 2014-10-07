@@ -13,13 +13,12 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import cpw.mods.fml.common.{Mod, SidedProxy}
-import cpw.mods.fml.relauncher.Side
 import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:`", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:MineFactoryReloaded", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _
