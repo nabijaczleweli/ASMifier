@@ -65,4 +65,9 @@ object CompatUtil {
 			toRet
 		}
 	}
+
+	implicit class CompatClassExt(cls: Class[_ <: ICompat]) {
+		def getSimplestName =
+			cls.getSimpleName before "$"
+	}
 }
