@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{IIcon, MathHelper}
+import net.minecraft.util.{MovingObjectPosition, IIcon, MathHelper}
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 import pneumaticCraft.api.block.IPneumaticWrenchable
@@ -62,6 +62,9 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 
 	override def getItemDropped(meta: Int, rand: Random, fortune: Int) =
 		Item getItemFromBlock BlockComputerOff
+
+	override def getPickBlock(target: MovingObjectPosition, world: World, x: Int, y: Int, z: Int) =
+		new ItemStack(Item getItemFromBlock BlockComputerOff)
 
 	override def canSilkHarvest =
 		false
