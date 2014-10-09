@@ -95,8 +95,10 @@ object MineCrASMer {
 						log info s"Loading compat ${compat.getClass.getSimplestName} failed."
 					case WrongSide =>
 						log info s"Didn\'t load compat ${compat.getClass.getSimplestName} on ${event.getSide}."
-					case result =>
-						log warn s"Loading compat ${compat.getClass.getSimplestName} has returned an unhandled result, ${if(result.completed) "but it still finished" else "and it failed to finish"}."
+					case Completed() =>
+						log warn s"Loading compat ${compat.getClass.getSimplestName} has returned an unhandled result, but it still finished."
+					case Uncompleted() =>
+						log warn s"Loading compat ${compat.getClass.getSimplestName} has returned an unhandled result, and it failed to finish."
 				}
 			else
 				log info s"Could not find all mods for compat ${compat.getClass.getSimplestName}, hence its loading failed."
@@ -128,7 +130,7 @@ object MineCrASMer {
 						log info s"Successfully registered scoop with ${item.fluid.getName}."
 					} catch {
 						case exc: Throwable =>
-							log warn s"Unable to register scoop from ${message.getSender}, exception: $exc"
+							log.warn(s"Unable to register scoop from ${message.getSender}:", exc)
 					}
 				case _ =>
 			}
