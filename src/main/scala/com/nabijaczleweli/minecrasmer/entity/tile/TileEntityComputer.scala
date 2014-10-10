@@ -8,36 +8,45 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.common.config.Configuration
 
-import scala.collection.mutable
+import scala.collection.mutable.{Buffer => mBuffer}
 import scala.util.Random
 
 class TileEntityComputer extends SimpleDataProcessingTileEntity with MulticlockedComputer {
+	type accessoryType = TileEntity with ComputerAccessory
 	var lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", new Random().nextInt().toString)
+	private val entities = mBuffer[accessoryType]()
 
-	override val clockSpeed = TileEntityComputer.clocksPerTick
+	override def clockSpeed = TileEntityComputer.clocksPerTick
+	override def multiplier = {
+		readEntities()
+		var mul = 1F
+		(entities filter {_.isInstanceOf[TileEntityOverclocker]}).asInstanceOf[mBuffer[TileEntityOverclocker]] foreach {mul += _.multiplier}
+		mul
+	}
+	override def processors = {
+		readEntities()
+		var proc = 1
+		(entities filter {_.isInstanceOf[TileEntityAdditionalCPU]}).asInstanceOf[mBuffer[TileEntityAdditionalCPU]] foreach {proc += _.processors}
+		proc
+	}
 
 	override def updateEntity() {
 		super.updateEntity()
 
-		type searchingFor = TileEntity with ComputerAccessory
-		val entities = mutable.Buffer[searchingFor]()
-		for(x <- xCoord - 1 to xCoord + 1; y <- yCoord - 1 to yCoord + 1; z <- zCoord - 1 to zCoord + 1 if !(x == xCoord && y == yCoord && z == zCoord))
-			worldObj.getTileEntity(x, y, z) match {
-				case null =>
-				case ent: searchingFor =>
-					entities append ent
-				case _ =>
-			}
-
-		var multiplier = 1F
-		for(ent <- entities)
-			ent match {
-				case entity: TileEntityOverclocker =>
-					multiplier += entity.multiplier
-			}
-		processorTick(multiplier)
+		processorTick()
+		entities.clear()
 		markDirty()
 	}
+
+	private def readEntities() =
+		if(entities.isEmpty)
+			for(x <- xCoord - 1 to xCoord + 1; y <- yCoord - 1 to yCoord + 1; z <- zCoord - 1 to zCoord + 1)
+				worldObj.getTileEntity(x, y, z) match {
+					case null =>
+					case ent: accessoryType =>
+						entities append ent
+					case _ =>
+				}
 
 	override def readFromNBT(tag: NBTTagCompound) {
 		super[SimpleDataProcessingTileEntity].readFromNBT(tag)

@@ -15,6 +15,6 @@ object TileEntityOverclocker extends IConfigurable {
 	final var multiplier = 1.5f
 
 	override def load(config: Configuration) {
-		config.getFloat("TEOverclockerMultiplier", Reference.CONFIG_COMPUTE_CATEGORY, multiplier, 0, 10, "Multiplier for each of TileEntityOverclocker instances")
+		multiplier = config.getFloat("TEOverclockerMultiplier", Reference.CONFIG_COMPUTE_CATEGORY, multiplier, 0, 10, "Multiplier for each of TileEntityOverclocker instances")
 	}
 }

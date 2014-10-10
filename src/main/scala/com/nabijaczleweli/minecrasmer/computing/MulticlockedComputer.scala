@@ -3,12 +3,11 @@ package com.nabijaczleweli.minecrasmer.computing
 import scala.math._
 
 trait MulticlockedComputer extends Computer {
-	val clockSpeed: Int
+	def clockSpeed: Int
+	def multiplier: Float
+	def processors: Int
 
 	override def processorTick() =
-		processorTick(1F)
-
-	def processorTick(multiplier: Float) =
-		for(clock <- 1 to floor(clockSpeed * multiplier).toInt)
+		for(proc <- 0 until processors; clock <- 1 to floor(clockSpeed * multiplier).toInt)
 			super.processorTick()
 }

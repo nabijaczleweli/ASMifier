@@ -1,7 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
 import com.nabijaczleweli.minecrasmer.compat._
-import com.nabijaczleweli.minecrasmer.reference.Container
 import cpw.mods.fml.common.event.FMLInterModComms
 import cpw.mods.fml.relauncher.Side
 import cpw.mods.fml.relauncher.Side.CLIENT
@@ -19,8 +18,6 @@ class Waila extends ICompat {
 				var notAllSent = false
 
 				notAllSent |= !FMLInterModComms.sendMessage(getModIDs(0), "register", WailaCompatRegisterer.pathToRegisterMethod)
-				Container.eventBus register ProviderOverclocker
-				Container.eventBus register ProviderComputer
 
 				if(notAllSent)
 					Failed

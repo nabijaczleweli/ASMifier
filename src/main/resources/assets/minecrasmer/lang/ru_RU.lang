@@ -4,6 +4,7 @@ tile.minecrasmer:computeroff.name=Компютер
 tile.minecrasmer:computeron.name=Компютер (Бключён)
 tile.minecrasmer:liquidcrystal.name=Сжиженный хрусталь
 tile.minecrasmer:accessory_overclocker.name=Оверклокер
+tile.minecrasmer:accessory_processor.name=Добавочный процессор
 
 
 # Items
@@ -30,4 +31,9 @@ itemGroup.ASMifier.name=АСМифайер
 hud.minecrasmer:compat.waila.computer.state.on.name=Положение: Бключён
 hud.minecrasmer:compat.waila.computer.state.off.name=Положение: Быключён
 hud.minecrasmer:compat.waila.computer.clock.name=Базовы часы: %d
+hud.minecrasmer:compat.waila.computer.multiplier.name=Общий множитель: %f
+hud.minecrasmer:compat.waila.computer.processors.name=Общий количество процессоров: %d
+hud.minecrasmer:compat.waila.computer.cpt.name=Тики чацы на тик: %d
+
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Множитель: %f
+hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Процессоров: %d

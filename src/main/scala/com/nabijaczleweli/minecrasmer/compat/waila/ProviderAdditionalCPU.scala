@@ -2,7 +2,7 @@ package com.nabijaczleweli.minecrasmer.compat.waila
 
 import java.util
 
-import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityOverclocker
+import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityAdditionalCPU
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
 import cpw.mods.fml.common.Optional
@@ -13,10 +13,10 @@ import net.minecraft.item.ItemStack
 
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
-object ProviderOverclocker extends IWailaDataProvider {
+object ProviderAdditionalCPU extends IWailaDataProvider {
 	Container.eventBus register this
 
-	var multiplierMessage = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.accessory.overclocker.multiplier.name")
+	var multiplierMessage = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.accessory.processor.cpus.name")
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
@@ -30,9 +30,9 @@ object ProviderOverclocker extends IWailaDataProvider {
 	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val position = accessor.getPosition
 		val world = accessor.getWorld
-		val te = world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityOverclocker]
+		val te = world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityAdditionalCPU]
 
-		currenttip add multiplierMessage.format(te.multiplier)
+		currenttip add multiplierMessage.format(te.processors)
 		currenttip
 	}
 

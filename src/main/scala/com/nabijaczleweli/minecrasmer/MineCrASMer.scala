@@ -24,10 +24,16 @@ object MineCrASMer {
 	var proxy: IProxy = _
 
 	lazy val compats = {
+		Compiler.disable() // Don't fruitlessly JIT-compile a lot of classes, we need only those that we'll instantiate, not all from the package
 		val classWrappers = ClassPath from getClass.getClassLoader getTopLevelClassesRecursive "com.nabijaczleweli.minecrasmer.compat"
 		val tempClasses = {
 			for(cw <- classWrappers) yield
-				Class.forName(cw.getName, true, getClass.getClassLoader)
+				try
+					Class.forName(cw.getName, true, getClass.getClassLoader)
+				catch { // Don't crash on Client-side only classes
+					case _: Throwable =>
+						null
+				}
 		} ++ {
 			for(cw <- classWrappers) yield
 				try
@@ -37,6 +43,7 @@ object MineCrASMer {
 						null
 				}
 		} filter {_ != null}
+		Compiler.enable()
 		val classes = (tempClasses filter classOf[ICompat].isAssignableFrom filter {!_.isInterface}).toList.asInstanceOf[List[Class[_ <: ICompat]]]
 		Container.log info s"$MOD_NAME has identified ${classes.size} compats to load"
 		for(c <- classes) yield

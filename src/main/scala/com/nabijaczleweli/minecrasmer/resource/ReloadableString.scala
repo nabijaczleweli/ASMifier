@@ -29,13 +29,18 @@ class ReloadableString(val key: String) extends IDoubleReloadable {
 		}
 
 	override def toString =
-		loaded
+		if(loaded == null)
+			"null"
+		else
+			loaded
 
 
 	protected def unwrapArg(arg: Any) = // Stolen form StringLike
 		arg match {
-			case x: ScalaNumber => x.underlying
-			case x => x.asInstanceOf[AnyRef]
+			case x: ScalaNumber =>
+				x.underlying
+			case x =>
+				x.asInstanceOf[AnyRef]
 		}
 }
 

@@ -2,12 +2,12 @@ package com.nabijaczleweli.minecrasmer.reference
 
 import java.io.File
 
-import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityOverclocker, TileEntityComputer}
+import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityOverclocker, TileEntityComputer}
 import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import net.minecraftforge.common.config.Configuration
 
 object Configuration {
-	private val toLoad = WorldGenLiquidCrystal :: TileEntityComputer :: TileEntityOverclocker :: Nil
+	private val toLoad = WorldGenLiquidCrystal :: TileEntityComputer :: TileEntityOverclocker :: TileEntityAdditionalCPU :: Nil
 
 	var config: Configuration = _
 
