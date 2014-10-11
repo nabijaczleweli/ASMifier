@@ -63,7 +63,6 @@ object ProviderComputer extends IWailaDataProvider {
 		currenttip
 
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) = {
 		PCName.reload()
 		PCOffState.reload()
