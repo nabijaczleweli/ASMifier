@@ -18,8 +18,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object ItemPCB extends Item {
 	Container.eventBus register this
 
-	private val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
-	private val subNameNames = Array[String]("elements", "noelements", "withlcd", "lcd")
+	private val subIconNames = Array("%selements", "%snoelements", "%slcd", "lcd")
+	private val subNameNames = Array("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
 	private lazy val icons = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)

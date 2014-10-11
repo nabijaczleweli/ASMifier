@@ -1,10 +1,14 @@
 package com.nabijaczleweli.minecrasmer.compat
 
-import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityOverclocker, TileEntityComputer}
+import appeng.api.AEApi
+import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
+import com.nabijaczleweli.minecrasmer.item.ItemCPU
+import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import cpw.mods.fml.common.event.FMLInterModComms
 import cpw.mods.fml.relauncher.Side
+import net.minecraftforge.oredict.OreDictionary
 
-class AE2 extends ICompat {
+class AE2 extends ICompat with IOreDictRegisterable {
 	override def getModIDs =
 		"appliedenergistics2" :: Nil
 
@@ -15,6 +19,8 @@ class AE2 extends ICompat {
 		notAllSent |= !FMLInterModComms.sendMessage(getModIDs(0), "whitelist-spatial", classOf[TileEntityOverclocker].getCanonicalName)
 		notAllSent |= !FMLInterModComms.sendMessage(getModIDs(0), "whitelist-spatial", classOf[TileEntityAdditionalCPU].getCanonicalName)
 
+		registerOreDict()
+
 		if(notAllSent)
 			Failed
 		else
@@ -23,4 +29,10 @@ class AE2 extends ICompat {
 
 	override def preLoad(side: Side) =
 		Empty
+
+	override def registerOreDict() {
+		OreDictionary.registerOre(ItemCPU oreDictName 0, AEApi.instance().materials.materialLogicProcessor stack 1)
+		OreDictionary.registerOre(ItemCPU oreDictName 1, AEApi.instance().materials.materialCalcProcessor stack 1)
+		OreDictionary.registerOre(ItemCPU oreDictName 2, AEApi.instance().materials.materialEngProcessor stack 1)
+	}
 }

@@ -32,6 +32,10 @@ class ReloadableStrings extends ISimpleReloadable {
 				case _: Throwable =>
 			}
 
+	@inline
+	def length =
+		strings.length
+
 	def apply(idx: Int) = {
 		if(idx >= strings.size)
 			null

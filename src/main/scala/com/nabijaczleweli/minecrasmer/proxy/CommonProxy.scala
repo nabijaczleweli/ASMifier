@@ -24,6 +24,7 @@ class CommonProxy extends IProxy {
 		ItemWrench.register()
 		ItemPlastic.register()
 		ItemPCB.register()
+		ItemCPU.register()
 
 		(BlockLiquidCrystalFluid: Block).register()
 		BlockComputerOff.register()
@@ -35,10 +36,9 @@ class CommonProxy extends IProxy {
 		Container.scoopLiquidCrystal.register()
 	}
 
-	final override def registerOreDict() {
-		ItemWrench.registerOreDict()
-		ItemPlastic.registerOreDict()
-	}
+	final override def registerOreDict() =
+		for(odr <- CommonProxy.oreRegistrables)
+			odr.registerOreDict()
 
 	override def registerGUIs() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MineCrASMer, GUIHandler)
@@ -73,6 +73,7 @@ class CommonProxy extends IProxy {
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val crystalScoop = new ItemStack(Container.scoopLiquidCrystal)
+
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
 		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
 		val monomerOre = ItemPlastic oreDictName ItemPlastic.monomerDamage
@@ -88,4 +89,8 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
 	}
+}
+
+private object CommonProxy {
+	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Nil
 }

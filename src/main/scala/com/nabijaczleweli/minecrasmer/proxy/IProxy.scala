@@ -1,9 +1,9 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-trait IProxy {
-	def registerItemsAndBlocks(): Unit
+import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 
-	def registerOreDict(): Unit
+trait IProxy extends IOreDictRegisterable {
+	def registerItemsAndBlocks(): Unit
 
 	def registerGUIs(): Unit
 
