@@ -4,7 +4,7 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{AutoFormattingReloadableString, ReloadableStrings, ResourcesReloadedEvent}
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.relauncher.{Side, SideOnly}
@@ -20,22 +20,22 @@ import scala.concurrent.Future
 object ItemCPU extends Item with IOreDictRegisterable {
 	Container.eventBus register this
 
-	private      val subIconNames    = Array("elementary%s", "simple%s", "good%s")
+	private      val subIconNames    = Array("%selementary", "%ssimple", "%sgood")
 	private      val subNameNames    = Array("elementary", "simple", "good")
-	private      val subOreDictNames = Array("processorTier0", "processorTier1", "processorTier2")
+	             val subOreDictNames = Array("processorTier0", "processorTier1", "processorTier2")
 	@SideOnly(Side.CLIENT)
 	private lazy val icons          = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
 	private lazy val localizedNames = new ReloadableStrings(Future({
 		                                                               for(nameIdx <- subIconNames.indices) yield
-			                                                               new AutoFormattingReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name", "PCB")
+			                                                               new ReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name")
 	                                                               }.toList))
 
 	val elementaryDamage = 0
 	val simpleDamage = 1
 	val goodDamage = 2
 
-	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "processor")
+	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "CPU")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setHasSubtypes(true)
 
@@ -49,7 +49,7 @@ object ItemCPU extends Item with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) =
 		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i)
+			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_")
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, localizedNames.length))

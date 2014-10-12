@@ -22,6 +22,10 @@ item.minecrasmer:PCB.elements.name=%s z elementami
 item.minecrasmer:PCB.withlcd.name=%s z LCD
 item.minecrasmer:PCB.lcd.name=LCD
 
+item.minecrasmer:CPU.elementary.name=Elementarny procesor
+item.minecrasmer:CPU.simple.name=Prosty procesor
+item.minecrasmer:CPU.good.name=Dobry procesor
+
 
 # Tabs
 itemGroup.ASMifier.name=ASMifier

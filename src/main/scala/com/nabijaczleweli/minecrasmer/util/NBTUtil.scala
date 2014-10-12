@@ -1,5 +1,6 @@
 package com.nabijaczleweli.minecrasmer.util
 
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.{NBTBase, NBTTagString, NBTTagList, NBTTagCompound}
 
 object NBTUtil {
@@ -13,7 +14,26 @@ object NBTUtil {
 		}
 	}
 
+	implicit class ItemStackArraySaver(isarr: Array[ItemStack]) {
+		def writeToNBT(nbt: NBTTagCompound, tagName: String) {
+			val itemList = new NBTTagList
+			for(idx <- 0 until isarr.length) {
+				val stack = isarr(idx)
+				if(stack != null) {
+					val tag = new NBTTagCompound
+					tag.setByte("item_index", idx.toByte)
+					stack writeToNBT tag
+					itemList appendTag tag
+				}
+			}
+			nbt.setTag(tagName, itemList)
+		}
+	}
+
 	implicit class GeneralNBTUtil(tag: NBTTagCompound) {
+		private val stringNBTIndex = NBTBase.NBTTypes indexOf "STRING"
+		private val compoundNBTIndex = NBTBase.NBTTypes indexOf "COMPOUND"
+
 		def hasTag(tagName: String) =
 			tag getTag tagName ne null
 
@@ -21,12 +41,22 @@ object NBTUtil {
 			if(!hasTag(tagName))
 				new Array[String](0)
 			else {
-				val arrNBT = tag.getTagList(tagName, NBTBase.NBTTypes.toSeq indexOf "STRING")
+				val arrNBT = tag.getTagList(tagName, stringNBTIndex)
 
 				val result = new Array[String](tag getInteger (tagName + "Amount"))
 				for(i <- 0 until result.length)
 					result(i) = arrNBT getStringTagAt i
 				result
+			}
+		}
+
+		def readItemStackArray(tagName: String, isarr: Array[ItemStack]) = {
+			val tagList = tag.getTagList(tagName, compoundNBTIndex)
+			for(idx <- 0 until tagList.tagCount) {
+				val tag = tagList getCompoundTagAt idx
+				val slot = tag getByte "item_index"
+				if(slot >= 0 && slot < isarr.length)
+					isarr(slot) = ItemStack loadItemStackFromNBT tag
 			}
 		}
 	}
