@@ -16,18 +16,32 @@ class TileEntityComputer extends SimpleDataProcessingTileEntity with Multiclocke
 	var lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", new Random().nextInt().toString)
 	private val entities = mBuffer[accessoryType]()
 
+	private def additionalCPUs = {
+		readEntities()
+		(entities filter {_.isInstanceOf[TileEntityAdditionalCPU]}).asInstanceOf[mBuffer[TileEntityAdditionalCPU]]
+	}
+
 	override def clockSpeed = TileEntityComputer.clocksPerTick
-	override def multiplier = {
+
+	override def nativeMultiplier = {
 		readEntities()
 		var mul = 1F
 		(entities filter {_.isInstanceOf[TileEntityOverclocker]}).asInstanceOf[mBuffer[TileEntityOverclocker]] foreach {mul += _.multiplier}
 		mul
 	}
-	override def processors = {
-		readEntities()
+
+	override def nativeProcessors =
+		1
+
+	override def externalProcessors = {
 		var proc = 1
-		(entities filter {_.isInstanceOf[TileEntityAdditionalCPU]}).asInstanceOf[mBuffer[TileEntityAdditionalCPU]] foreach {proc += _.processors}
+		additionalCPUs foreach {proc += _.processors}
 		proc
+	}
+	override def externalMultiplier = {
+		var mul = 1F
+		additionalCPUs foreach {mul += _.multiplier}
+		mul
 	}
 
 	override def updateEntity() {

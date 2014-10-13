@@ -12,8 +12,6 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.{ItemBlock, ItemStack}
 
-import scala.math._
-
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
@@ -23,8 +21,10 @@ object ProviderComputer extends IWailaDataProvider {
 	var PCOffState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.off.name")
 	var PCOnState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.on.name")
 	var PCBaseClockSpeed = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.clock.name")
-	var PCMultiplier = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.multiplier.name")
-	var PCCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.name")
+	var PCNativeMultiplier = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.multiplier.native.name")
+	var PCExternalMultiplier = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.multiplier.external.name")
+	var PCNativeCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.native.name")
+	var PCExternalCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.external.name")
 	var PCCPT = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.cpt.name")
 
 	@Optional.Method(modid = "Waila")
@@ -50,9 +50,11 @@ object ProviderComputer extends IWailaDataProvider {
 		if(on) {
 			currenttip add PCOnState
 			currenttip add PCBaseClockSpeed.format(te.clockSpeed)
-			currenttip add PCMultiplier.format(te.multiplier)
-			currenttip add PCCPUs.format(te.processors)
-			currenttip add PCCPT.format(te.processors * floor(te.clockSpeed * te.multiplier).toInt)
+			currenttip add PCNativeMultiplier.format(te.nativeMultiplier)
+			currenttip add PCExternalMultiplier.format(te.externalMultiplier)
+			currenttip add PCNativeCPUs.format(te.nativeProcessors)
+			currenttip add PCExternalCPUs.format(te.externalProcessors)
+			currenttip add PCCPT.format(te.clockSpeed * (if(te.externalMultiplier == 0) 1 else (te.externalProcessors * te.externalMultiplier).floor.toInt) + te.clockSpeed * te.nativeProcessors)
 		} else
 			currenttip add PCOffState
 		currenttip
@@ -68,8 +70,10 @@ object ProviderComputer extends IWailaDataProvider {
 		PCOffState.reload()
 		PCOnState.reload()
 		PCBaseClockSpeed.reload()
-		PCMultiplier.reload()
-		PCCPUs.reload()
+		PCNativeMultiplier.reload()
+		PCExternalMultiplier.reload()
+		PCNativeCPUs.reload()
+		PCExternalCPUs.reload()
 		PCCPT.reload()
 	}
 }

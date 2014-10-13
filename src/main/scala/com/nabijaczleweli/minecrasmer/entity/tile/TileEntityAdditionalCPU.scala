@@ -11,12 +11,17 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.oredict.OreDictionary
+import org.apache.logging.log4j.core.helpers.Strings
 
 class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory {
 	val slots = new Array[ItemStack](1)
+	var customName = ""
 
 	def processors =
-		1
+		TileEntityAdditionalCPU.processors
+
+	def multiplier =
+		((ItemCPU tier getStackInSlot(0)) + 1) * TileEntityAdditionalCPU.multiplierPerTier
 
 	override def getSizeInventory =
 		slots.length
@@ -74,10 +79,13 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 			slots(id)
 
 	override def hasCustomInventoryName =
-		false
+		Strings isNotEmpty customName
 
 	override def getInventoryName =
-		Reference.NAMESPACED_PREFIX + "inventory.processor.name"
+		if(hasCustomInventoryName)
+			customName
+		else
+			s"hud.${Reference.NAMESPACED_PREFIX}inventory.processor.name"
 
 	override def writeToNBT(tag: NBTTagCompound) {
 		super.writeToNBT(tag)
@@ -92,8 +100,10 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 
 object TileEntityAdditionalCPU extends IConfigurable {
 	final var processors = 1
+	final var multiplierPerTier = 1.5F
 
 	override def load(config: Configuration) {
 		processors = config.getInt("TEAdditionalCPUProcessors", Reference.CONFIG_COMPUTE_CATEGORY, processors, 0, Int.MaxValue, "Amount of processors each TileEntityAdditionalCPU provides")
+		multiplierPerTier = config.getFloat("TEAdditionalCPUMultiplierPerTier", Reference.CONFIG_COMPUTE_CATEGORY, multiplierPerTier, 0, 20F, "Multiplier of additional processor speed per processor tier")
 	}
 }

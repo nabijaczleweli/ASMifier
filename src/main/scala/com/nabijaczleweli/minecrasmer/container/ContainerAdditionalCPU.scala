@@ -5,7 +5,7 @@ import net.minecraft.entity.player.{EntityPlayer, InventoryPlayer}
 import net.minecraft.inventory.{Container, Slot}
 import net.minecraft.item.ItemStack
 
-class ContainerAdditionalCPU(inventoryPlayer: InventoryPlayer, te: TileEntityAdditionalCPU) extends Container {
+class ContainerAdditionalCPU(val inventoryPlayer: InventoryPlayer, val te: TileEntityAdditionalCPU) extends Container {
 	addSlotToContainer(new SlotRespectful(te, 0, 80, 6))
 	for(y <- 0 until 3)
 		for(x <- 0 until 9)

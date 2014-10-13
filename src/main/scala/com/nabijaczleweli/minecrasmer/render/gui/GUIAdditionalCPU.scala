@@ -4,25 +4,34 @@ import com.nabijaczleweli.minecrasmer.container.ContainerAdditionalCPU
 import com.nabijaczleweli.minecrasmer.resource.MineCrASMerLocation
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.gui.inventory.GuiContainer
+import net.minecraft.client.resources.I18n
+import net.minecraft.inventory.IInventory
 import org.lwjgl.opengl.GL11._
 
 @SideOnly(Side.CLIENT)
 class GUIAdditionalCPU(container: ContainerAdditionalCPU) extends GuiContainer(container) {
-	xSize = GUIAdditionalCPU.xSize
-	ySize = GUIAdditionalCPU.ySize
+	ySize = 109
 
-	override def drawGuiContainerBackgroundLayer(f: Float, mouseX: Int, mouseY: Int) {
+	protected override def drawGuiContainerBackgroundLayer(f: Float, mouseX: Int, mouseY: Int) {
 		glColor4f(1.0F, 1.0F, 1.0F, 1.0F)
 		mc.getTextureManager bindTexture GUIAdditionalCPU.background
 		drawTexturedModalRect((width - xSize) / 2, (height - ySize) / 2, 0, 0, xSize, ySize)
 	}
+
+	protected override def drawGuiContainerForegroundLayer(mouseX: Int, mouseY: Int) { // Stolen from TileEntityHopper
+		fontRendererObj.drawString(displayName(container.te), 5, 4, 0x404040)
+		fontRendererObj.drawString(displayName(container.inventoryPlayer), 5, ySize - 92, 0x404040)
+	}
+
+	private def displayName(inv: IInventory) =
+		if(inv.hasCustomInventoryName)
+			inv.getInventoryName
+		else
+			I18n format inv.getInventoryName
 }
 
 object GUIAdditionalCPU {
 	private val background = new MineCrASMerLocation("textures/gui/additional_cpu.png")
 
 	val id = 1
-
-	val xSize = 176
-	val ySize = 109
 }

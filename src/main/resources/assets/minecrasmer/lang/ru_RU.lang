@@ -35,9 +35,13 @@ itemGroup.ASMifier.name=АСМифайер
 hud.minecrasmer:compat.waila.computer.state.on.name=Положение: Бключён
 hud.minecrasmer:compat.waila.computer.state.off.name=Положение: Быключён
 hud.minecrasmer:compat.waila.computer.clock.name=Базовы часы: %d
-hud.minecrasmer:compat.waila.computer.multiplier.name=Общий множитель: %f
-hud.minecrasmer:compat.waila.computer.processors.name=Общий количество процессоров: %d
+hud.minecrasmer:compat.waila.computer.multiplier.native.name=Внутренний множитель: %f
+hud.minecrasmer:compat.waila.computer.multiplier.external.name=Внешний множитель: %f
+hud.minecrasmer:compat.waila.computer.processors.native.name=Внутреннего количество процессоров: %d
+hud.minecrasmer:compat.waila.computer.processors.external.name=Внешнего количество процессоров: %d
 hud.minecrasmer:compat.waila.computer.cpt.name=Тики чацы на тик: %d
 
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Множитель: %f
 hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Процессоров: %d
+
+hud.minecrasmer:inventory.processor.name=Добавочный процессор

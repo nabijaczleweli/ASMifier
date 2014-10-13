@@ -35,9 +35,13 @@ itemGroup.ASMifier.name=ASMifier
 hud.minecrasmer:compat.waila.computer.state.on.name=Stan: Włączony
 hud.minecrasmer:compat.waila.computer.state.off.name=Stan: Wyłączony
 hud.minecrasmer:compat.waila.computer.clock.name=Bazowy zegar: %d
-hud.minecrasmer:compat.waila.computer.multiplier.name=Łączny mnożnik: %f
-hud.minecrasmer:compat.waila.computer.processors.name=Łączna ilość procesorów: %d
+hud.minecrasmer:compat.waila.computer.multiplier.native.name=Natywny mnożnik: %f
+hud.minecrasmer:compat.waila.computer.multiplier.external.name=Zewnętrzny mnożnik: %f
+hud.minecrasmer:compat.waila.computer.processors.native.name=Natywna ilość procesorów: %d
+hud.minecrasmer:compat.waila.computer.processors.external.name=Zewnętrzna ilość procesorów: %d
 hud.minecrasmer:compat.waila.computer.cpt.name=Takty zegara na tick: %d
 
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Mnożnik: %f
 hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Procesory: %d
+
+hud.minecrasmer:inventory.processor.name=Dodatkowy procesor
