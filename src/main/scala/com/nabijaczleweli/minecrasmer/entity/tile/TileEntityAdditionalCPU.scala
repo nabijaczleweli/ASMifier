@@ -8,20 +8,25 @@ import com.nabijaczleweli.minecrasmer.util.{IConfigurable, SimpleDataProcessingT
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.{NBTBase, NBTTagCompound}
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.oredict.OreDictionary
 import org.apache.logging.log4j.core.helpers.Strings
 
 class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory {
 	val slots = new Array[ItemStack](1)
-	var customName = ""
+	private var customName = ""
 
 	def processors =
 		TileEntityAdditionalCPU.processors
 
 	def multiplier =
 		((ItemCPU tier getStackInSlot(0)) + 1) * TileEntityAdditionalCPU.multiplierPerTier
+
+	def setCustomName(name: String) {
+		customName = name
+		markDirty()
+	}
 
 	override def getSizeInventory =
 		slots.length
@@ -43,9 +48,6 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 
 	override def getInventoryStackLimit =
 		1
-
-	override def markDirty() =
-		super[SimpleDataProcessingTileEntity].markDirty()
 
 	override def isItemValidForSlot(id: Int, is: ItemStack): Boolean = {
 		val oresForIs = OreDictionary getOreIDs is map {OreDictionary.getOreName}
@@ -90,15 +92,21 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 	override def writeToNBT(tag: NBTTagCompound) {
 		super.writeToNBT(tag)
 		slots.writeToNBT(tag, "slots")
+		if(hasCustomInventoryName)
+			tag.setString("display_name", customName)
 	}
 
 	override def readFromNBT(tag: NBTTagCompound) {
 		super.readFromNBT(tag)
 		tag.readItemStackArray("slots", slots)
+		if(tag.hasKey("display_name", TileEntityAdditionalCPU.stringTagIdx))
+			customName = tag getString "display_name"
 	}
 }
 
 object TileEntityAdditionalCPU extends IConfigurable {
+	private val stringTagIdx = NBTBase.NBTTypes indexOf "STRING"
+
 	final var processors = 1
 	final var multiplierPerTier = 1.5F
 

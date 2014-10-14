@@ -5,8 +5,10 @@ import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityAdditionalCPU
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.render.gui.GUIAdditionalCPU
 import net.minecraft.block.{Block, ITileEntityProvider}
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.world.World
 
@@ -40,6 +42,13 @@ object BlockAdditionalCPU extends AccessoryGeneric("processor") with ITileEntity
 				world spawnEntityInWorld entityitem
 			}
 	}
+
+	override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, entity: EntityLivingBase, is: ItemStack) {
+		super.onBlockPlacedBy(world, x, y, z, entity, is)
+		if(is.hasDisplayName)
+			world.getTileEntity(x, y, z).asInstanceOf[TileEntityAdditionalCPU] setCustomName is.getDisplayName
+	}
+
 
 	override def createNewTileEntity(world: World, meta: Int) =
 		new TileEntityAdditionalCPU
