@@ -73,8 +73,9 @@ object ProviderComputer extends IWailaDataProvider {
 		seq.headOption match {
 			case None =>
 				"None"
-			case Some(head) =>
-				collapseCPUsImpl(seq.head, 1, seq.sorted.slice(1, seq.length))
+			case Some(_) =>
+				val sorted = seq.sorted
+				collapseCPUsImpl(sorted.head, 1, sorted.slice(1, sorted.length))
 		}
 
 	def collapseCPUsImpl(last: (Int, Float), amount: Int, seq: Seq[(Int, Float)]): String =
