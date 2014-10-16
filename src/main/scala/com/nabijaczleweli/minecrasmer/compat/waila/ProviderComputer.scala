@@ -78,34 +78,26 @@ object ProviderComputer extends IWailaDataProvider {
 				collapseCPUsImpl(sorted.head, 1, sorted.slice(1, sorted.length))
 		}
 
+	def timesOrEmpty(amount: Int) =
+		amount match {
+			case 0 =>
+				""
+			case 1 =>
+				""
+			case amt =>
+				s"*$amt"
+		}
+
 	def collapseCPUsImpl(last: (Int, Float), amount: Int, seq: Seq[(Int, Float)]): String =
 		seq.headOption match {
 			case None =>
-				s"$last${
-					amount match {
-						case 0 =>
-							""
-						case 1 =>
-							""
-						case amt =>
-							s"*$amt"
-					}
-				}"
+				s"$last${timesOrEmpty(amount)}"
 			case Some(head) =>
 				head match {
 					case `last` =>
 						collapseCPUsImpl(last, amount + 1, seq.slice(1, seq.length))
 					case hd =>
-						s"$last${
-							amount match {
-								case 0 =>
-									""
-								case 1 =>
-									""
-								case amt =>
-									s"*$amt"
-							}
-						},${collapseCPUsImpl(hd, 1, seq.slice(1, seq.length))}"
+						s"$last${timesOrEmpty(amount)},${collapseCPUsImpl(hd, 1, seq.slice(1, seq.length))}"
 				}
 		}
 }
