@@ -35,10 +35,7 @@ itemGroup.ASMifier.name=ASMifier
 hud.minecrasmer:compat.waila.computer.state.on.name=State: ON
 hud.minecrasmer:compat.waila.computer.state.off.name=State: OFF
 hud.minecrasmer:compat.waila.computer.clock.name=Base clock: %d
-hud.minecrasmer:compat.waila.computer.multiplier.native.name=Native multiplier: %f
-hud.minecrasmer:compat.waila.computer.multiplier.external.name=External multiplier: %f
-hud.minecrasmer:compat.waila.computer.processors.native.name=Native CPUs: %d
-hud.minecrasmer:compat.waila.computer.processors.external.name=External CPUs: %d
+hud.minecrasmer:compat.waila.computer.processors.name=CPUs: %s
 hud.minecrasmer:compat.waila.computer.cpt.name=Clocks per tick: %d
 
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Multiplier: %f

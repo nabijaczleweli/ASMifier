@@ -21,10 +21,7 @@ object ProviderComputer extends IWailaDataProvider {
 	var PCOffState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.off.name")
 	var PCOnState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.on.name")
 	var PCBaseClockSpeed = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.clock.name")
-	var PCNativeMultiplier = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.multiplier.native.name")
-	var PCExternalMultiplier = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.multiplier.external.name")
-	var PCNativeCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.native.name")
-	var PCExternalCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.external.name")
+	var PCCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.name")
 	var PCCPT = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.cpt.name")
 
 	@Optional.Method(modid = "Waila")
@@ -46,15 +43,13 @@ object ProviderComputer extends IWailaDataProvider {
 		val world = accessor.getWorld
 		val on = block.isInstanceOf[BlockComputerOn.type]
 		lazy val te = world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityComputer]
+		lazy val CPUs = te.CPUs // It might be expensive, so better cache it
 
 		if(on) {
 			currenttip add PCOnState
 			currenttip add PCBaseClockSpeed.format(te.clockSpeed)
-			currenttip add PCNativeMultiplier.format(te.nativeMultiplier)
-			currenttip add PCExternalMultiplier.format(te.externalMultiplier)
-			currenttip add PCNativeCPUs.format(te.nativeProcessors)
-			currenttip add PCExternalCPUs.format(te.externalProcessors)
-			currenttip add PCCPT.format(te.clockSpeed * (if(te.externalMultiplier == 0) 1 else (te.externalProcessors * te.externalMultiplier).floor.toInt) + te.clockSpeed * te.nativeProcessors)
+			currenttip add PCCPUs.format(collapseCPUs(CPUs))
+			currenttip add PCCPT.format(te.clockSpeed * (CPUs map {CPU => (CPU._1 * CPU._2).floor.toInt}).sum)
 		} else
 			currenttip add PCOffState
 		currenttip
@@ -70,10 +65,46 @@ object ProviderComputer extends IWailaDataProvider {
 		PCOffState.reload()
 		PCOnState.reload()
 		PCBaseClockSpeed.reload()
-		PCNativeMultiplier.reload()
-		PCExternalMultiplier.reload()
-		PCNativeCPUs.reload()
-		PCExternalCPUs.reload()
+		PCCPUs.reload()
 		PCCPT.reload()
 	}
+
+	def collapseCPUs(seq: Seq[(Int, Float)]) =
+		seq.headOption match {
+			case None =>
+				"None"
+			case Some(head) =>
+				collapseCPUsImpl(seq.head, 1, seq.sorted.slice(1, seq.length))
+		}
+
+	def collapseCPUsImpl(last: (Int, Float), amount: Int, seq: Seq[(Int, Float)]): String =
+		seq.headOption match {
+			case None =>
+				s"$last${
+					amount match {
+						case 0 =>
+							""
+						case 1 =>
+							""
+						case amt =>
+							s"*$amt"
+					}
+				}"
+			case Some(head) =>
+				head match {
+					case `last` =>
+						collapseCPUsImpl(last, amount + 1, seq.slice(1, seq.length))
+					case hd =>
+						s"$last${
+							amount match {
+								case 0 =>
+									""
+								case 1 =>
+									""
+								case amt =>
+									s"*$amt"
+							}
+						},${collapseCPUsImpl(hd, 1, seq.slice(1, seq.length))}"
+				}
+		}
 }

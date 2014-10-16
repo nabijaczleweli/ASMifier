@@ -81,6 +81,6 @@ object ItemCPU extends Item with IOreDictRegisterable {
 		var temp = -1
 		for(name <- OreDictionary getOreIDs is map {OreDictionary.getOreName} if temp == -1)
 			temp = subOreDictNames indexOf name
-		temp
+		temp + 1
 	}
 }
