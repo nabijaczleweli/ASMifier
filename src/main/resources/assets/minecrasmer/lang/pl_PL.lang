@@ -26,6 +26,10 @@ item.minecrasmer:CPU.elementary.name=Elementarny procesor
 item.minecrasmer:CPU.simple.name=Prosty procesor
 item.minecrasmer:CPU.good.name=Dobry procesor
 
+item.minecrasmer:CPUSocket.name=Gniazdo na procesor
+
+item.minecrasmer:rodStone.name=Kamienny pręt
+
 
 # Tabs
 itemGroup.ASMifier.name=ASMifier

@@ -26,6 +26,10 @@ item.minecrasmer:CPU.elementary.name=Elementary processor
 item.minecrasmer:CPU.simple.name=Simple processor
 item.minecrasmer:CPU.good.name=Good processor
 
+item.minecrasmer:CPUSocket.name=CPU socket
+
+item.minecrasmer:rodStone.name=Stone rod
+
 
 # Tabs
 itemGroup.ASMifier.name=ASMifier

@@ -26,6 +26,10 @@ item.minecrasmer:CPU.elementary.name=Элементарный процессор
 item.minecrasmer:CPU.simple.name=Простой процессор
 item.minecrasmer:CPU.good.name=Хороший процессор
 
+item.minecrasmer:CPUSocket.name=Гнездо процессора
+
+item.minecrasmer:rodStone.name=Каменный цтержень
+
 
 # Tabs
 itemGroup.ASMifier.name=АСМифайер
