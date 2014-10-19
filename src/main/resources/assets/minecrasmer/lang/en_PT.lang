@@ -1,0 +1,48 @@
+# Blocks
+tile.minecrasmer:computer.neutral.name=Fast sailor
+tile.minecrasmer:computeroff.name=Fast sailor
+tile.minecrasmer:computeron.name=Sailin' fast sailor
+tile.minecrasmer:liquidcrystal.name=Water diamond
+tile.minecrasmer:accessory_overclocker.name=Galley
+tile.minecrasmer:accessory_processor.name=Supplementar' sailor
+
+
+# Items
+item.minecrasmer:wrench.name=Hammer
+
+item.minecrasmer:scoopEmpty.name=Oar
+item.minecrasmer:scoopFilled.name=Oar'o'%s
+
+item.minecrasmer:plastic.monomer.name=Single'o'mer
+item.minecrasmer:plastic.polymer.name=Two'o'mer
+item.minecrasmer:plastic.plastic.name=Strong'o'mer
+
+item.minecrasmer:PCB.noelements.name=%s
+item.minecrasmer:PCB.elements.name=%s 'a' chunks
+item.minecrasmer:PCB.withlcd.name=%s 'a' glancer
+item.minecrasmer:PCB.lcd.name=Glancer
+
+item.minecrasmer:CPU.elementary.name=Deck hand
+item.minecrasmer:CPU.simple.name=Seaman
+item.minecrasmer:CPU.good.name=Cap'n
+
+item.minecrasmer:CPUSocket.name=Hole'o'sailor
+
+item.minecrasmer:rodStone.name=Padd'l 'o' rock
+
+
+# Tabs
+itemGroup.ASMifier.name=ASMifier
+
+
+# GUI
+hud.minecrasmer:compat.waila.computer.state.on.name=Sailin'
+hud.minecrasmer:compat.waila.computer.state.off.name=Nay sailin'
+hud.minecrasmer:compat.waila.computer.clock.name=Compass: %d
+hud.minecrasmer:compat.waila.computer.processors.name=Sailors: %s
+hud.minecrasmer:compat.waila.computer.cpt.name=Compasses'a'tick: %d
+
+hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Paddles: %f
+hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Sailors: %d
+
+hud.minecrasmer:inventory.processor.name=Supplementar' sailor
