@@ -2,12 +2,12 @@ package com.nabijaczleweli.minecrasmer.handler
 
 import java.util.{Map => jMap}
 
-import com.nabijaczleweli.minecrasmer.item.ItemScoop
+import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemScoop}
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.PlayerEvent.{ItemCraftedEvent, ItemSmeltedEvent}
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraft.item.ItemStack
+import net.minecraft.item.{ItemPiston, ItemStack}
 import net.minecraft.item.crafting.FurnaceRecipes
 
 import scala.collection.JavaConversions._
@@ -17,6 +17,22 @@ object CraftingHandler {
 	def onCraftedWithScoop(event: ItemCraftedEvent) =
 		for(idx <- 0 until event.craftMatrix.getSizeInventory)
 			processStack(event.craftMatrix getStackInSlot idx)
+
+	@SubscribeEvent
+	def onCraftedNoScoop(event: ItemCraftedEvent): Unit =
+		if(event.crafting isItemEqual new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
+			for(idx <- (0 until event.craftMatrix.getSizeInventory).reverse)
+				event.craftMatrix getStackInSlot idx match {
+					case null =>
+					case is =>
+						is.getItem match {
+							case null =>
+							case it: ItemPiston =>
+								is.stackSize += 1
+								return
+							case _ =>
+						}
+				}
 
 	@SubscribeEvent
 	def onScoopSmelted(event: ItemSmeltedEvent) =
