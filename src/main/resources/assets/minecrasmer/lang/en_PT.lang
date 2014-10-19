@@ -30,6 +30,9 @@ item.minecrasmer:CPUSocket.name=Hole'o'sailor
 
 item.minecrasmer:rodStone.name=Padd'l 'o' rock
 
+#    The icon is Chalcedony
+item.minecrasmer:quartzPlate.name=Crystal board (Chalc'don')
+
 
 # Tabs
 itemGroup.ASMifier.name=ASMifier

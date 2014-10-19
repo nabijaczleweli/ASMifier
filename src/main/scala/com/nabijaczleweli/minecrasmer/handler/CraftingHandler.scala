@@ -3,6 +3,7 @@ package com.nabijaczleweli.minecrasmer.handler
 import java.util.{Map => jMap}
 
 import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemScoop}
+import com.nabijaczleweli.minecrasmer.reference.Container
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.PlayerEvent.{ItemCraftedEvent, ItemSmeltedEvent}
 import net.minecraft.entity.item.EntityItem
@@ -19,8 +20,8 @@ object CraftingHandler {
 			processStack(event.craftMatrix getStackInSlot idx)
 
 	@SubscribeEvent
-	def onCraftedNoScoop(event: ItemCraftedEvent): Unit =
-		if(event.crafting isItemEqual new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
+	def onCraftedNoScoop(event: ItemCraftedEvent) =
+		if((event.crafting isItemEqual new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)) || (event.crafting isItemEqual new ItemStack(Container.quartzPlate)))
 			for(idx <- (0 until event.craftMatrix.getSizeInventory).reverse)
 				event.craftMatrix getStackInSlot idx match {
 					case null =>
@@ -29,7 +30,6 @@ object CraftingHandler {
 							case null =>
 							case it: ItemPiston =>
 								is.stackSize += 1
-								return
 							case _ =>
 						}
 				}

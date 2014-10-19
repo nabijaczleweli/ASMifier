@@ -24,6 +24,7 @@ object Container extends IOreDictRegisterable {
 
 	lazy val socketCPU = new Item setUnlocalizedName s"${Reference.NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer setTextureName s"${Reference.NAMESPACED_PREFIX}socket_cpu"
 	lazy val stoneRod = new Item setUnlocalizedName s"${Reference.NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer setTextureName s"${Reference.NAMESPACED_PREFIX}rod_stone"
+	lazy val quartzPlate = new Item setUnlocalizedName s"${Reference.NAMESPACED_PREFIX}quartzPlate" setCreativeTab CreativeTabMineCrASMer setTextureName s"${Reference.NAMESPACED_PREFIX}plate_quartz"
 	lazy val scoopEmpty = new ItemScoop(Blocks.air.asInstanceOf[BlockAir])
 	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid, 0x00FF00)
 	var foreignScoops: List[ItemScoop] = Nil
@@ -32,6 +33,8 @@ object Container extends IOreDictRegisterable {
 
 
 	// Only for classless Items!
-	override def registerOreDict() =
+	override def registerOreDict() {
 		OreDictionary.registerOre("rodStone", stoneRod)
+		OreDictionary.registerOre("plateQuartz", quartzPlate)
+	}
 }

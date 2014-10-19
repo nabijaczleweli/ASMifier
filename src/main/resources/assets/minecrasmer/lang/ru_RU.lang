@@ -30,6 +30,9 @@ item.minecrasmer:CPUSocket.name=Гнездо процессора
 
 item.minecrasmer:rodStone.name=Каменный цтержень
 
+#    The icon is Chalcedony
+item.minecrasmer:quartzPlate.name=Кварцевая пластинка (Халцедон)
+
 
 # Tabs
 itemGroup.ASMifier.name=АСМифайер

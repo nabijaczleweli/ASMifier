@@ -27,6 +27,7 @@ class CommonProxy extends IProxy {
 		ItemCPU.register()
 		Container.socketCPU.register()
 		Container.stoneRod.register()
+		Container.quartzPlate.register()
 
 		(BlockLiquidCrystalFluid: Block).register()
 		BlockComputerOff.register()
@@ -84,19 +85,27 @@ class CommonProxy extends IProxy {
 		val ironOre = "ingotIron"
 		val redDyeOre = "dyeRed"
 		val stoneRodOre = "rodStone"
+		val quartzGemOre = "gemQuartz"
+		val quartzBlockOre = "blockQuartz"
 
 		GameRegistry.addSmelting(crystalScoop, monomer, 5)
 
 		new ShapelessOreRecipe(polymer, monomerOre, monomerOre, monomerOre, monomerOre).register()
 		new ShapelessOreRecipe(plastic, polymerOre, polymerOre, polymerOre, polymerOre).register()
 		new ShapelessOreRecipe(PCBElements, emptyPCB, Container.socketCPU, goldOre).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.piston).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.piston, Blocks.piston).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(PCBLCD, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, goldOre).register()
-		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
-		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
-		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plastic, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(Container.socketCPU, "P P", " P ", 'P': Character, plastic).register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
+		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
+		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
+		new ShapedOreRecipe(Container.socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 4), "C", "C", 'C': Character, Blocks.stone).register()
