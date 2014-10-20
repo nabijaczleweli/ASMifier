@@ -6,7 +6,7 @@ import cpw.mods.fml.common.Loader.isModLoaded
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 
 object CompatUtil {
-	implicit class CompatConv(compat: ICompat) {
+	implicit class CompatConv(val compat: ICompat) extends AnyVal {
 		def hasAllLoaded = {
 			var allModsLoaded = true
 			for(modid <- compat.getModIDs if allModsLoaded)
@@ -66,7 +66,7 @@ object CompatUtil {
 		}
 	}
 
-	implicit class CompatClassExt(cls: Class[_ <: ICompat]) {
+	implicit class CompatClassExt(val cls: Class[_ <: ICompat]) extends AnyVal {
 		def getSimplestName =
 			cls.getSimpleName before "$"
 	}

@@ -10,31 +10,30 @@ import net.minecraft.item.{Item, ItemStack}
 import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, IFluidBlock}
 
 object RegistrationUtils {
-	implicit class IRecipeUtils(recipe: IRecipe) {
+	implicit class IRecipeUtils(val recipe: IRecipe) extends AnyVal {
 		@inline
 		def register() =
 			GameRegistry addRecipe recipe
 	}
 
-	implicit class BlockUtils(block: Block) {
+	implicit class BlockUtils(val block: Block) extends AnyVal {
 		@inline
 		def register() =
 			GameRegistry.registerBlock(block, block.getUnlocalizedName substring ":")
 	}
 
-	implicit class ItemUtils(item: Item) {
+	implicit class ItemUtils(val item: Item) extends AnyVal {
 		@inline
 		def register() =
 			GameRegistry.registerItem(item, item.getUnlocalizedName substring ":")
 	}
 
-	implicit class ScoopUtils(item: ItemScoop) {
-		@inline
+	implicit class ScoopUtils(val item: ItemScoop) extends AnyVal {
 		def register() {
 			(item: Item).register()
 			item.contains match {
 				case contains: IFluidBlock if !item.empty =>
-					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(contains.getFluid.getName, ItemScoop.capacity), new ItemStack(item), new ItemStack (Container.scoopEmpty) )
+					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(contains.getFluid.getName, ItemScoop.capacity), new ItemStack(item), new ItemStack(Container.scoopEmpty))
 				case _ =>
 			}
 		}

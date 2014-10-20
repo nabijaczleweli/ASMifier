@@ -3,7 +3,7 @@ package com.nabijaczleweli.minecrasmer.util
 import scala.collection.mutable
 
 object StringUtils {
-	implicit class Utils(string: String) {
+	implicit class Utils(val string: String) extends AnyVal {
 		def substring(toFind: String) =
 			string match {
 				case `toFind` =>

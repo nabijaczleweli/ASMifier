@@ -108,7 +108,7 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(Container.socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
-		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 4), "C", "C", 'C': Character, Blocks.stone).register()
+		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
 	}
 }
 

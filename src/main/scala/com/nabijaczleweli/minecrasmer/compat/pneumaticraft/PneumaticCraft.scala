@@ -1,5 +1,6 @@
-package com.nabijaczleweli.minecrasmer.compat
+package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
+import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat, Successful}
 import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemPlastic}
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
@@ -8,8 +9,6 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.oredict.{OreDictionary, ShapelessOreRecipe}
 import pneumaticCraft.api.item.ItemSupplier
 import pneumaticCraft.api.recipe.PressureChamberRecipe
-
-import scala.collection.JavaConversions._
 
 class PneumaticCraft extends ICompat {
 	override def getModIDs =
@@ -33,13 +32,8 @@ class PneumaticCraft extends ICompat {
 		new ShapelessOreRecipe(emptyPCB, emptyPCBPC).register()
 		new ShapelessOreRecipe(emptyPCBPC, emptyPCB).register()
 
-		for(quartzGem <- OreDictionary getOres "gemQuartz") {
-			val four = quartzGem.copy
-			four.stackSize = 4
-			PressureChamberRecipe.chamberRecipes add new PressureChamberRecipe(Array(four), 2.5F, Array(quartzPlate), false)
-		}
-		for(quartzBlock <- OreDictionary getOres "blockQuartz")
-			PressureChamberRecipe.chamberRecipes add new PressureChamberRecipe(Array(quartzBlock), 2.5F, Array(quartzPlate), false)
+		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array(("gemQuartz", 4)), Array(quartzPlate))
+		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array("blockQuartz"), Array(quartzPlate))
 
 
 		Successful

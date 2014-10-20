@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.{NBTBase, NBTTagString, NBTTagList, NBTTagCompound}
 
 object NBTUtil {
-	implicit class StringArraySaver(strarr: Array[String]) {
+	implicit class StringArraySaver(val strarr: Array[String]) extends AnyVal {
 		def writeToNBT(nbt: NBTTagCompound, tagName: String) {
 			val arrNBT = new NBTTagList
 			for(str <- strarr)
@@ -14,7 +14,7 @@ object NBTUtil {
 		}
 	}
 
-	implicit class ItemStackArraySaver(isarr: Array[ItemStack]) {
+	implicit class ItemStackArraySaver(val isarr: Array[ItemStack]) extends AnyVal {
 		def writeToNBT(nbt: NBTTagCompound, tagName: String) {
 			val itemList = new NBTTagList
 			for(idx <- 0 until isarr.length) {
