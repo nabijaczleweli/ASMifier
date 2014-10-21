@@ -2,14 +2,13 @@ package com.nabijaczleweli.minecrasmer.handler
 
 import java.util.{Map => jMap}
 
-import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemScoop}
-import com.nabijaczleweli.minecrasmer.reference.Container
+import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemQuartz, ItemScoop}
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.PlayerEvent.{ItemCraftedEvent, ItemSmeltedEvent}
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraft.item.{ItemPiston, ItemStack}
 import net.minecraft.item.crafting.FurnaceRecipes
+import net.minecraft.item.{ItemPiston, ItemStack}
 
 import scala.collection.JavaConversions._
 
@@ -21,7 +20,7 @@ object CraftingHandler {
 
 	@SubscribeEvent
 	def onCraftedNoScoop(event: ItemCraftedEvent) =
-		if((event.crafting isItemEqual new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)) || (event.crafting isItemEqual new ItemStack(Container.quartzPlate)))
+		if((event.crafting isItemEqual new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)) || (event.crafting isItemEqual new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)))
 			for(idx <- (0 until event.craftMatrix.getSizeInventory).reverse)
 				event.craftMatrix getStackInSlot idx match {
 					case null =>

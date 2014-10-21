@@ -2,8 +2,9 @@ package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
+import com.nabijaczleweli.minecrasmer.entity.EntityItemShredder
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
-import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler}
+import com.nabijaczleweli.minecrasmer.handler.{EntityHandler, BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
@@ -11,7 +12,7 @@ import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.network.NetworkRegistry
-import cpw.mods.fml.common.registry.GameRegistry
+import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
@@ -27,7 +28,7 @@ class CommonProxy extends IProxy {
 		ItemCPU.register()
 		Container.socketCPU.register()
 		Container.stoneRod.register()
-		Container.quartzPlate.register()
+		ItemQuartz.register()
 
 		(BlockLiquidCrystalFluid: Block).register()
 		BlockComputerOff.register()
@@ -48,6 +49,7 @@ class CommonProxy extends IProxy {
 
 	override def registerEvents() {
 		MinecraftForge.EVENT_BUS register BlocksHandler
+		MinecraftForge.EVENT_BUS register EntityHandler
 		FMLCommonHandler.instance.bus register CraftingHandler
 	}
 
@@ -55,6 +57,8 @@ class CommonProxy extends IProxy {
 		GameRegistry.registerTileEntity(classOf[TileEntityComputer], "PComputer")
 		GameRegistry.registerTileEntity(classOf[TileEntityOverclocker], "Overclocker")
 		GameRegistry.registerTileEntity(classOf[TileEntityAdditionalCPU], "AdditionalCPU")
+
+		EntityRegistry.registerModEntity(classOf[EntityItemShredder], "QuartzShredder", 0, MineCrASMer, 80, 1, true)
 	}
 
 	override def registerFluids() {
@@ -76,6 +80,7 @@ class CommonProxy extends IProxy {
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val crystalScoop = new ItemStack(Container.scoopLiquidCrystal)
+		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
 		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
@@ -93,12 +98,12 @@ class CommonProxy extends IProxy {
 		new ShapelessOreRecipe(polymer, monomerOre, monomerOre, monomerOre, monomerOre).register()
 		new ShapelessOreRecipe(plastic, polymerOre, polymerOre, polymerOre, polymerOre).register()
 		new ShapelessOreRecipe(PCBElements, emptyPCB, Container.socketCPU, goldOre).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.piston).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.sticky_piston).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.piston, Blocks.piston).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.piston, Blocks.sticky_piston).register()
-		new ShapelessOreRecipe(Container.quartzPlate, quartzBlockOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.piston, Blocks.piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(PCBLCD, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
@@ -113,5 +118,5 @@ class CommonProxy extends IProxy {
 }
 
 private object CommonProxy {
-	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: Nil
+	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: Nil
 }

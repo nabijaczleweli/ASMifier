@@ -31,7 +31,8 @@ item.minecrasmer:CPUSocket.name=Gniazdo na procesor
 item.minecrasmer:rodStone.name=Kamienny pręt
 
 #    The icon is Chalcedony
-item.minecrasmer:quartzPlate.name=Kwarcowa płytka (Chalcedon)
+item.minecrasmer:quartz.plate.name=Kwarcowa płytka (Chalcedon)
+item.minecrasmer:quartz.shards.name=Odłamki kwarcu
 
 
 # Tabs

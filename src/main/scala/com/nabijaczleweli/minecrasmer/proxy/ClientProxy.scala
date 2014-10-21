@@ -1,10 +1,13 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
+import com.nabijaczleweli.minecrasmer.entity.EntityItemShredder
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.render.FilledScoopRenderer
 import com.nabijaczleweli.minecrasmer.resource.ReloaderListener
+import cpw.mods.fml.client.registry.RenderingRegistry
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.entity.RenderItem
 import net.minecraft.client.resources.SimpleReloadableResourceManager
 import net.minecraftforge.client.MinecraftForgeClient
 
@@ -18,6 +21,7 @@ class ClientProxy extends CommonProxy {
 		super.registerRenderers()
 		while(scoopRenderQueue.size != 0)
 			MinecraftForgeClient.registerItemRenderer(scoopRenderQueue.dequeue(), FilledScoopRenderer)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], new RenderItem)
 	}
 
 	override def registerEvents() {
