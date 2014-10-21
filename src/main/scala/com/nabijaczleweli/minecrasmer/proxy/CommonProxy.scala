@@ -85,6 +85,7 @@ class CommonProxy extends IProxy {
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
 		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
 		val monomerOre = ItemPlastic oreDictName ItemPlastic.monomerDamage
+		val quartzShardsOre = ItemQuartz oreDictName ItemQuartz.shardsDamage
 		val goldOre = "nuggetGold"
 		val paneOre = "paneGlass"
 		val ironOre = "ingotIron"
@@ -104,6 +105,9 @@ class CommonProxy extends IProxy {
 		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.piston, Blocks.piston).register()
 		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.piston, Blocks.sticky_piston).register()
 		new ShapelessOreRecipe(quartzPlate, quartzBlockOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzShardsOre, quartzShardsOre, quartzShardsOre, quartzShardsOre, Blocks.piston, Blocks.piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzShardsOre, quartzShardsOre, quartzShardsOre, quartzShardsOre, Blocks.piston, Blocks.sticky_piston).register()
+		new ShapelessOreRecipe(quartzPlate, quartzShardsOre, quartzShardsOre, quartzShardsOre, quartzShardsOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(PCBLCD, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
