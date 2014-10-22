@@ -33,6 +33,7 @@ item.minecrasmer:rodStone.name=Kamienny pręt
 #    The icon is Chalcedony
 item.minecrasmer:quartz.plate.name=Kwarcowa płytka (Chalcedon)
 item.minecrasmer:quartz.shards.name=Odłamki kwarcu
+item.minecrasmer:quartz.pureshards.name=Czyste odłamki kwarcu
 
 
 # Tabs

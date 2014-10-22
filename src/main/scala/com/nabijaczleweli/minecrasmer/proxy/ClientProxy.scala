@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-import com.nabijaczleweli.minecrasmer.entity.EntityItemShredder
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemPurifier, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.render.FilledScoopRenderer
 import com.nabijaczleweli.minecrasmer.resource.ReloaderListener
@@ -21,7 +21,10 @@ class ClientProxy extends CommonProxy {
 		super.registerRenderers()
 		while(scoopRenderQueue.size != 0)
 			MinecraftForgeClient.registerItemRenderer(scoopRenderQueue.dequeue(), FilledScoopRenderer)
-		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], new RenderItem)
+
+		val itemRenderer = new RenderItem
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemPurifier], itemRenderer)
 	}
 
 	override def registerEvents() {

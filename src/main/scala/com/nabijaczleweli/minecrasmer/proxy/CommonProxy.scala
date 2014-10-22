@@ -2,7 +2,7 @@ package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
-import com.nabijaczleweli.minecrasmer.entity.EntityItemShredder
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemPurifier, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
 import com.nabijaczleweli.minecrasmer.handler.{EntityHandler, BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
@@ -59,6 +59,7 @@ class CommonProxy extends IProxy {
 		GameRegistry.registerTileEntity(classOf[TileEntityAdditionalCPU], "AdditionalCPU")
 
 		EntityRegistry.registerModEntity(classOf[EntityItemShredder], "QuartzShredder", 0, MineCrASMer, 80, 1, true)
+		EntityRegistry.registerModEntity(classOf[EntityItemPurifier], "QuartzPurifier", 1, MineCrASMer, 80, 1, true)
 	}
 
 	override def registerFluids() {
