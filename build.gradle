@@ -34,6 +34,13 @@ minecraft {
     replace "@MODVER@", project.version
 }
 
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven"
+    }
+}
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -48,7 +55,21 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+    dependencies {
+        compile "codechicken:NotEnoughItems:${mc_version}-1.0.3.63:dev"
+    }
 }
+
+task copyChicken(type: Copy, dependsOn: "extractUserDev") {
+    from { configurations.compile }
+    include "**/*NotEnoughItems*.jar"
+    into file(minecraft.runDir + "/mods")
+    mustRunAfter "deobfBinJar"
+    mustRunAfter "repackMinecraft"
+}
+
+tasks.setupDevWorkspace.dependsOn copyChicken
+tasks.setupDecompWorkspace.dependsOn copyChicken
 
 processResources {
     // this will ensure that this task is redone when the versions change.

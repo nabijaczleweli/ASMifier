@@ -18,7 +18,7 @@ import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:MineFactoryReloaded;after:TConstruct", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:MineFactoryReloaded;after:TConstruct;after:NotEnoughItems", modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _

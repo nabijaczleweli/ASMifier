@@ -11,6 +11,6 @@
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["appliedenergistics2", "Waila", "PneumaticCraft", "MineFactoryReloaded", "TConstruct"]
+  "dependencies": ["appliedenergistics2", "Waila", "PneumaticCraft", "MineFactoryReloaded", "TConstruct", "NotEnoughItems"]
 }
 ]
