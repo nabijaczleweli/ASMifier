@@ -50,4 +50,8 @@ hud.minecrasmer:compat.waila.computer.cpt.name=Clocks per tick: %d
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Multiplier: %f
 hud.minecrasmer:compat.waila.accessory.processor.cpus.name=CPUs: %d
 
+hud.minecrasmer:compat.nei.inworld.label.name=ASMifier in-world crafting
+hud.minecrasmer:compat.nei.inworld.quartzshards.description.name=lang/compat/nei/quartz_shards/en_US.lang
+hud.minecrasmer:compat.nei.inworld.cleanquartzshards.description.name=lang/compat/nei/clean_quartz_shards/en_US.lang
+
 hud.minecrasmer:inventory.processor.name=Additional CPU

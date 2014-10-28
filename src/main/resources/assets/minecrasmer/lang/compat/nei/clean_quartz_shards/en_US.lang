@@ -1,0 +1,1 @@
+To clean the Quartz Shards, one would throw it in the most common fluid - water. To do that, one would drop the Item on the ground, and make sure the EntityItem is in water in the 100th tick of its lifetime.

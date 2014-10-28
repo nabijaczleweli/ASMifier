@@ -50,4 +50,6 @@ hud.minecrasmer:compat.waila.computer.cpt.name=Compasses'a'tick: %d
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Paddles: %f
 hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Sailors: %d
 
+hud.minecrasmer:compat.nei.inworld.label.name=Sea-craftin'o'ASMifier
+
 hud.minecrasmer:inventory.processor.name=Supplementar' sailor

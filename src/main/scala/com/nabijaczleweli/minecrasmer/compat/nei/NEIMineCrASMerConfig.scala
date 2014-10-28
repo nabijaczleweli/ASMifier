@@ -10,8 +10,8 @@ class NEIMineCrASMerConfig extends IConfigureNEI {
 	override def loadConfig() {
 		Container.log info s"Initializing $getName version $getVersion..."
 
-		API.registerUsageHandler(NEIInWorldCraftingRecipeManager)
-		API.registerRecipeHandler(NEIInWorldCraftingRecipeManager)
+		API.registerUsageHandler(new NEIMineCrASMerInWorldCraftingManager)
+		API.registerRecipeHandler(new NEIMineCrASMerInWorldCraftingManager)
 	}
 
 	@Optional.Method(modid = "NotEnoughItems")

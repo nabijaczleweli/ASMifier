@@ -1,0 +1,1 @@
+Aby oczyścić Odłamki Kwarcu, należy wrzucić je do najpowszechniejszej cieczy - wody. Aby to wykonać, należy rzucić przedmiot na grunt, i upewnić się, że EntityItem jest w wodzie podczas swojego setnego ticka w życiu.

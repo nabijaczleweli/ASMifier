@@ -50,4 +50,8 @@ hud.minecrasmer:compat.waila.computer.cpt.name=Takty zegara na tick: %d
 hud.minecrasmer:compat.waila.accessory.overclocker.multiplier.name=Mnożnik: %f
 hud.minecrasmer:compat.waila.accessory.processor.cpus.name=Procesory: %d
 
+hud.minecrasmer:compat.nei.inworld.label.name=Konstruowanie w świecie (ASMifier)
+hud.minecrasmer:compat.nei.inworld.quartzshards.description.name=lang/compat/nei/quartz_shards/pl_PL.lang
+hud.minecrasmer:compat.nei.inworld.cleanquartzshards.description.name=lang/compat/nei/clean_quartz_shards/pl_PL.lang
+
 hud.minecrasmer:inventory.processor.name=Dodatkowy procesor
