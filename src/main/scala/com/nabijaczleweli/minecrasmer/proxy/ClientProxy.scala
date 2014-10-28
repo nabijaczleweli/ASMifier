@@ -8,7 +8,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.RenderItem
-import net.minecraft.client.resources.SimpleReloadableResourceManager
+import net.minecraft.client.resources.IReloadableResourceManager
 import net.minecraftforge.client.MinecraftForgeClient
 
 import scala.collection.mutable
@@ -29,6 +29,6 @@ class ClientProxy extends CommonProxy {
 
 	override def registerEvents() {
 		super.registerEvents()
-		Minecraft.getMinecraft.getResourceManager.asInstanceOf[SimpleReloadableResourceManager] registerReloadListener ReloaderListener
+		Minecraft.getMinecraft.getResourceManager.asInstanceOf[IReloadableResourceManager] registerReloadListener ReloaderListener
 	}
 }
