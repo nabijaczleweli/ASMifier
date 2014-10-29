@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.world.World
 
-class EntityItemPurifier(world: World, x: Double, y: Double, z: Double, is: ItemStack) extends EntityItem(world, x, y, z, is) {
+class EntityItemCleaner(world: World, x: Double, y: Double, z: Double, is: ItemStack) extends EntityItem(world, x, y, z, is) {
 	def this(world: World, is: ItemStack) =
 		this(world, 0, 0, 0, is)
 
@@ -22,7 +22,7 @@ class EntityItemPurifier(world: World, x: Double, y: Double, z: Double, is: Item
 					val purified = new EntityItem(worldObj)
 
 					purified.copyDataFrom(this, true)
-					purified setEntityItemStack new ItemStack(ItemQuartz, getEntityItem.stackSize, ItemQuartz.pureShardsDamage)
+					purified setEntityItemStack new ItemStack(ItemQuartz, getEntityItem.stackSize, ItemQuartz.cleanShardsDamage)
 					purified.delayBeforeCanPickup = delayBeforeCanPickup
 
 					worldObj spawnEntityInWorld purified

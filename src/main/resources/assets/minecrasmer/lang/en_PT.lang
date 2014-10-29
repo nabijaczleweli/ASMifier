@@ -33,7 +33,7 @@ item.minecrasmer:rodStone.name=Padd'l 'o' rock
 #    The icon is Chalcedony
 item.minecrasmer:quartz.plate.name=Crystal board (Chalc'don')
 item.minecrasmer:quartz.shards.name=Crystal knives
-item.minecrasmer:quartz.pureshards.name=No' dirt' crystal knives
+item.minecrasmer:quartz.cleanshards.name=No' dirt' crystal knives
 
 
 # Tabs

@@ -7,6 +7,7 @@ import codechicken.nei.api.IRecipeOverlayRenderer;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.IUsageHandler;
+import com.nabijaczleweli.minecrasmer.util.JavaUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -135,14 +136,16 @@ public class NEIMineCrASMerInWorldCraftingManager implements ICraftingHandler, I
 	// Uses reflection because gradle compiles java BEFORE scala
 	private void addRecipes() {
 		try {
-			Object NEICompatModule = Class.forName("com.nabijaczleweli.minecrasmer.compat.nei.NEI$").getField("MODULE$").get(null);
-			Item quartzModule = (Item)Class.forName("com.nabijaczleweli.minecrasmer.item.ItemQuartz$").getField("MODULE$").get(null);
-			int pureQuartzShardsDamage = ((Number)quartzModule.getClass().getMethod("pureShardsDamage").invoke(quartzModule)).intValue();
-			String pureQuartzShardsDescription = (String)NEICompatModule.getClass().getMethod("getCleanQuartzShardsDescription").invoke(NEICompatModule);
-			int quartzShardsDamage = ((Number)quartzModule.getClass().getMethod("shardsDamage").invoke(quartzModule)).intValue();
-			String quartzShardsDescription = (String)NEICompatModule.getClass().getMethod("getQuartzShardsDescription").invoke(NEICompatModule);
+			Object NEICompatModule = JavaUtils.getModuleFromClass("compat.nei.NEI$");
+			Item quartzModule = (Item)JavaUtils.getModuleFromClass("item.ItemQuartz$");
 
-			addRecipe(new ItemStackWrapper(new ItemStack(quartzModule, 1, pureQuartzShardsDamage)), pureQuartzShardsDescription);
+			int cleanQuartzShardsDamage = ((Number)JavaUtils.getValFromModule(quartzModule, "cleanShardsDamage")).intValue();
+			String pureQuartzShardsDescription = (String)JavaUtils.getValFromModule(NEICompatModule, "getCleanQuartzShardsDescription");
+
+			int quartzShardsDamage = ((Number)JavaUtils.getValFromModule(quartzModule, "shardsDamage")).intValue();
+			String quartzShardsDescription = (String)JavaUtils.getValFromModule(NEICompatModule, "getQuartzShardsDescription");
+
+			addRecipe(new ItemStackWrapper(new ItemStack(quartzModule, 1, cleanQuartzShardsDamage)), pureQuartzShardsDescription);
 			addRecipe(new ItemStackWrapper(new ItemStack(quartzModule, 1, quartzShardsDamage)), quartzShardsDescription);
 		} catch(Exception e) {
 			throw new RuntimeException(e);

@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.handler
 
-import com.nabijaczleweli.minecrasmer.entity.{EntityItemPurifier, EntityItemShredder}
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.item.ItemQuartz
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import net.minecraft.entity.item.EntityItem
@@ -14,11 +14,11 @@ object EntityHandler {
 
 			event.entity match {
 				case _: EntityItemShredder =>
-				case _: EntityItemPurifier =>
+				case _: EntityItemCleaner =>
 				case entityItem: EntityItem if entityItem.getEntityItem.getItem == ItemQuartz && entityItem.getEntityItem.getItemDamage == ItemQuartz.plateDamage =>
 					entity = new EntityItemShredder(event.world, entityItem.getEntityItem.copy)
 				case entityItem: EntityItem if entityItem.getEntityItem.getItem == ItemQuartz && entityItem.getEntityItem.getItemDamage == ItemQuartz.shardsDamage =>
-					entity = new EntityItemPurifier(event.world, entityItem.getEntityItem.copy)
+					entity = new EntityItemCleaner(event.world, entityItem.getEntityItem.copy)
 				case _ =>
 			}
 

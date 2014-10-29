@@ -33,7 +33,7 @@ item.minecrasmer:rodStone.name=Stone rod
 #    The icon is Chalcedony
 item.minecrasmer:quartz.plate.name=Quartz plate (Chalcedony)
 item.minecrasmer:quartz.shards.name=Quartz shards
-item.minecrasmer:quartz.pureshards.name=Pure quartz shards
+item.minecrasmer:quartz.cleanshards.name=Clean quartz shards
 
 
 # Tabs

@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-import com.nabijaczleweli.minecrasmer.entity.{EntityItemPurifier, EntityItemShredder}
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.render.FilledScoopRenderer
 import com.nabijaczleweli.minecrasmer.resource.ReloaderListener
@@ -24,7 +24,7 @@ class ClientProxy extends CommonProxy {
 
 		val itemRenderer = new RenderItem
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
-		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemPurifier], itemRenderer)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRenderer)
 	}
 
 	override def registerEvents() {

@@ -20,8 +20,8 @@ import scala.concurrent.Future
 object ItemQuartz extends Item with IOreDictRegisterable {
 	Container.eventBus register this
 
-	private      val subIconNames    = Array("plate%s", "shards%s", "pureshards%s")
-	private      val subNameNames    = Array("plate", "shards", "pureshards")
+	private      val subIconNames    = Array("plate%s", "shards%s", "cleanshards%s")
+	private      val subNameNames    = Array("plate", "shards", "cleanshards")
 	private      val subOreDictNames = Array("plateQuartz", "shardsQuartz", null)
 	@SideOnly(Side.CLIENT)
 	private lazy val icons          = new Array[IIcon](subIconNames.length)
@@ -33,7 +33,7 @@ object ItemQuartz extends Item with IOreDictRegisterable {
 
 	val plateDamage = 0
 	val shardsDamage = 1
-	val pureShardsDamage = 2
+	val cleanShardsDamage = 2
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "quartz")
 	setCreativeTab(CreativeTabMineCrASMer)
