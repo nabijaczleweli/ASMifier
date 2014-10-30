@@ -1,5 +1,7 @@
 package com.nabijaczleweli.minecrasmer.compat.nei
 
+import java.io.{BufferedReader, InputStreamReader}
+
 import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ResourcesReloadedEvent}
@@ -40,18 +42,16 @@ object NEI extends ICompat {
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
 		def streamForKey(key: String) =
 			Minecraft.getMinecraft.getResourceManager.getResource(new MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
+		def bufferForKey(key: String) =
+		 new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 
-		val quartzShardsStream = streamForKey("quartzshards")
-		val cleanQuartzShardsStream = streamForKey("cleanquartzshards")
+		val quartzShardsStream = bufferForKey("quartzshards")
+		val cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
 
-		var tempArray = new Array[Char](quartzShardsStream.available())
-		for(idx <- tempArray.indices)
-			tempArray(idx) = quartzShardsStream.read().toChar
-		quartzShardsDescription = new String(tempArray)
+		quartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
+		cleanQuartzShardsDescription = quartzShardsStream.readLine()
 
-		tempArray = new Array[Char](cleanQuartzShardsStream.available())
-		for(idx <- tempArray.indices)
-			tempArray(idx) = cleanQuartzShardsStream.read().toChar
-		cleanQuartzShardsDescription = new String(tempArray)
+		quartzShardsStream.close()
+		cleanQuartzShardsStreamBufferedReader.close()
 	}
 }
