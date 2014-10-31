@@ -22,7 +22,7 @@ object NEI extends ICompat {
 	def getQuartzShardsDescription =
 		quartzShardsDescription
 
-	private var active: Side = null
+	private[nei] var active: Side = null
 
 	override def getModIDs =
 		"NotEnoughItems" :: Nil
@@ -33,7 +33,10 @@ object NEI extends ICompat {
 	}
 
 	override def load(side: Side) = {
-		Container.log info s"NEI plugin will be automatically loaded by NEI itself on the world load."
+		if(active != null)
+			Container.log info s"NEI plugin will be automatically loaded by NEI itself on the world load."
+		else
+			Container.log info s"NEI plugin will NOT be loaded, since NEI compat is inactive."
 		Empty
 	}
 
@@ -45,13 +48,15 @@ object NEI extends ICompat {
 		def bufferForKey(key: String) =
 		 new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 
-		val quartzShardsStream = bufferForKey("quartzshards")
-		val cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
+		if(active != null) {
+			val quartzShardsStream = bufferForKey("quartzshards")
+			val cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
 
-		quartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
-		cleanQuartzShardsDescription = quartzShardsStream.readLine()
+			quartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
+			cleanQuartzShardsDescription = quartzShardsStream.readLine()
 
-		quartzShardsStream.close()
-		cleanQuartzShardsStreamBufferedReader.close()
+			quartzShardsStream.close()
+			cleanQuartzShardsStreamBufferedReader.close()
+		}
 	}
 }
