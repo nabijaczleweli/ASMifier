@@ -16,7 +16,8 @@ import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
-import net.minecraftforge.common.MinecraftForge
+import net.minecraft.util.WeightedRandomChestContent
+import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
 
@@ -119,6 +120,29 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
+	}
+
+	final override def registerLoot() {
+		val dungeonChestGen = ChestGenHooks getInfo ChestGenHooks.DUNGEON_CHEST
+		val mineshaftChestGen = ChestGenHooks getInfo ChestGenHooks.MINESHAFT_CORRIDOR
+		val blacksmithChestGen = ChestGenHooks getInfo ChestGenHooks.MINESHAFT_CORRIDOR
+
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemCPU, ItemCPU.elementaryDamage, 2, 6, 3)
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemCPU, ItemCPU.simpleDamage, 1, 3, 2)
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemCPU, ItemCPU.goodDamage, 1, 1, 1)
+
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.emptyPCBDamage, 1, 6, 1)
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemPlastic, ItemPlastic.monomerDamage, 1, 20, 3)
+		dungeonChestGen addItem new WeightedRandomChestContent(ItemQuartz, ItemQuartz.plateDamage, 1, 4, 1)
+
+		mineshaftChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.fullPCBDamage, 1, 6, 1)
+		mineshaftChestGen addItem new WeightedRandomChestContent(ItemPlastic, ItemPlastic.polymerDamage, 1, 10, 2)
+		mineshaftChestGen addItem new WeightedRandomChestContent(ItemQuartz, ItemQuartz.shardsDamage, 3, 8, 2)
+
+		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
+
+
+		// TODO Electronics merchant villager?
 	}
 }
 

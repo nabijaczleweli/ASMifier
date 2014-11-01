@@ -119,6 +119,7 @@ object MineCrASMer {
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
 		proxy.registerRenderers()
+		proxy.registerLoot()
 	}
 
 	@EventHandler
