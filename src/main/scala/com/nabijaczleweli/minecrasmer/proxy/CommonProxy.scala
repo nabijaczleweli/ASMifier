@@ -26,7 +26,7 @@ import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
 
-class CommonProxy extends IProxy with IVillageTradeHandler {
+class CommonProxy extends IProxy {
 	final override def registerItemsAndBlocks() {
 		ItemWrench.register()
 		ItemPlastic.register()
@@ -147,14 +147,20 @@ class CommonProxy extends IProxy with IVillageTradeHandler {
 		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
 
 
-		for(i <- 5)
-			VillagerRegistry.instance.registerVillageTradeHandler(i, this)
+		for(i <- 0 until 5)
+			VillagerRegistry.instance.registerVillageTradeHandler(i, CommonProxy)
 		// TODO Electronics merchant villager?
 	}
+}
+
+private object CommonProxy extends IVillageTradeHandler {
+	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: Nil
 
 
 	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) {
 		villager.getProfession match {
+			case 1 => // Librarian
+				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
 			case 2 => // Priest
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage), new ItemStack(Items.emerald, random nextInt 8 max 3), new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage))
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage), new ItemStack(Items.emerald, random nextInt 30 max 12), new ItemStack(ItemCPU, 1, ItemCPU.goodDamage))
@@ -163,8 +169,4 @@ class CommonProxy extends IProxy with IVillageTradeHandler {
 			case _ =>
 		}
 	}
-}
-
-private object CommonProxy {
-	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: Nil
 }
