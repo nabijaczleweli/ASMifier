@@ -1,5 +1,7 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
+import java.util.Random
+
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
 import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
@@ -12,16 +14,19 @@ import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.network.NetworkRegistry
-import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry}
+import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler
+import cpw.mods.fml.common.registry.{VillagerRegistry, EntityRegistry, GameRegistry}
 import net.minecraft.block.Block
-import net.minecraft.init.Blocks
+import net.minecraft.entity.passive.EntityVillager
+import net.minecraft.init.{Items, Blocks}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
+import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
 
-class CommonProxy extends IProxy {
+class CommonProxy extends IProxy with IVillageTradeHandler {
 	final override def registerItemsAndBlocks() {
 		ItemWrench.register()
 		ItemPlastic.register()
@@ -142,7 +147,21 @@ class CommonProxy extends IProxy {
 		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
 
 
+		for(i <- 5)
+			VillagerRegistry.instance.registerVillageTradeHandler(i, this)
 		// TODO Electronics merchant villager?
+	}
+
+
+	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) {
+		villager.getProfession match {
+			case 2 => // Priest
+				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage), new ItemStack(Items.emerald, random nextInt 8 max 3), new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage))
+				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage), new ItemStack(Items.emerald, random nextInt 30 max 12), new ItemStack(ItemCPU, 1, ItemCPU.goodDamage))
+			case 3 => // Blacksmith
+				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage), new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
+			case _ =>
+		}
 	}
 }
 
