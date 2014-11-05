@@ -9,8 +9,8 @@ object OpcodeNOP extends Opcode {
 	override def process(tick: Int, computer: Computer) =
 		()
 
-	override def getOpcodeLoaderPath =
-		NOPLoader.getClass.getName
+	override def opcodeLoaderType =
+		NOPLoader.getClass.asInstanceOf[Class[NOPLoader.type]]
 }
 
 object NOPLoader extends OpcodeLoader[OpcodeNOP.type] {

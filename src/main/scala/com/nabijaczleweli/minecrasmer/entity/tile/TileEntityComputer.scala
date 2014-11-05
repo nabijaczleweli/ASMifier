@@ -53,7 +53,7 @@ class TileEntityComputer extends SimpleDataProcessingTileEntity with Multiclocke
 
 	override def readFromNBT(tag: NBTTagCompound) {
 		super[SimpleDataProcessingTileEntity].readFromNBT(tag)
-		super[MulticlockedComputer].writeToNBT(tag)
+		super[MulticlockedComputer].readFromNBT(tag)
 
 		lines = tag readStringArray "lines"
 	}

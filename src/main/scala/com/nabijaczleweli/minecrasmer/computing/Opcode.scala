@@ -17,7 +17,7 @@ trait Opcode extends NBTReloadable {
 	override def writeToNBT(tag: NBTTagCompound) =
 		()
 
-	def getOpcodeLoaderPath: String
+	def opcodeLoaderType: Class[_ <: OpcodeLoader[this.type]]
 }
 
 trait OpcodeLoader[+T <: Opcode] {

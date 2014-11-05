@@ -36,12 +36,13 @@ trait Computer extends NBTReloadable {
 		for(i <- 0 until size) {
 			try {
 				val path = instructionsNbt.getTagList("loaderList", Computer.stringTagIndex) getStringTagAt i
-				val loaderClass = Class forName path
-				val method = loaderClass.getMethod("openFromNBT", classOf[NBTTagCompound])
-				instructions enqueue method.invoke(null, instructionsNbt getCompoundTag "instructionList").asInstanceOf[Opcode]
+				val loaderModule = Class forName path getField "MODULE$" get null
+				val openOpcodeMethod = loaderModule.getClass.getMethod("openFromNBT", classOf[NBTTagCompound])
+				val savedInstruction = instructionsNbt.getTagList("instructionList", Computer.compoundTagIndex) getCompoundTagAt i
+				instructions enqueue openOpcodeMethod.invoke(loaderModule, savedInstruction).asInstanceOf[Opcode]
 			} catch {
-				case _: Throwable =>
-					Container.log warn s"Loading Opcode #$i failed! Skipping..."
+				case t: Throwable =>
+					Container.log warn s"Loading Opcode #$i/${size - 1} failed! Cause: $t. Cause\'s cause: ${t.getCause}. Skipping..."
 			}
 		}
 	}
@@ -53,7 +54,7 @@ trait Computer extends NBTReloadable {
 		val instructionNbt = new NBTTagCompound
 		instructionsNbt.setInteger("size", instructions.size)
 		for(op <- instructions.toIterator) {
-			instructionLoaderListNbt appendTag new NBTTagString(op.getOpcodeLoaderPath)
+			instructionLoaderListNbt appendTag new NBTTagString(op.opcodeLoaderType.getName)
 			op writeToNBT instructionNbt
 			instructionListNbt appendTag instructionNbt.copy()
 		}
@@ -64,5 +65,6 @@ trait Computer extends NBTReloadable {
 }
 
 object Computer {
-	val stringTagIndex = NBTBase.NBTTypes.toSeq indexOf "STRING"
+	val stringTagIndex = NBTBase.NBTTypes indexOf "STRING"
+	val compoundTagIndex = NBTBase.NBTTypes indexOf "COMPOUND"
 }
