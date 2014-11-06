@@ -9,6 +9,7 @@ import net.minecraft.item.ItemTool
 import net.minecraftforge.oredict.OreDictionary
 
 import scala.collection.JavaConversions._
+import scala.reflect.runtime.ReflectionUtils
 
 object ItemWrench extends ItemTool(0, Container.materialWrench, _ItemWrench.effectiveAgainst) with IOreDictRegisterable {
 	val effectiveAgainst = _ItemWrench.effectiveAgainst
@@ -39,7 +40,7 @@ private object _ItemWrench {
 		{{
 			for(c <- (tempClasses filter classOf[Block].isAssignableFrom).toSet.asInstanceOf[Set[Class[_ <: Block]]]) yield
 				try
-					c getField "MODULE$" get null
+					ReflectionUtils staticSingletonInstance c
 				catch {
 					case _: Throwable =>
 						null

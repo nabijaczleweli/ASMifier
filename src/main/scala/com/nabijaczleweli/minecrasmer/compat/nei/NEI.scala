@@ -13,15 +13,8 @@ import net.minecraft.util.StatCollector
 object NEI extends ICompat {
 	Container.eventBus register this
 
-	private var quartzShardsDescription = ""
-	private var cleanQuartzShardsDescription = ""
-
-	def getCleanQuartzShardsDescription =
-		cleanQuartzShardsDescription
-
-	def getQuartzShardsDescription =
-		quartzShardsDescription
-
+	private[nei] var quartzShardsDescription = ""
+	private[nei] var cleanQuartzShardsDescription = ""
 	private[nei] var active: Side = null
 
 	override def getModIDs =

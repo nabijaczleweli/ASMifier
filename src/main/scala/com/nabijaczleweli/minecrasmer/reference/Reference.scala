@@ -4,6 +4,7 @@ object Reference {
 	final val MOD_ID   = "minecrasmer"
 	final val MOD_NAME = "@MODNAME@"
 	final val VERSION  = "@MODVER@"
+	final val DEPENDENCIES = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:MineFactoryReloaded;after:TConstruct;after:NotEnoughItems"
 
 	final val CLIENT_PROXY_PATH = "com.nabijaczleweli.minecrasmer.proxy.ClientProxy"
 	final val SERVER_PROXY_PATH = "com.nabijaczleweli.minecrasmer.proxy.ServerProxy"

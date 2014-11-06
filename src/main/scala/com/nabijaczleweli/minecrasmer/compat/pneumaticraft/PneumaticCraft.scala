@@ -26,11 +26,6 @@ class PneumaticCraft extends ICompat {
 		val emptyPCBPC = ItemSupplier getItem "unassembledPCB"
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 
-		new ShapelessOreRecipe(PCBElements, PCBElementsPC).register()
-		new ShapelessOreRecipe(PCBElementsPC, PCBElements).register()
-		new ShapelessOreRecipe(emptyPCB, emptyPCBPC).register()
-		new ShapelessOreRecipe(emptyPCBPC, emptyPCB).register()
-
 		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array(("gemQuartz", 4)), Array(quartzPlate))
 		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array("blockQuartz"), Array(quartzPlate))
 		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array((ItemQuartz oreDictName ItemQuartz.shardsDamage, 4)), Array(quartzPlate))

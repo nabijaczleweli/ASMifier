@@ -5,6 +5,7 @@ import com.nabijaczleweli.minecrasmer.util.NBTUtil.NBTReloadable
 import net.minecraft.nbt.{NBTBase, NBTTagCompound, NBTTagList, NBTTagString}
 
 import scala.collection.mutable
+import scala.reflect.runtime.ReflectionUtils
 
 trait Computer extends NBTReloadable {
 	final val instructions = mutable.Queue[Opcode]()
@@ -36,7 +37,7 @@ trait Computer extends NBTReloadable {
 		for(i <- 0 until size) {
 			try {
 				val path = instructionsNbt.getTagList("loaderList", Computer.stringTagIndex) getStringTagAt i
-				val loaderModule = Class forName path getField "MODULE$" get null
+				val loaderModule = ReflectionUtils.staticSingletonInstance(getClass.getClassLoader, path)
 				val openOpcodeMethod = loaderModule.getClass.getMethod("openFromNBT", classOf[NBTTagCompound])
 				val savedInstruction = instructionsNbt.getTagList("instructionList", Computer.compoundTagIndex) getCompoundTagAt i
 				instructions enqueue openOpcodeMethod.invoke(loaderModule, savedInstruction).asInstanceOf[Opcode]

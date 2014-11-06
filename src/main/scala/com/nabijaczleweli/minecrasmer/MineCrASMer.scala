@@ -17,8 +17,9 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
+import scala.reflect.runtime.ReflectionUtils
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = "after:appliedenergistics2;after:Waila;after:PneumaticCraft;after:MineFactoryReloaded;after:TConstruct;after:NotEnoughItems", modLanguage = "scala")
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = DEPENDENCIES, modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _
@@ -29,7 +30,7 @@ object MineCrASMer {
 		val tempClasses = {
 			for(cw <- classWrappers) yield
 				try
-					Class.forName(cw.getName, true, getClass.getClassLoader)
+					Class.forName(cw.getName, false, getClass.getClassLoader) // Don't initialize those classes
 				catch { // Don't crash on Client-side only classes
 					case _: Throwable =>
 						null
@@ -37,22 +38,22 @@ object MineCrASMer {
 		} ++ {
 			for(cw <- classWrappers) yield
 				try
-					Class.forName(cw.getName + '$', true, getClass.getClassLoader) // Also find objects
+					Class.forName(cw.getName + '$', false, getClass.getClassLoader) // Also find objects; don't initialize them
 				catch {
 					case _: Throwable =>
 						null
 				}
 		} filter {_ != null}
 		Compiler.enable()
-		val classes = (tempClasses filter classOf[ICompat].isAssignableFrom filter {!_.isInterface}).toList.asInstanceOf[List[Class[_ <: ICompat]]]
-		Container.log info s"$MOD_NAME has identified ${classes.size} compats to load"
+		val classes = (tempClasses filter {classOf[ICompat].isAssignableFrom} filter {!_.isInterface} map {Class forName _.getName} map {_ asSubclass classOf[ICompat]}).toList
+		log info s"$MOD_NAME has identified ${classes.size} compats to load"
 		for(c <- classes) yield
 			try
 				c.newInstance()
 			catch {
 				case _: Throwable =>
 					try
-						c getField "MODULE$" get null
+						ReflectionUtils staticSingletonInstance c
 					catch {
 						case _: Throwable =>
 							null

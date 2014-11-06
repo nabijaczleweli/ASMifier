@@ -10,10 +10,13 @@ import net.minecraftforge.common.config.Configuration
 object Configuration {
 	private val toLoad = WorldGenLiquidCrystal :: TileEntityComputer :: TileEntityOverclocker :: TileEntityAdditionalCPU :: EntityItemShredder :: Nil
 
-	var config: Configuration = _
+	private var theConfig: Configuration = _
+
+	def config =
+		theConfig
 
 	def load(configFile: File) {
-		config = new Configuration(configFile)
+		theConfig = new Configuration(configFile)
 
 		for(tl <- toLoad)
 			tl load config
