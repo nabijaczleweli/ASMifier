@@ -1,14 +1,13 @@
 package com.nabijaczleweli.minecrasmer
 
-import com.google.common.reflect.ClassPath
 import com.nabijaczleweli.minecrasmer.compat._
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
-import com.nabijaczleweli.minecrasmer.reference.{Configuration, Container}
-import com.nabijaczleweli.minecrasmer.util.CompatUtil._
+import com.nabijaczleweli.minecrasmer.reference.{CompatLoader, Configuration, Container}
+import com.nabijaczleweli.minecrasmer.util.ReflectionUtil
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
@@ -17,72 +16,17 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids._
 
 import scala.collection.JavaConversions._
-import scala.reflect.runtime.ReflectionUtils
 
 @Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = DEPENDENCIES, modLanguage = "scala")
 object MineCrASMer {
 	@SidedProxy(clientSide = CLIENT_PROXY_PATH, serverSide = SERVER_PROXY_PATH)
 	var proxy: IProxy = _
 
-	lazy val compats = {
-		Compiler.disable() // Don't fruitlessly JIT-compile a lot of classes, we need only those that we'll instantiate, not all from the package
-		val classWrappers = ClassPath from getClass.getClassLoader getTopLevelClassesRecursive "com.nabijaczleweli.minecrasmer.compat"
-		val tempClasses = {
-			for(cw <- classWrappers) yield
-				try
-					Class.forName(cw.getName, false, getClass.getClassLoader) // Don't initialize those classes
-				catch { // Don't crash on Client-side only classes
-					case _: Throwable =>
-						null
-				}
-		} ++ {
-			for(cw <- classWrappers) yield
-				try
-					Class.forName(cw.getName + '$', false, getClass.getClassLoader) // Also find objects; don't initialize them
-				catch {
-					case _: Throwable =>
-						null
-				}
-		} filter {_ != null}
-		Compiler.enable()
-		val classes = (tempClasses filter {classOf[ICompat].isAssignableFrom} filter {!_.isInterface} map {Class forName _.getName} map {_ asSubclass classOf[ICompat]}).toList
-		log info s"$MOD_NAME has identified ${classes.size} compats to load"
-		for(c <- classes) yield
-			try
-				c.newInstance()
-			catch {
-				case _: Throwable =>
-					try
-						ReflectionUtils staticSingletonInstance c
-					catch {
-						case _: Throwable =>
-							null
-					}
-			}
-	}.asInstanceOf[List[ICompat]] filter {_ != null}
-
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
 		Configuration load event.getSuggestedConfigurationFile
-
-		for(compat <- compats if compat.shouldPreLoad)
-			if(compat.hasAllLoaded)
-				compat preLoad event.getSide match {
-					case Successful =>
-						log info s"Successfully preloaded compat ${compat.getClass.getSimplestName}."
-					case Empty =>
-						log info s"Nothing to preload for compat ${compat.getClass.getSimplestName}."
-					case Failed =>
-						log info s"Preloading compat ${compat.getClass.getSimplestName} failed."
-					case WrongSide =>
-						log info s"Didn\'t preload compat ${compat.getClass.getSimplestName} on ${event.getSide}."
-					case Completed() =>
-						log warn s"Preloading compat ${compat.getClass.getSimplestName} has returned an unhandled result, but it still finished."
-					case Uncompleted() =>
-						log warn s"Preloading compat ${compat.getClass.getSimplestName} has returned an unhandled result, and it failed to finish."
-				}
-			else
-				log info s"Could not find all mods for compat ${compat.getClass.getSimplestName}, hence its preloading failed."
+		CompatLoader identifyCompats classOf[ICompat].getPackage
+		CompatLoader preLoadCompats event.getSide
 
 		proxy.registerFluids()
 		proxy.registerItemsAndBlocks()
@@ -92,24 +36,7 @@ object MineCrASMer {
 
 	@EventHandler
 	def init(event: FMLInitializationEvent) {
-		for(compat <- compats if compat.shouldLoad)
-			if(compat.hasAllLoaded)
-				compat load event.getSide match {
-					case Successful =>
-						log info s"Successfully loaded compat ${compat.getClass.getSimplestName}."
-					case Empty =>
-						log info s"Nothing to load for compat ${compat.getClass.getSimplestName}."
-					case Failed =>
-						log info s"Loading compat ${compat.getClass.getSimplestName} failed."
-					case WrongSide =>
-						log info s"Didn\'t load compat ${compat.getClass.getSimplestName} on ${event.getSide}."
-					case Completed() =>
-						log warn s"Loading compat ${compat.getClass.getSimplestName} has returned an unhandled result, but it still finished."
-					case Uncompleted() =>
-						log warn s"Loading compat ${compat.getClass.getSimplestName} has returned an unhandled result, and it failed to finish."
-				}
-			else
-				log info s"Could not find all mods for compat ${compat.getClass.getSimplestName}, hence its loading failed."
+		CompatLoader loadCompats event.getSide
 
 		proxy.registerEvents()
 		proxy.registerOreDict()
