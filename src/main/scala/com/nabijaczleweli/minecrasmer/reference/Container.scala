@@ -18,7 +18,7 @@ object Container extends IOreDictRegisterable {
 	lazy val materialWrench = EnumHelper.addToolMaterial("Wrench", 1000, -1, 1000, 1, 0)
 	lazy val materialComputer = new Material(MapColor.grayColor)
 
-	lazy val log = LogManager getLogger Reference.MOD_ID
+	     val log = LogManager.getRootLogger // Set by the mod instance in PreInit; needs not to be lazy (reflection)
 
 	lazy val liquidCrystal = new Fluid("liquidcrystal") setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock (BlockLiquidCrystalFluid: Block)
 
