@@ -8,8 +8,8 @@ import scala.collection.mutable
 import scala.reflect.runtime.ReflectionUtils
 
 trait Computer extends NBTReloadable {
-	final val instructions = mutable.Queue[Opcode]()
-	final var curopcode: Opcode = _
+	final val instructions          = mutable.Queue[Opcode]()
+	final var curopcode: Opcode     = _
 	final var opcodeprocessingticks = 0
 
 	def processorTick() {
@@ -66,6 +66,6 @@ trait Computer extends NBTReloadable {
 }
 
 object Computer {
-	val stringTagIndex = NBTBase.NBTTypes indexOf "STRING"
+	val stringTagIndex   = NBTBase.NBTTypes indexOf "STRING"
 	val compoundTagIndex = NBTBase.NBTTypes indexOf "COMPOUND"
 }

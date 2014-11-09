@@ -12,13 +12,13 @@ import org.lwjgl.opengl.GL11._
 object GUIComputer extends GuiScreen {
 	val id = 0
 
-	private final val resourceGUI   = new MineCrASMerLocation("textures/gui/computer.png")
-	private final val textureWidth  = 200
-	private final val textureHeight = 150
-	private final val screenContentOffsetX = 5
-	private final val screenContentOffsetY = 5
-	private final lazy val textureStartX = (width - textureWidth) / 2
-	private final lazy val textureStartY = (height - textureHeight) / 2
+	private final      val resourceGUI          = new MineCrASMerLocation("textures/gui/computer.png")
+	private final      val textureWidth         = 200
+	private final      val textureHeight        = 150
+	private final      val screenContentOffsetX = 5
+	private final      val screenContentOffsetY = 5
+	private final lazy val textureStartX        = (width - textureWidth) / 2
+	private final lazy val textureStartY        = (height - textureHeight) / 2
 
 	private final var te: TileEntityComputer = _
 

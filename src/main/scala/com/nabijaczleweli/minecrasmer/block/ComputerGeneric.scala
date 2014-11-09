@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{MovingObjectPosition, IIcon, MathHelper}
+import net.minecraft.util.{IIcon, MathHelper, MovingObjectPosition}
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 import pneumaticCraft.api.block.IPneumaticWrenchable
@@ -21,12 +21,12 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 	setHarvestLevel("wrench", 0)
 	setBlockName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
 
-	protected final val computerFrontIndex  = 0
-	protected final val computerSideIndex   = 1
-	protected final val computerTopIndex    = 2
-	protected final val computerBottomIndex = 3
+	protected final      val computerFrontIndex  = 0
+	protected final      val computerSideIndex   = 1
+	protected final      val computerTopIndex    = 2
+	protected final      val computerBottomIndex = 3
 	@SideOnly(Side.CLIENT)
-	protected final lazy val icons = new Array[IIcon](4)
+	protected final lazy val icons               = new Array[IIcon](4)
 
 	@SideOnly(Side.CLIENT)
 	override def registerBlockIcons(ir: IIconRegister) {
@@ -96,7 +96,7 @@ object ComputerGeneric {
 	import net.minecraftforge.common.util.ForgeDirection._
 
 	val sideRotations = Array(EAST, NORTH, SOUTH, WEST)
-	val sideToMeta = Map(
+	val sideToMeta    = Map(
 		WEST -> 4,
 		NORTH -> 2,
 		EAST -> 5,

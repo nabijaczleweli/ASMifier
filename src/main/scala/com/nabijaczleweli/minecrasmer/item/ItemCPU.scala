@@ -20,20 +20,17 @@ import scala.concurrent.Future
 object ItemCPU extends Item with IOreDictRegisterable {
 	Container.eventBus register this
 
-	private      val subIconNames    = Array("%selementary", "%ssimple", "%sgood")
-	private      val subNameNames    = Array("elementary", "simple", "good")
-	             val subOreDictNames = Array("processorTier0", "processorTier1", "processorTier2")
+	val subOreDictNames = Array("processorTier0", "processorTier1", "processorTier2")
+	private      val subIconNames   = Array("%selementary", "%ssimple", "%sgood")
+	private      val subNameNames   = Array("elementary", "simple", "good")
 	@SideOnly(Side.CLIENT)
 	private lazy val icons          = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({
-		                                                               for(nameIdx <- subIconNames.indices) yield
-			                                                               new ReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name")
-	                                                               }.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"$getUnlocalizedName.${subNameNames(idx)}.name")}}.toList))
 
 	val elementaryDamage = 0
-	val simpleDamage = 1
-	val goodDamage = 2
+	val simpleDamage     = 1
+	val goodDamage       = 2
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "CPU")
 	setCreativeTab(CreativeTabMineCrASMer)

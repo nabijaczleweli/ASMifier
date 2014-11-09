@@ -5,14 +5,14 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
-import net.minecraft.world.{World, IBlockAccess}
+import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fluids.BlockFluidFinite
 
 object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal, Material.water) {
-	private final val stillIconIndex = 0
-	private final val flowingIconIndex = 1
+	private final      val stillIconIndex   = 0
+	private final      val flowingIconIndex = 1
 	@SideOnly(Side.CLIENT)
-	private final lazy val icons = new Array[IIcon](2)
+	private final lazy val icons            = new Array[IIcon](2)
 
 	setBlockName(Reference.NAMESPACED_PREFIX + "liquidcrystal")
 

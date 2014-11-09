@@ -13,9 +13,9 @@ import net.minecraft.util.StatCollector
 object NEI extends ICompat {
 	Container.eventBus register this
 
-	private[nei] var quartzShardsDescription = ""
+	private[nei] var quartzShardsDescription      = ""
 	private[nei] var cleanQuartzShardsDescription = ""
-	private[nei] var active: Side = null
+	private[nei] var active: Side                 = null
 
 	override def getModIDs =
 		"NotEnoughItems" :: Nil
@@ -39,7 +39,7 @@ object NEI extends ICompat {
 		def streamForKey(key: String) =
 			Minecraft.getMinecraft.getResourceManager.getResource(new MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
 		def bufferForKey(key: String) =
-		 new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
+			new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 
 		if(active != null) {
 			val quartzShardsStream = bufferForKey("quartzshards")

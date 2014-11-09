@@ -6,7 +6,7 @@ import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.proxy.ClientProxy
 import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableStrings, ReloadableString, ResourcesReloadedEvent}
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
@@ -19,8 +19,8 @@ import net.minecraft.util.{IIcon, MovingObjectPosition}
 import net.minecraft.world.World
 import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, IFluidBlock}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends ItemBucket(contains) {
 	def this(block: Block with IFluidBlock, color: Int) =

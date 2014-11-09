@@ -4,7 +4,7 @@ import com.nabijaczleweli.minecrasmer.util.NBTUtil.NBTReloadable
 import net.minecraft.nbt.NBTTagCompound
 
 trait Opcode extends NBTReloadable {
-  def getTicks: Int
+	def getTicks: Int
 
 	def process(tick: Int, computer: Computer): Unit
 

@@ -24,15 +24,12 @@ object ItemQuartz extends Item with IOreDictRegisterable {
 	private      val subNameNames    = Array("plate", "shards", "cleanshards")
 	private      val subOreDictNames = Array("plateQuartz", "shardsQuartz", null)
 	@SideOnly(Side.CLIENT)
-	private lazy val icons          = new Array[IIcon](subIconNames.length)
+	private lazy val icons           = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({
-		                                                               for(nameIdx <- subIconNames.indices) yield
-			                                                               new ReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name")
-	                                                               }.toList))
+	private lazy val localizedNames  = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"$getUnlocalizedName.${subNameNames(idx)}.name")}}.toList))
 
-	val plateDamage = 0
-	val shardsDamage = 1
+	val plateDamage       = 0
+	val shardsDamage      = 1
 	val cleanShardsDamage = 2
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "quartz")

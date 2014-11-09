@@ -2,8 +2,8 @@ package com.nabijaczleweli.minecrasmer.compat.nei
 
 import java.util.{ArrayList => jArrayList, List => jList}
 
-import codechicken.nei.{NEIServerUtils, PositionedStack}
 import codechicken.nei.recipe.{GuiRecipe, ICraftingHandler, IUsageHandler}
+import codechicken.nei.{NEIServerUtils, PositionedStack}
 import com.nabijaczleweli.minecrasmer.item.ItemQuartz
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import net.minecraft.client.Minecraft

@@ -55,7 +55,7 @@ object MineCrASMer {
 	def processIMCs(event: IMCEvent) {
 		for(message <- event.getMessages)
 			message.key match {
-				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
+				case "register-scoop" if message.isNBTMessage => // This method of registering scoops requires the scoop item and fluid to be registered
 					try {
 						val itemStack = ItemStack loadItemStackFromNBT (message.getNBTValue getCompoundTag "itemstack")
 						FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(itemStack.getItem.asInstanceOf[ItemScoop].fluid.getName, ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))

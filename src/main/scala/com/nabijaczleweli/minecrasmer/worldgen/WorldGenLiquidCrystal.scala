@@ -11,10 +11,10 @@ import net.minecraft.world.{World, WorldType}
 import net.minecraftforge.common.config.Configuration
 
 object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
-	var treshold = 5
-	var bigVeinProbability = 300
+	var treshold            = 5
+	var bigVeinProbability  = 300
 	var baseGenerationLevel = 30
-	var offLevelMax = 3
+	var offLevelMax         = 3
 
 	private var chunksBeforeGenerating = 0
 

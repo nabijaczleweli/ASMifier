@@ -107,7 +107,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 object TileEntityAdditionalCPU extends IConfigurable {
 	private val stringTagIdx = NBTBase.NBTTypes indexOf "STRING"
 
-	final var processors = 1
+	final var processors        = 1
 	final var multiplierPerTier = 1.5F
 
 	override def load(config: Configuration) {

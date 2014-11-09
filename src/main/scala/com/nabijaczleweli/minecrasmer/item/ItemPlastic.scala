@@ -15,8 +15,8 @@ import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{IIcon, MathHelper}
 import net.minecraftforge.oredict.OreDictionary
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object ItemPlastic extends Item with IOreDictRegisterable {
 	Container.eventBus register this
@@ -24,12 +24,9 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
 
 	@SideOnly(Side.CLIENT)
-	private lazy val icons = new Array[IIcon](subIconNames.length)
+	private lazy val icons          = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({
-		                                                               for(nameIdx <- subIconNames.indices) yield
-			                                                               new ReloadableString(s"$getUnlocalizedName.${subIconNames(nameIdx)}.name")
-	                                                               }.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"$getUnlocalizedName.${subIconNames(idx)}.name")}}.toList))
 
 	val monomerDamage = 0
 	val polymerDamage = 1

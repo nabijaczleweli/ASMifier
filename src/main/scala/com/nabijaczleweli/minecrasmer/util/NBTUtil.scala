@@ -1,7 +1,7 @@
 package com.nabijaczleweli.minecrasmer.util
 
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.{NBTBase, NBTTagString, NBTTagList, NBTTagCompound}
+import net.minecraft.nbt.{NBTBase, NBTTagCompound, NBTTagList, NBTTagString}
 
 object NBTUtil {
 	implicit class StringArraySaver(val strarr: Array[String]) extends AnyVal {
@@ -31,7 +31,7 @@ object NBTUtil {
 	}
 
 	implicit class GeneralNBTUtil(tag: NBTTagCompound) {
-		private val stringNBTIndex = NBTBase.NBTTypes indexOf "STRING"
+		private val stringNBTIndex   = NBTBase.NBTTypes indexOf "STRING"
 		private val compoundNBTIndex = NBTBase.NBTTypes indexOf "COMPOUND"
 
 		def hasTag(tagName: String) =

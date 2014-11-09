@@ -2,6 +2,7 @@ package com.nabijaczleweli.minecrasmer.computing
 
 trait MulticlockedComputer extends Computer {
 	def clockSpeed: Int
+
 	def CPUs: Seq[(Int, Float)]
 
 	override def processorTick() =

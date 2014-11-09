@@ -12,21 +12,18 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.{IIcon, MathHelper}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object ItemPCB extends Item {
 	Container.eventBus register this
 
-	private val subIconNames = Array("%selements", "%snoelements", "%slcd", "lcd")
-	private val subNameNames = Array("elements", "noelements", "withlcd", "lcd")
+	private      val subIconNames   = Array("%selements", "%snoelements", "%slcd", "lcd")
+	private      val subNameNames   = Array("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
-	private lazy val icons = new Array[IIcon](subIconNames.length)
+	private lazy val icons          = new Array[IIcon](subIconNames.length)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({
-		                                                               for(nameIdx <- subIconNames.indices) yield
-			                                                               new AutoFormattingReloadableString(s"$getUnlocalizedName.${subNameNames(nameIdx)}.name", "PCB")
-	                                                               }.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new AutoFormattingReloadableString(s"$getUnlocalizedName.${subNameNames(idx)}.name", "PCB")}}.toList))
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1

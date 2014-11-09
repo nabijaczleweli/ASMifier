@@ -1,11 +1,10 @@
 package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
 import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat, Successful}
-import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemPlastic, ItemQuartz}
-import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
+import com.nabijaczleweli.minecrasmer.item.{ItemPlastic, ItemQuartz}
 import cpw.mods.fml.relauncher.Side
 import net.minecraft.item.ItemStack
-import net.minecraftforge.oredict.{OreDictionary, ShapelessOreRecipe}
+import net.minecraftforge.oredict.OreDictionary
 import pneumaticCraft.api.item.ItemSupplier
 import pneumaticCraft.api.recipe.PressureChamberRecipe
 
@@ -20,10 +19,6 @@ class PneumaticCraft extends ICompat {
 		OreDictionary.registerOre(ItemPlastic oreDictName ItemPlastic.plasticDamage, new ItemStack(ItemSupplier getItem "plastic", 1, OreDictionary.WILDCARD_VALUE))
 
 
-		val PCBElements = new ItemStack(ItemPCB, 1, ItemPCB.fullPCBDamage)
-		val emptyPCB = new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage)
-		val PCBElementsPC = ItemSupplier getItem "printedCircuitBoard"
-		val emptyPCBPC = ItemSupplier getItem "unassembledPCB"
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 
 		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array(("gemQuartz", 4)), Array(quartzPlate))

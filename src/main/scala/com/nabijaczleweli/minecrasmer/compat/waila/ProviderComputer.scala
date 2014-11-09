@@ -17,17 +17,17 @@ import net.minecraft.item.{ItemBlock, ItemStack}
 object ProviderComputer extends IWailaDataProvider {
 	Container.eventBus register this
 
-	var PCName = new ReloadableString(s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name")
-	var PCOffState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.off.name")
-	var PCOnState = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.on.name")
+	var PCName           = new ReloadableString(s"tile.${Reference.NAMESPACED_PREFIX}computer.neutral.name")
+	var PCOffState       = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.off.name")
+	var PCOnState        = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.state.on.name")
 	var PCBaseClockSpeed = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.clock.name")
-	var PCCPUs = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.name")
-	var PCCPT = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.cpt.name")
+	var PCCPUs           = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.processors.name")
+	var PCCPT            = new ReloadableString(s"hud.${Reference.NAMESPACED_PREFIX}compat.waila.computer.cpt.name")
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val is = accessor.getStack.copy()
-		is setItemDamage 3  // Facing to user to right-hand side
+		is setItemDamage 3 // Facing to user to right-hand side
 		is setStackDisplayName PCName
 		is
 	}
