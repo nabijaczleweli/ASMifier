@@ -24,7 +24,7 @@ object MineCrASMer {
 
 	@EventHandler
 	def preInit(event: FMLPreInitializationEvent) {
-		ReflectionUtil.setValInInstance(Container, "log", event.getModLog)
+		ReflectionUtil.setFieldInInstance(Container, "log", event.getModLog)
 		Configuration load event.getSuggestedConfigurationFile
 		CompatLoader identifyCompats classOf[ICompat].getPackage
 		CompatLoader preLoadCompats event.getSide

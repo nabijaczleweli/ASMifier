@@ -12,8 +12,10 @@ import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.fluids._
 
+import scala.collection.immutable.HashMap
+
 object ScoopHandler {
-	var scoops = Map[Block, Item](
+	var scoops = HashMap[Block, Item] (
 		Blocks.air -> Container.scoopEmpty,
 		BlockLiquidCrystalFluid -> Container.scoopLiquidCrystal
 	)
