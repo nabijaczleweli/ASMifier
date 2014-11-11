@@ -9,6 +9,7 @@ import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, Tile
 import com.nabijaczleweli.minecrasmer.handler.{EntityHandler, BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
+import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
@@ -32,8 +33,8 @@ class CommonProxy extends IProxy {
 		ItemPlastic.register()
 		ItemPCB.register()
 		ItemCPU.register()
-		Container.socketCPU.register()
-		Container.stoneRod.register()
+		socketCPU.register()
+		stoneRod.register()
 		ItemQuartz.register()
 
 		(BlockLiquidCrystalFluid: Block).register()
@@ -42,8 +43,8 @@ class CommonProxy extends IProxy {
 		BlockOverclocker.register()
 		BlockAdditionalCPU.register()
 
-		Container.scoopEmpty.register()
-		Container.scoopLiquidCrystal.register()
+		scoopEmpty.register()
+		scoopLiquidCrystal.register()
 	}
 
 	final override def registerOreDict() =
@@ -69,7 +70,7 @@ class CommonProxy extends IProxy {
 	}
 
 	override def registerFluids() {
-		FluidRegistry registerFluid Container.liquidCrystal
+		FluidRegistry registerFluid liquidCrystal
 	}
 
 	override def registerRenderers() {}
@@ -86,7 +87,7 @@ class CommonProxy extends IProxy {
 		val polymer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
-		val crystalScoop = new ItemStack(Container.scoopLiquidCrystal)
+		val crystalScoop = new ItemStack(scoopLiquidCrystal)
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
@@ -105,7 +106,7 @@ class CommonProxy extends IProxy {
 
 		new ShapelessOreRecipe(polymer, monomerOre, monomerOre, monomerOre, monomerOre).register()
 		new ShapelessOreRecipe(plastic, polymerOre, polymerOre, polymerOre, polymerOre).register()
-		new ShapelessOreRecipe(PCBElements, emptyPCB, Container.socketCPU, goldOre).register()
+		new ShapelessOreRecipe(PCBElements, emptyPCB, socketCPU, goldOre).register()
 		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.piston).register()
 		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.piston, Blocks.sticky_piston).register()
 		new ShapelessOreRecipe(quartzPlate, quartzGemOre, quartzGemOre, quartzGemOre, quartzGemOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
@@ -121,10 +122,10 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(Container.socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
+		new ShapedOreRecipe(socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
-		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
-		new ShapedOreRecipe(new ItemStack(Container.stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
+		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
+		new ShapedOreRecipe(new ItemStack(stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
 	}
 
 	final override def registerLoot() {

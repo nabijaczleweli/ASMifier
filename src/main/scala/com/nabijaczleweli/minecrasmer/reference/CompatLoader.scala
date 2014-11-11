@@ -5,6 +5,7 @@ import com.nabijaczleweli.minecrasmer.compat._
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
+import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.relauncher.Side
 
 import scala.collection.JavaConversions._
@@ -66,10 +67,10 @@ object CompatLoader {
 	}
 
 	def preLoadCompats(side: Side) =
-		doLoadCompats({_ preLoad side}, side, Nil, PREINITIALIZED, "preloaded", "preload", "Preloading", "preloading")
+		doLoadCompats({_ preLoad side}, side, Nil, PREINITIALIZED, "preload")
 
 	def loadCompats(side: Side) =
-		doLoadCompats({_ load side}, side, NOMODS :: DISABLED :: Nil, INITIALIZED, "loaded", "load", "Loading", "loading")
+		doLoadCompats({_ load side}, side, NOMODS :: DISABLED :: Nil, INITIALIZED, "load")
 
 	def getCompatByName(name: String) =
 		namedCompats get name
@@ -77,32 +78,32 @@ object CompatLoader {
 	def getCompatStatus(name: String) =
 		getCompatByName(name) map {compatLoadingStates.apply}
 
-	private def doLoadCompats(invoke: ICompat => CompatResult, side: Side, excludedStates: Seq[CompatState], finalState: CompatState, past: String, imperative: String, continuousStart: String, continuousMiddle: String) =
+	private def doLoadCompats(invoke: ICompat => CompatResult, side: Side, excludedStates: Seq[CompatState], finalState: CompatState, baseWord: String) =
 		for(compat <- compats if !(excludedStates contains compatLoadingStates(compat)))
 			if(compat.shouldPreLoad)
 				if(compat.hasAllLoaded)
 					invoke(compat) match {
 						case Successful =>
-							log info s"Successfully $past compat ${compat.getClass.getSimplestName}."
+							log info s"Successfully ${baseWord}ed compat ${compat.getClass.getSimplestName}."
 							compatLoadingStates += compat -> finalState
 						case Empty =>
-							log info s"Nothing to $imperative for compat ${compat.getClass.getSimplestName}."
+							log info s"Nothing to $baseWord for compat ${compat.getClass.getSimplestName}."
 							compatLoadingStates += compat -> finalState
 						case Failed =>
-							log info s"$continuousStart compat ${compat.getClass.getSimplestName} failed."
+							log info s"${baseWord toUpper 0}ing compat ${compat.getClass.getSimplestName} failed."
 							compatLoadingStates += compat -> ERRORED
 						case WrongSide =>
-							log info s"Didn\'t $imperative compat ${compat.getClass.getSimplestName} on $side."
+							log info s"Didn\'t $baseWord compat ${compat.getClass.getSimplestName} on $side."
 							compatLoadingStates += compat -> finalState // Next stage might be used on this side
 						case Completed() =>
-							log warn s"$continuousStart compat ${compat.getClass.getSimplestName} has returned an unhandled result, but it still finished."
+							log warn s"${baseWord toUpper 0}ing compat ${compat.getClass.getSimplestName} has returned an unhandled result, but it still finished."
 							compatLoadingStates += compat -> finalState
 						case Uncompleted() =>
-							log warn s"$continuousStart compat ${compat.getClass.getSimplestName} has returned an unhandled result, and it failed to finish."
+							log warn s"${baseWord toUpper 0}ing compat ${compat.getClass.getSimplestName} has returned an unhandled result, and it failed to finish."
 							compatLoadingStates += compat -> ERRORED
 					}
 				else {
-					log info s"Could not find all mods for compat ${compat.getClass.getSimplestName}, hence its $continuousMiddle failed."
+					log info s"Could not find all mods for compat ${compat.getClass.getSimplestName}, hence its ${baseWord}ing failed."
 					compatLoadingStates += compat -> NOMODS
 				}
 			else
