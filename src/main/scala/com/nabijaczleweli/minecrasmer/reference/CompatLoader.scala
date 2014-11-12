@@ -1,12 +1,12 @@
 package com.nabijaczleweli.minecrasmer.reference
 
-import com.google.common.reflect.ClassPath
 import com.nabijaczleweli.minecrasmer.compat._
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import cpw.mods.fml.relauncher.Side
+import org.reflections.Reflections
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.HashMap
@@ -22,24 +22,8 @@ object CompatLoader {
 
 	def identifyCompats(pckg: Package) {
 		Compiler.disable() // Don't fruitlessly JIT-compile a lot of classes, we need only those that we'll instantiate, not all from the package
-		val classWrappers = ClassPath from getClass.getClassLoader getTopLevelClassesRecursive pckg.getName
-		val tempClasses = {
-			for(cw <- classWrappers) yield
-				try
-					Class.forName(cw.getName, false, getClass.getClassLoader) // Don't initialize those classes
-				catch { // Don't crash on Client-side only classes
-					case _: Throwable =>
-						try
-							Class.forName(cw.getName + '$', false, getClass.getClassLoader) // Also find objects; don't initialize them
-						catch {
-							case _: Throwable =>
-								null
-						}
-				}
-		} filter {_ != null}
-
+		val classes = new Reflections(pckg.getName).getSubTypesOf(classOf[ICompat]).toList
 		Compiler.enable()
-		val classes = (tempClasses filter {classOf[ICompat].isAssignableFrom} filter {!_.isInterface} map {Class forName _.getName} map {_ asSubclass classOf[ICompat]}).toList
 		log info s"$MOD_NAME has identified ${classes.size} compats to load"
 
 		for(c <- classes) {

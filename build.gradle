@@ -39,6 +39,11 @@ repositories {
         name = "chickenbones"
         url = "http://chickenbones.net/maven"
     }
+
+    maven {
+        name = "maven2"
+        url = "http://repo1.maven.org/maven2"
+    }
 }
 
 dependencies {
@@ -57,6 +62,7 @@ dependencies {
 
     dependencies {
         compile "codechicken:NotEnoughItems:${mc_version}-1.0.3.63:dev"
+        compile "org.reflections:reflections:0.9.9"
     }
 }
 
