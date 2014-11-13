@@ -86,7 +86,7 @@ class CommonProxy extends IProxy {
 		val PCBElements = new ItemStack(ItemPCB, 1, ItemPCB.fullPCBDamage)
 		val polymer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
-		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
+		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.monomerDamage)
 		val crystalScoop = new ItemStack(scoopLiquidCrystal)
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 

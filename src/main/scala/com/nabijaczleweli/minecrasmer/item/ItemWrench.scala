@@ -33,7 +33,7 @@ private object _ItemWrench {
 				case _: Throwable =>
 					null
 			}
-		} filter {_ != null}}.toSet[Block] filter {block =>
+		} filter {_ != null}}.toSet.asInstanceOf[Set[Block]] filter {block =>
 			var eff = false
 			for(meta <- 0 until 16 if !eff)
 				eff = block.isToolEffective("wrench", 0)
