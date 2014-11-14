@@ -60,7 +60,7 @@ class CommonProxy extends IProxy {
 		FMLCommonHandler.instance.bus register CraftingHandler
 	}
 
-	override def registerEntities() {
+	final override def registerEntities() {
 		GameRegistry.registerTileEntity(classOf[TileEntityComputer], "PComputer")
 		GameRegistry.registerTileEntity(classOf[TileEntityOverclocker], "Overclocker")
 		GameRegistry.registerTileEntity(classOf[TileEntityAdditionalCPU], "AdditionalCPU")
@@ -69,7 +69,7 @@ class CommonProxy extends IProxy {
 		EntityRegistry.registerModEntity(classOf[EntityItemCleaner], "QuartzCleaner", 1, MineCrASMer, 80, 1, true)
 	}
 
-	override def registerFluids() {
+	final override def registerFluids() {
 		FluidRegistry registerFluid liquidCrystal
 	}
 

@@ -4,13 +4,14 @@ import java.util.{ArrayList => jArrayList, List => jList}
 
 import codechicken.nei.recipe.{GuiRecipe, ICraftingHandler, IUsageHandler}
 import codechicken.nei.{NEIServerUtils, PositionedStack}
-import com.nabijaczleweli.minecrasmer.item.ItemQuartz
-import com.nabijaczleweli.minecrasmer.reference.Reference
+import com.nabijaczleweli.minecrasmer.item.{ItemScoop, ItemQuartz}
+import com.nabijaczleweli.minecrasmer.reference.{Reference, Container => mContainer}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Container
 import net.minecraft.item.ItemStack
 import net.minecraft.util.StatCollector
+import net.minecraftforge.fluids.FluidStack
 import org.lwjgl.opengl.GL11
 
 import scala.collection.mutable.{ListMap => mListMap, Map => mMap, MutableList => mList}
@@ -40,7 +41,7 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 		false
 
 	override def getOtherStacks(recipetype: Int) =
-		new jArrayList[PositionedStack]
+		new jArrayList
 
 	override def getResultStack(recipe: Int) =
 		outputs(recipe)
@@ -73,7 +74,7 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 		null
 
 	override def getIngredientStacks(recipe: Int) =
-		new jArrayList[PositionedStack]
+		new jArrayList
 
 	override def drawForeground(recipe: Int) =
 		if(outputs.size > recipe)
@@ -96,7 +97,9 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 	}
 
 	private def addRecipes() {
-		addRecipe(ItemStackWrapper(new ItemStack(ItemQuartz, 1, ItemQuartz.cleanShardsDamage)), NEI.cleanQuartzShardsDescription)
-		addRecipe(ItemStackWrapper(new ItemStack(ItemQuartz, 1, ItemQuartz.shardsDamage)), NEI.quartzShardsDescription)
+		addRecipe(new ItemStack(ItemQuartz, 1, ItemQuartz.cleanShardsDamage), NEI.cleanQuartzShardsDescription)
+		addRecipe(new ItemStack(ItemQuartz, 1, ItemQuartz.shardsDamage), NEI.quartzShardsDescription)
+		for(scoop <- mContainer.scoopLiquidCrystal :: mContainer.foreignScoops)
+			addRecipe(new ItemStack(scoop), NEI.scoopsDescription.replace("$$$", new FluidStack(scoop.fluid, ItemScoop.capacity).getLocalizedName).replace("%%%", scoop.contains.getLocalizedName))
 	}
 }

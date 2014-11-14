@@ -15,6 +15,7 @@ object NEI extends ICompat {
 
 	private[nei] var quartzShardsDescription      = ""
 	private[nei] var cleanQuartzShardsDescription = ""
+	private[nei] var scoopsDescription            = ""
 	private[nei] var active: Side                 = null
 
 	override def getModIDs =
@@ -44,12 +45,15 @@ object NEI extends ICompat {
 		if(active != null) {
 			val quartzShardsStream = bufferForKey("quartzshards")
 			val cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
+			val scoopsStreamBufferedReader = bufferForKey("scoops")
 
 			quartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
 			cleanQuartzShardsDescription = quartzShardsStream.readLine()
+			scoopsDescription = scoopsStreamBufferedReader.readLine()
 
 			quartzShardsStream.close()
 			cleanQuartzShardsStreamBufferedReader.close()
+			scoopsStreamBufferedReader.close()
 		}
 	}
 }

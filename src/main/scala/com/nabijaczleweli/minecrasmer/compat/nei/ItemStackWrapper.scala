@@ -9,3 +9,8 @@ private[nei] case class ItemStackWrapper(is: ItemStack) extends Equals {
 	override def canEqual(that: Any) =
 		that != null && that.isInstanceOf[this.type]
 }
+
+private[nei] object ItemStackWrapper {
+	implicit def itemStackToItemStackWrapper(is: ItemStack) =
+		ItemStackWrapper(is)
+}
