@@ -36,6 +36,10 @@ item.minecrasmer:quartz.shards.name=Crystal knives
 item.minecrasmer:quartz.cleanshards.name=No' dirt' crystal knives
 
 
+# Fluids
+fluid.minecrasmer:liquidcrystal=Water diamond
+
+
 # Tabs
 itemGroup.ASMifier.name=ASMifier
 

@@ -33,7 +33,7 @@ class PressureChamberOreRecipe(_input: Array[AnyRef], output: Array[ItemStack]) 
 				}
 		catch {
 			case thr: Throwable =>
-				throw new RuntimeException(s"Invalid pressure chamber ore recipe: ${_input mkString ", "} yielding ${output mkString ", "}.", thr)
+				throw new IllegalArgumentException(s"Invalid pressure chamber ore recipe: ${_input mkString ", "} yielding ${output mkString ", "}.", thr)
 		}
 
 	override def getCraftingPressure =

@@ -36,6 +36,10 @@ item.minecrasmer:quartz.shards.name=Кварцевая обломок
 item.minecrasmer:quartz.cleanshards.name=Голый кварцевая обломок
 
 
+# Fluids
+fluid.minecrasmer:liquidcrystal=Сжиженный хрусталь
+
+
 # Tabs
 itemGroup.ASMifier.name=АСМифайер
 
