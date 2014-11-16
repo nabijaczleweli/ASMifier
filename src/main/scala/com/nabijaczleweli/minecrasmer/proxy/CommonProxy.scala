@@ -36,6 +36,7 @@ class CommonProxy extends IProxy {
 		socketCPU.register()
 		stoneRod.register()
 		ItemQuartz.register()
+		ItemPartialIron.register()
 
 		(BlockLiquidCrystalFluid: Block).register()
 		BlockComputerOff.register()
@@ -88,7 +89,12 @@ class CommonProxy extends IProxy {
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.monomerDamage)
 		val crystalScoop = new ItemStack(scoopLiquidCrystal)
+		val emptyScoop = new ItemStack(scoopEmpty)
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
+		val halfIronx2 = new ItemStack(ItemPartialIron, 2, ItemPartialIron.halfDamage)
+		val halfIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.halfDamage)
+		val quarterIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.quarterDamage)
+		val quarterIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.quarterDamage)
 
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
 		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
@@ -126,6 +132,9 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
+		new ShapedOreRecipe(halfIronx2, "I I", 'I': Character, ironOre).register()
+		new ShapedOreRecipe(quarterIronx4, "H H", 'H': Character, halfIronx2).register()
+		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
 	}
 
 	final override def registerLoot() {
@@ -146,6 +155,7 @@ class CommonProxy extends IProxy {
 		mineshaftChestGen addItem new WeightedRandomChestContent(ItemQuartz, ItemQuartz.shardsDamage, 3, 8, 2)
 
 		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
+		blacksmithChestGen addItem new WeightedRandomChestContent(scoopEmpty, 0, 1, 4, 3)
 
 
 		for(i <- 0 until 5)
@@ -155,7 +165,7 @@ class CommonProxy extends IProxy {
 }
 
 private object CommonProxy extends IVillageTradeHandler {
-	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: Nil
+	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: ItemPartialIron :: Nil
 
 
 	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) {

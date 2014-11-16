@@ -35,6 +35,9 @@ item.minecrasmer:quartz.plate.name=Kwarcowa płytka (Chalcedon)
 item.minecrasmer:quartz.shards.name=Odłamki kwarcu
 item.minecrasmer:quartz.cleanshards.name=Czyste odłamki kwarcu
 
+item.minecrasmer:smalliron.dust.name=Połowa sztaby żelaza
+item.minecrasmer:smalliron.dustTiny.name=Ćwierć sztaby żelaza
+
 
 # Fluids
 fluid.minecrasmer:liquidcrystal=Ciekły kryształ

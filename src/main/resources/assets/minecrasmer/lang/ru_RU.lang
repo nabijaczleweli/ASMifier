@@ -35,6 +35,9 @@ item.minecrasmer:quartz.plate.name=Кварцевая пластинка (Хал
 item.minecrasmer:quartz.shards.name=Кварцевая обломок
 item.minecrasmer:quartz.cleanshards.name=Голый кварцевая обломок
 
+item.minecrasmer:smalliron.dust.name=Половина железниего слитока
+item.minecrasmer:smalliron.dustTiny.name=Четверть железниего слитока
+
 
 # Fluids
 fluid.minecrasmer:liquidcrystal=Сжиженный хрусталь
