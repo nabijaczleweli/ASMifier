@@ -21,7 +21,8 @@ import scala.concurrent.Future
 object ItemPartialIron extends Item with IOreDictRegisterable {
 	Container.eventBus register this
 
-	private val subIconNames = Array[String]("dust", "dustTiny")
+	private val subIconNames    = Array("half", "quarter")
+	private val subOreDictNames = Array("dust", "dustTiny")
 
 	@SideOnly(Side.CLIENT)
 	private lazy val icons          = new Array[IIcon](subIconNames.length)
@@ -32,7 +33,7 @@ object ItemPartialIron extends Item with IOreDictRegisterable {
 	val quarterDamage = 1
 
 	def oreDictName(dmg: Int) =
-		(subIconNames(MathHelper.clamp_int(dmg, 0, subIconNames.length - 1)) toUpper 0) + "Iron"
+		(subOreDictNames(MathHelper.clamp_int(dmg, 0, subOreDictNames.length - 1)) toUpper 0) + "Iron"
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "smalliron")
 	setCreativeTab(CreativeTabMineCrASMer)
@@ -48,7 +49,7 @@ object ItemPartialIron extends Item with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) =
 		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i)
+			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + "smalliron_" + subIconNames(i)
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subIconNames.length))

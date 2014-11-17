@@ -91,9 +91,9 @@ class CommonProxy extends IProxy {
 		val crystalScoop = new ItemStack(scoopLiquidCrystal)
 		val emptyScoop = new ItemStack(scoopEmpty)
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
-		val halfIronx2 = new ItemStack(ItemPartialIron, 2, ItemPartialIron.halfDamage)
+		val halfIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.halfDamage)
 		val halfIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.halfDamage)
-		val quarterIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.quarterDamage)
+		val quarterIronx8 = new ItemStack(ItemPartialIron, 8, ItemPartialIron.quarterDamage)
 		val quarterIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.quarterDamage)
 
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
@@ -132,8 +132,10 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
-		new ShapedOreRecipe(halfIronx2, "I I", 'I': Character, ironOre).register()
-		new ShapedOreRecipe(quarterIronx4, "H H", 'H': Character, halfIronx2).register()
+		new ShapedOreRecipe(quarterIronx8, "H H", 'H': Character, halfIronx4).register()
+		new ShapedOreRecipe(halfIronx4, "I I", 'I': Character, ironOre).register()
+		new ShapedOreRecipe(Items.iron_ingot, "HH", "HH", 'H': Character, halfIronx1).register()
+		new ShapedOreRecipe(halfIronx1, "QQ", "QQ", 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
 	}
 

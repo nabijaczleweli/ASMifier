@@ -35,8 +35,8 @@ item.minecrasmer:quartz.plate.name=Crystal board (Chalc'don')
 item.minecrasmer:quartz.shards.name=Crystal knives
 item.minecrasmer:quartz.cleanshards.name=No' dirt' crystal knives
 
-item.minecrasmer:smalliron.dust.name=Midget iron
-item.minecrasmer:smalliron.dustTiny.name=Midgeter iron
+item.minecrasmer:smalliron.half.name=Midget iron
+item.minecrasmer:smalliron.quarter.name=Midgeter iron
 
 
 # Fluids

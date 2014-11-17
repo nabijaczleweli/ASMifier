@@ -35,8 +35,8 @@ item.minecrasmer:quartz.plate.name=Quartz plate (Chalcedony)
 item.minecrasmer:quartz.shards.name=Quartz shards
 item.minecrasmer:quartz.cleanshards.name=Clean quartz shards
 
-item.minecrasmer:smalliron.dust.name=Half of iron ingot
-item.minecrasmer:smalliron.dustTiny.name=Quarter of iron ingot
+item.minecrasmer:smalliron.half.name=Half of iron ingot
+item.minecrasmer:smalliron.quarter.name=Quarter of iron ingot
 
 
 # Fluids
