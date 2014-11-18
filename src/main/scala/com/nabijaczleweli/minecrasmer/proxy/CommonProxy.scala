@@ -95,6 +95,9 @@ class CommonProxy extends IProxy {
 		val halfIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.halfDamage)
 		val quarterIronx8 = new ItemStack(ItemPartialIron, 8, ItemPartialIron.quarterDamage)
 		val quarterIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.quarterDamage)
+		val elementaryCPU = new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage)
+		val simpleCPU = new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage)
+		val goodCPU = new ItemStack(ItemCPU, 1, ItemCPU.goodDamage)
 
 		val polymerOre = ItemPlastic oreDictName ItemPlastic.polymerDamage
 		val plasticOre = ItemPlastic oreDictName ItemPlastic.plasticDamage
@@ -137,6 +140,9 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(Items.iron_ingot, "HH", "HH", 'H': Character, halfIronx1).register()
 		new ShapedOreRecipe(halfIronx1, "QQ", "QQ", 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
+		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
+		new ShapedOreRecipe(goodCPU, "CgC", " S ", 'C': Character, simpleCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
+		new ShapedOreRecipe(simpleCPU, "CgC", " S ", 'C': Character, elementaryCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
 	}
 
 	final override def registerLoot() {
