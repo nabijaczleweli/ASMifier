@@ -4,9 +4,9 @@ import java.util.Random
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
-import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
-import com.nabijaczleweli.minecrasmer.handler.{EntityHandler, BlocksHandler, CraftingHandler}
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
+import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler, EntityHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.reference.Container._
@@ -16,10 +16,10 @@ import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler
-import cpw.mods.fml.common.registry.{VillagerRegistry, EntityRegistry, GameRegistry}
+import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraft.block.Block
 import net.minecraft.entity.passive.EntityVillager
-import net.minecraft.init.{Items, Blocks}
+import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
 import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
@@ -166,8 +166,9 @@ class CommonProxy extends IProxy {
 		blacksmithChestGen addItem new WeightedRandomChestContent(scoopEmpty, 0, 1, 4, 3)
 
 
-		for(i <- 0 until 5)
-			VillagerRegistry.instance.registerVillageTradeHandler(i, CommonProxy)
+		VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
+		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
+		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)
 		// TODO Electronics merchant villager?
 	}
 }
@@ -176,7 +177,7 @@ private object CommonProxy extends IVillageTradeHandler {
 	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: ItemPartialIron :: Nil
 
 
-	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) {
+	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
 		villager.getProfession match {
 			case 1 => // Librarian
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
@@ -187,5 +188,4 @@ private object CommonProxy extends IVillageTradeHandler {
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage), new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
 			case _ =>
 		}
-	}
 }

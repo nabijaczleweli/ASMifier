@@ -43,17 +43,37 @@ object NEI extends ICompat {
 			new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 
 		if(active != null) {
-			val quartzShardsStream = bufferForKey("quartzshards")
-			val cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
-			val scoopsStreamBufferedReader = bufferForKey("scoops")
-
-			quartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
-			cleanQuartzShardsDescription = quartzShardsStream.readLine()
-			scoopsDescription = scoopsStreamBufferedReader.readLine()
-
-			quartzShardsStream.close()
-			cleanQuartzShardsStreamBufferedReader.close()
-			scoopsStreamBufferedReader.close()
+			var quartzShardsStream, cleanQuartzShardsStreamBufferedReader, scoopsStreamBufferedReader: BufferedReader = null
+			try {
+				quartzShardsStream = bufferForKey("quartzshards")
+				quartzShardsDescription = quartzShardsStream.readLine()
+			} catch {
+				case exc: Exception =>
+					Container.log warn s"Loading display message for Quartz Shards failed: $exc"
+			} finally {
+				if(quartzShardsStream != null)
+					quartzShardsStream.close()
+			}
+			try {
+				cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
+				cleanQuartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
+			} catch {
+				case exc: Exception =>
+					Container.log warn s"Loading display message for Clean Quartz Shards failed: $exc"
+			} finally {
+				if(cleanQuartzShardsStreamBufferedReader != null)
+					cleanQuartzShardsStreamBufferedReader.close()
+			}
+			try {
+				scoopsStreamBufferedReader = bufferForKey("scoops")
+				scoopsDescription = scoopsStreamBufferedReader.readLine()
+			} catch {
+				case exc: Exception =>
+					Container.log warn s"Loading display message for Scoops failed: $exc"
+			} finally {
+				if(scoopsStreamBufferedReader != null)
+					scoopsStreamBufferedReader.close()
+			}
 		}
 	}
 }
