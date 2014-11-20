@@ -12,7 +12,7 @@ import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
-import com.nabijaczleweli.minecrasmer.worldgen.WorldGenLiquidCrystal
+import com.nabijaczleweli.minecrasmer.worldgen.{VillageComponentElectronicShop, WorldGenLiquidCrystal}
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler
@@ -23,6 +23,7 @@ import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
 import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
+import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
@@ -68,6 +69,8 @@ class CommonProxy extends IProxy {
 
 		EntityRegistry.registerModEntity(classOf[EntityItemShredder], "QuartzShredder", 0, MineCrASMer, 80, 1, true)
 		EntityRegistry.registerModEntity(classOf[EntityItemCleaner], "QuartzCleaner", 1, MineCrASMer, 80, 1, true)
+
+		VillagerRegistry.instance registerVillagerId 1234
 	}
 
 	final override def registerFluids() {
@@ -169,7 +172,9 @@ class CommonProxy extends IProxy {
 		VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)
-		// TODO Electronics merchant villager?
+
+		MapGenStructureIO.func_143031_a(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
+		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
 	}
 }
 

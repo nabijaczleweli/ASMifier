@@ -41,39 +41,26 @@ object NEI extends ICompat {
 			Minecraft.getMinecraft.getResourceManager.getResource(new MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
 		def bufferForKey(key: String) =
 			new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
+		def lineForKey(key: String, name: String) = {
+			var buf: BufferedReader = null
+			var ret: String = ""
+			try {
+				buf = bufferForKey(key)
+				ret = buf.readLine()
+			} catch {
+				case exc: Exception =>
+					Container.log warn s"Loading display message for $name failed: $exc"
+			} finally {
+				if(buf != null)
+					buf.close()
+			}
+			ret
+		}
 
 		if(active != null) {
-			var quartzShardsStream, cleanQuartzShardsStreamBufferedReader, scoopsStreamBufferedReader: BufferedReader = null
-			try {
-				quartzShardsStream = bufferForKey("quartzshards")
-				quartzShardsDescription = quartzShardsStream.readLine()
-			} catch {
-				case exc: Exception =>
-					Container.log warn s"Loading display message for Quartz Shards failed: $exc"
-			} finally {
-				if(quartzShardsStream != null)
-					quartzShardsStream.close()
-			}
-			try {
-				cleanQuartzShardsStreamBufferedReader = bufferForKey("cleanquartzshards")
-				cleanQuartzShardsDescription = cleanQuartzShardsStreamBufferedReader.readLine()
-			} catch {
-				case exc: Exception =>
-					Container.log warn s"Loading display message for Clean Quartz Shards failed: $exc"
-			} finally {
-				if(cleanQuartzShardsStreamBufferedReader != null)
-					cleanQuartzShardsStreamBufferedReader.close()
-			}
-			try {
-				scoopsStreamBufferedReader = bufferForKey("scoops")
-				scoopsDescription = scoopsStreamBufferedReader.readLine()
-			} catch {
-				case exc: Exception =>
-					Container.log warn s"Loading display message for Scoops failed: $exc"
-			} finally {
-				if(scoopsStreamBufferedReader != null)
-					scoopsStreamBufferedReader.close()
-			}
+			quartzShardsDescription = lineForKey("quartzshards", "Quartz Shards")
+			cleanQuartzShardsDescription = lineForKey("cleanquartzshards", "Clean Quartz Shards")
+			scoopsDescription = lineForKey("scoops", "Scoops")
 		}
 	}
 }
