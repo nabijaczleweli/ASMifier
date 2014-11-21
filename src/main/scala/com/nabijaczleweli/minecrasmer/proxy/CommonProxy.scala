@@ -4,6 +4,7 @@ import java.util.Random
 
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
+import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
 import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler, EntityHandler}
@@ -70,7 +71,7 @@ class CommonProxy extends IProxy {
 		EntityRegistry.registerModEntity(classOf[EntityItemShredder], "QuartzShredder", 0, MineCrASMer, 80, 1, true)
 		EntityRegistry.registerModEntity(classOf[EntityItemCleaner], "QuartzCleaner", 1, MineCrASMer, 80, 1, true)
 
-		VillagerRegistry.instance registerVillagerId 1234
+		VillagerRegistry.instance registerVillagerId electronicsVillagerID
 	}
 
 	final override def registerFluids() {

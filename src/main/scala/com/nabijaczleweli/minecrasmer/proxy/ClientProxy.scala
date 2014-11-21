@@ -1,6 +1,7 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
 import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
+import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.render.FilledScoopRenderer
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloaderListener}
@@ -27,7 +28,7 @@ class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRenderer)
 
-		VillagerRegistry.instance.registerVillagerSkin(1234, new MineCrASMerLocation("textures/entities/villager_electronic.png"))
+		VillagerRegistry.instance.registerVillagerSkin(electronicsVillagerID, new MineCrASMerLocation("textures/entities/villager_electronic.png"))
 	}
 
 	override def registerEvents() {
