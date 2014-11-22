@@ -51,10 +51,10 @@ object CompatLoader {
 	}
 
 	def preLoadCompats(side: Side) =
-		doLoadCompats({_ preLoad side}, side, Nil, PREINITIALIZED, "preload")
+		doLoadCompats({_ preLoad side}, {_.shouldPreLoad}, side, Nil, PREINITIALIZED, "preload")
 
 	def loadCompats(side: Side) =
-		doLoadCompats({_ load side}, side, NOMODS :: DISABLED :: Nil, INITIALIZED, "load")
+		doLoadCompats({_ load side}, {_.shouldLoad}, side, NOMODS :: DISABLED :: Nil, INITIALIZED, "load")
 
 	def getCompatByName(name: String) =
 		namedCompats get name
@@ -62,9 +62,9 @@ object CompatLoader {
 	def getCompatStatus(name: String) =
 		getCompatByName(name) map {compatLoadingStates.apply}
 
-	private def doLoadCompats(invoke: ICompat => CompatResult, side: Side, excludedStates: Seq[CompatState], finalState: CompatState, baseWord: String) =
+	private def doLoadCompats(invoke: ICompat => CompatResult, shouldLoad: ICompat => Boolean, side: Side, excludedStates: Seq[CompatState], finalState: CompatState, baseWord: String) =
 		for(compat <- compats if !(excludedStates contains compatLoadingStates(compat)))
-			if(compat.shouldPreLoad)
+			if(shouldLoad(compat))
 				if(compat.hasAllLoaded)
 					invoke(compat) match {
 						case Successful =>
