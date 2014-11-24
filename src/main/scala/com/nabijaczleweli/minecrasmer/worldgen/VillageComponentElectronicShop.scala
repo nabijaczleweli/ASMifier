@@ -99,14 +99,6 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 	private val widX = 9
 	private val heiY = 7
 	private val lenZ = 11
-	private val villageForwarder = new Village() {
-		override def addComponentParts(world: World, rand: Random, sbb: StructureBoundingBox) =
-			false
-
-		@inline
-		def canVillageDeeperGo(sbb: StructureBoundingBox) =
-			Village canVillageGoDeeper sbb
-	}
 
 	ChestGenHooks getInfo ELECTRONICS_CHEST addItem new WeightedRandomChestContent(Items.sugar, 0, 1, 4, 85)
 	ChestGenHooks getInfo ELECTRONICS_CHEST addItem new WeightedRandomChestContent(Items.book, 0, 1, 2, 35)
@@ -114,7 +106,7 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 
 	def buildComponent(villagePiece: Start, pieces: jList[_], random: Random, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int) = {
 		val structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p1, p2, p3, 0, 0, 0, widX, heiY, lenZ, p4)
-		if((villageForwarder canVillageDeeperGo structureboundingbox) && (StructureComponent.findIntersecting(pieces, structureboundingbox) == null))
+		if((Village canVillageGoDeeper structureboundingbox) && (StructureComponent.findIntersecting(pieces, structureboundingbox) == null))
 			new VillageComponentElectronicShop(villagePiece, p5, random, structureboundingbox, p4)
 		else
 			null
