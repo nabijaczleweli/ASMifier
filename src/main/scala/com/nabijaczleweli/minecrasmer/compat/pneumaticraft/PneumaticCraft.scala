@@ -2,8 +2,8 @@ package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
 import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat, Successful}
 import com.nabijaczleweli.minecrasmer.item.{ItemPlastic, ItemQuartz}
-import cpw.mods.fml.relauncher.Side
 import net.minecraft.item.ItemStack
+import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.oredict.OreDictionary
 import pneumaticCraft.api.item.ItemSupplier
 import pneumaticCraft.api.recipe.PressureChamberRecipe

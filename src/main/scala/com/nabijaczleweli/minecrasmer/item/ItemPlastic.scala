@@ -7,12 +7,11 @@ import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{IIcon, MathHelper}
+import net.minecraft.util.MathHelper
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import net.minecraftforge.oredict.OreDictionary
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,8 +22,8 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
 
-	@SideOnly(Side.CLIENT)
-	private lazy val icons          = new Array[IIcon](subIconNames.length)
+	/*@SideOnly(Side.CLIENT)
+	private lazy val icons          = new Array[IIcon](subIconNames.length)*/
 	@SideOnly(Side.CLIENT)
 	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"$getUnlocalizedName.${subIconNames(idx)}.name")}}.toList))
 
@@ -42,14 +41,14 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 	override def getMaxDamage =
 		0
 
-	@SideOnly(Side.CLIENT)
+/*	@SideOnly(Side.CLIENT)
 	override def getIconFromDamage(idx: Int) =
 		icons(MathHelper.clamp_int(idx, 0, icons.length - 1))
 
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) =
 		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i)
+			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i)*/
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subIconNames.length))
@@ -57,7 +56,7 @@ object ItemPlastic extends Item with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) =
 		if(item.isInstanceOf[this.type])
-			for(i <- 0 until icons.length)
+			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
 
 	@SubscribeEvent

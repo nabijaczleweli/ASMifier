@@ -9,11 +9,13 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.{NBTBase, NBTTagCompound}
+import net.minecraft.server.gui.IUpdatePlayerListBox
+import net.minecraft.util.{ChatComponentText, ChatComponentTranslation}
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.oredict.OreDictionary
 import org.apache.logging.log4j.core.helpers.Strings
 
-class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory {
+class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory with IUpdatePlayerListBox {
 	val slots = new Array[ItemStack](1)
 	private var customName = ""
 
@@ -43,7 +45,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 			result
 		}
 
-	override def closeInventory() =
+	override def closeInventory(playerIn: EntityPlayer) =
 		()
 
 	override def getInventoryStackLimit =
@@ -64,7 +66,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 		stack
 	}
 
-	override def openInventory() =
+	override def openInventory(playerIn: EntityPlayer) =
 		()
 
 	override def setInventorySlotContents(id: Int, is: ItemStack) =
@@ -80,19 +82,25 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 		else
 			slots(id)
 
-	override def hasCustomInventoryName =
+	override def hasCustomName =
 		Strings isNotEmpty customName
 
-	override def getInventoryName =
-		if(hasCustomInventoryName)
+	override def getName =
+		if(hasCustomName)
 			customName
 		else
 			s"hud.${Reference.NAMESPACED_PREFIX}inventory.processor.name"
 
+	override def getDisplayName =
+		if(hasCustomName)
+			new ChatComponentText(getName)
+		else
+			new ChatComponentTranslation(getName)
+
 	override def writeToNBT(tag: NBTTagCompound) {
 		super.writeToNBT(tag)
 		slots.writeToNBT(tag, "slots")
-		if(hasCustomInventoryName)
+		if(hasCustomName)
 			tag.setString("display_name", customName)
 	}
 
@@ -102,10 +110,25 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 		if(tag.hasKey("display_name", TileEntityAdditionalCPU.stringTagIdx))
 			customName = tag getString "display_name"
 	}
+
+	override def getField(id: Int) =
+		0
+
+	override def clear() =
+		slots(0) = null
+
+	override def getFieldCount =
+		0
+
+	override def setField(id: Int, value: Int) =
+		()
+
+	override def update() =
+		()
 }
 
 object TileEntityAdditionalCPU extends IConfigurable {
-	private val stringTagIdx = NBTBase.NBTTypes indexOf "STRING"
+	private val stringTagIdx = NBTBase.NBT_TYPES indexOf "STRING"
 
 	final var processors        = 1
 	final var multiplierPerTier = 1.5F

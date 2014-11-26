@@ -3,12 +3,12 @@ package com.nabijaczleweli.minecrasmer.compat
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
-import cpw.mods.fml.common.event.FMLInterModComms
-import cpw.mods.fml.relauncher.Side
 import net.minecraft.init.Blocks
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fml.common.event.FMLInterModComms
+import net.minecraftforge.fml.relauncher.Side
 
 class Vanilla extends ICompat {
 	private lazy val lavaScoop  = new ItemScoop(Blocks.lava, FluidRegistry.LAVA, 0xec0808)

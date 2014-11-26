@@ -4,8 +4,8 @@ import appeng.api.AEApi
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
 import com.nabijaczleweli.minecrasmer.item.ItemCPU
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
-import cpw.mods.fml.common.event.FMLInterModComms
-import cpw.mods.fml.relauncher.Side
+import net.minecraftforge.fml.common.event.FMLInterModComms
+import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.oredict.OreDictionary
 
 class AE2 extends ICompat with IOreDictRegisterable {

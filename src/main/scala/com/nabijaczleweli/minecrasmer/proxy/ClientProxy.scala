@@ -7,13 +7,13 @@ import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShred
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.render.FilledScoopRenderer
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloaderListener}
-import cpw.mods.fml.client.registry.RenderingRegistry
-import cpw.mods.fml.common.registry.VillagerRegistry
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.entity.RenderItem
+import net.minecraft.client.renderer.entity.RenderEntityItem
 import net.minecraft.client.resources.IReloadableResourceManager
 import net.minecraftforge.client.MinecraftForgeClient
+import net.minecraftforge.fml.client.registry.RenderingRegistry
+import net.minecraftforge.fml.common.registry.VillagerRegistry
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import scala.collection.mutable
 
@@ -26,7 +26,7 @@ class ClientProxy extends CommonProxy {
 		while(scoopRenderQueue.size != 0)
 			MinecraftForgeClient.registerItemRenderer(scoopRenderQueue.dequeue(), FilledScoopRenderer)
 
-		val itemRenderer = new RenderItem
+		val itemRenderer = new RenderEntityItem(Minecraft.getMinecraft.getRenderManager, Minecraft.getMinecraft.getRenderItem)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRenderer)
 

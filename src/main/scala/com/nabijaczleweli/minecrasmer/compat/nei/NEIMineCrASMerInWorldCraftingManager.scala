@@ -1,4 +1,4 @@
-package com.nabijaczleweli.minecrasmer.compat.nei
+/*package com.nabijaczleweli.minecrasmer.compat.nei
 
 import java.util.{ArrayList => jArrayList, List => jList}
 
@@ -102,4 +102,4 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 		for(scoop <- mContainer.scoopLiquidCrystal :: mContainer.foreignScoops)
 			addRecipe(new ItemStack(scoop), NEI.scoopsDescription.replace("$$$", new FluidStack(scoop.fluid, ItemScoop.capacity).getLocalizedName).replace("%%%", scoop.contains.getLocalizedName))
 	}
-}
+}*/

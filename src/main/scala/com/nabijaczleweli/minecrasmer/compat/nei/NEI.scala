@@ -5,10 +5,10 @@ import java.io.{BufferedReader, InputStreamReader}
 import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ResourcesReloadedEvent}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.Minecraft
 import net.minecraft.util.StatCollector
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 object NEI extends ICompat {
 	Container.eventBus register this

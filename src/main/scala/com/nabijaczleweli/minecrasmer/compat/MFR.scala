@@ -1,8 +1,8 @@
 package com.nabijaczleweli.minecrasmer.compat
 
 import com.nabijaczleweli.minecrasmer.item.ItemPlastic
-import cpw.mods.fml.relauncher.Side
 import net.minecraft.item.{Item, ItemStack}
+import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.oredict.OreDictionary
 
 class MFR extends ICompat {

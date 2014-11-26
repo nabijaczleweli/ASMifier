@@ -1,8 +1,9 @@
 package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.ChatComponentText
+import net.minecraft.util.{BlockPos, ChatComponentText, EnumFacing}
 import net.minecraft.world.World
 
 object BlockComputerOff extends ComputerGeneric("off") {
@@ -11,13 +12,13 @@ object BlockComputerOff extends ComputerGeneric("off") {
 
 	setCreativeTab(CreativeTabMineCrASMer)
 
-	override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, side: Int, clickX: Float, clickY: Float, clickZ: Float) =
+	override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, side: EnumFacing, hitX: Float, hitY: Float, hitZ: Float) =
 		side match {
 			case 1 =>
-				if(onButtonSwitchPixels._1.contains(Math.floor(clickX * 16)) && onButtonSwitchPixels._2.contains(Math.floor(clickZ * 16))) {
-					if(!world.isRemote) {
-						player addChatMessage new ChatComponentText("Booting MC-DOS...")
-						world.setBlock(x, y, z, BlockComputerOn, world.getBlockMetadata(x, y, z), 2 | 4)
+				if(onButtonSwitchPixels._1.contains(Math.floor(hitX * 16)) && onButtonSwitchPixels._2.contains(Math.floor(hitZ * 16))) {
+					if(!worldIn.isRemote) {
+						playerIn addChatMessage new ChatComponentText("Booting MC-DOS...")
+						worldIn.setBlockState(pos, BlockComputerOn.getActualState(worldIn getBlockState pos, worldIn, pos), 2 | 4)
 					}
 					true
 				} else

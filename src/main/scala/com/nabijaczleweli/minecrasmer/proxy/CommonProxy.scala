@@ -14,10 +14,6 @@ import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.{VillageComponentElectronicShop, WorldGenLiquidCrystal}
-import cpw.mods.fml.common.FMLCommonHandler
-import cpw.mods.fml.common.network.NetworkRegistry
-import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler
-import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraft.block.Block
 import net.minecraft.entity.passive.EntityVillager
 import net.minecraft.init.{Blocks, Items}
@@ -27,6 +23,9 @@ import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
 import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fml.common.FMLCommonHandler
+import net.minecraftforge.fml.common.network.NetworkRegistry
+import net.minecraftforge.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
 
 class CommonProxy extends IProxy {
@@ -174,7 +173,7 @@ class CommonProxy extends IProxy {
 		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)
 
-		MapGenStructureIO.func_143031_a(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
+		MapGenStructureIO.registerStructureComponent(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
 		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
 	}
 }

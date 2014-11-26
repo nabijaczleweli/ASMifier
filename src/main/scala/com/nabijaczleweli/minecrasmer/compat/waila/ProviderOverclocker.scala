@@ -5,9 +5,9 @@ import java.util
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityOverclocker
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.world.World
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 @SideOnly(Side.CLIENT)
 object ProviderOverclocker extends AccessoryWailaDataProvider[TileEntityOverclocker] {

@@ -16,7 +16,7 @@ object ItemWrench extends ItemTool(0, Container.materialWrench, _ItemWrench.effe
 		_ItemWrench.effectiveAgainst
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "wrench")
-	setTextureName(Reference.NAMESPACED_PREFIX + "wrench")
+	//setTextureName(Reference.NAMESPACED_PREFIX + "wrench")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setHarvestLevel("wrench", 3)
 
@@ -36,7 +36,7 @@ private object _ItemWrench {
 		} filter {_ != null}}.toSet.asInstanceOf[Set[Block]] filter {block =>
 			var eff = false
 			for(meta <- 0 until 16 if !eff)
-				eff = block.isToolEffective("wrench", 0)
+				eff = block.isToolEffective("wrench", block getStateFromMeta meta)
 			eff
 		}
 }

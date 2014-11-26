@@ -26,7 +26,7 @@ group = "com.nabijaczleweli.minecrasmer" // http://maven.apache.org/guides/mini/
 archivesBaseName = "MineCrASMer"
 
 minecraft {
-    version = "${mc_version}-10.13.2.${forge_build}"
+    version = "${mc_version}-11.14.0.${forge_build}-${mc_version}"
     assetDir = "eclipse/assets"
 
     replaceIn "Reference.scala"
@@ -61,7 +61,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     dependencies {
-        compile "codechicken:NotEnoughItems:${mc_version}-1.0.3.63:dev"
+        //compile "codechicken:NotEnoughItems:${mc_version}-1.0.3.63:dev"
         compile "org.reflections:reflections:0.9.9"
     }
 }

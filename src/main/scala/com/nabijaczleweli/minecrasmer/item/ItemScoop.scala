@@ -8,16 +8,15 @@ import com.nabijaczleweli.minecrasmer.reference.Container.log
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.common.FMLCommonHandler
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.block.{Block, BlockAir}
-import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{Item, ItemBucket, ItemStack}
-import net.minecraft.util.{IIcon, MovingObjectPosition}
+import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
 import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, IFluidBlock}
+import net.minecraftforge.fml.common.FMLCommonHandler
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,8 +36,8 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		case it =>
 			it getItemStackDisplayName new ItemStack(it)
 	}
-	@SideOnly(Side.CLIENT)
-	final lazy val icons = new Array[IIcon](1)
+	/*@SideOnly(Side.CLIENT)
+	final lazy val icons = new Array[IIcon](1)*/
 
 	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}scoop${if(empty) "Empty" else {contains.getUnlocalizedName substring 5 substring ":" toUpper 0}}")
 	setCreativeTab(CreativeTabMineCrASMer)
@@ -48,7 +47,7 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		if(FMLCommonHandler.instance().getEffectiveSide.isClient)
 			MineCrASMer.proxy.asInstanceOf[ClientProxy].scoopRenderQueue enqueue this
 	}
-	setTextureName(Reference.NAMESPACED_PREFIX + "scoop_empty")
+	//setTextureName(Reference.NAMESPACED_PREFIX + "scoop_empty")
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		if(empty)
@@ -96,12 +95,12 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		else
 			color
 
-	@SideOnly(Side.CLIENT)
+	/*@SideOnly(Side.CLIENT)
 	override def registerIcons(register: IIconRegister) {
 		super.registerIcons(register)
 		if(!empty)
 			icons(0) = register registerIcon Reference.NAMESPACED_PREFIX + "scoop_mask"
-	}
+	}*/
 }
 
 object ItemScoop {

@@ -1,9 +1,9 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
 import com.nabijaczleweli.minecrasmer.compat._
-import cpw.mods.fml.common.event.FMLInterModComms
-import cpw.mods.fml.relauncher.Side
-import cpw.mods.fml.relauncher.Side.CLIENT
+import net.minecraftforge.fml.common.event.FMLInterModComms
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.Side.CLIENT
 
 class Waila extends ICompat {
 	override def getModIDs =
