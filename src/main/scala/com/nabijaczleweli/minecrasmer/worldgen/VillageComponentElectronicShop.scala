@@ -133,7 +133,7 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 		classOf[VillageComponentElectronicShop]
 
 	private def randomBlockFromOreDict(name: String) =
-		sRandom shuffle (OreDictionary getOres name).toSeq take 1 map { is =>
+		sRandom shuffle (OreDictionary getOres name).toSeq take 1 map {is =>
 			is.getItemDamage match {
 				case OreDictionary.WILDCARD_VALUE =>
 					is setItemDamage (random nextInt 16)
