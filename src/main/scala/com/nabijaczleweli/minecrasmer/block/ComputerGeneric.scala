@@ -2,6 +2,7 @@ package com.nabijaczleweli.minecrasmer.block
 
 import java.util.Random
 
+import com.google.common.base.Predicate
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.Block
 import net.minecraft.block.properties.PropertyDirection
@@ -68,5 +69,5 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 }
 
 object ComputerGeneric {
-	val FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
+	val FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL.asInstanceOf[Predicate[_]])
 }

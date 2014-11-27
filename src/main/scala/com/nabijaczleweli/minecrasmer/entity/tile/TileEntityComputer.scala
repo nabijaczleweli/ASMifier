@@ -35,8 +35,6 @@ class TileEntityComputer extends SimpleDataProcessingTileEntity with Multiclocke
 	}
 
 	override def update() {
-		super.update()
-
 		processorTick()
 		entities.clear()
 		markDirty()

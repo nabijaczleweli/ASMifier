@@ -2,9 +2,10 @@ package com.nabijaczleweli.minecrasmer.render.gui
 
 import com.nabijaczleweli.minecrasmer.container.ContainerAdditionalCPU
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityAdditionalCPU
-import cpw.mods.fml.common.network.IGuiHandler
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.fml.common.network.IGuiHandler
 
 object GUIHandler extends IGuiHandler {
 	override def getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int) =
@@ -29,7 +30,7 @@ object GUIHandler extends IGuiHandler {
 	def getContainer(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int) =
 		ID match {
 			case GUIAdditionalCPU.id =>
-				new ContainerAdditionalCPU(player.inventory, world.getTileEntity(x, y, z).asInstanceOf[TileEntityAdditionalCPU])
+				new ContainerAdditionalCPU(player.inventory, world.getTileEntity(new BlockPos(x, y, z)).asInstanceOf[TileEntityAdditionalCPU])
 			case _ =>
 				null
 		}

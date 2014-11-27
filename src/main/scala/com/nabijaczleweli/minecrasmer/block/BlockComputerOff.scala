@@ -14,7 +14,7 @@ object BlockComputerOff extends ComputerGeneric("off") {
 
 	override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, side: EnumFacing, hitX: Float, hitY: Float, hitZ: Float) =
 		side match {
-			case 1 =>
+			case EnumFacing.UP =>
 				if(onButtonSwitchPixels._1.contains(Math.floor(hitX * 16)) && onButtonSwitchPixels._2.contains(Math.floor(hitZ * 16))) {
 					if(!worldIn.isRemote) {
 						playerIn addChatMessage new ChatComponentText("Booting MC-DOS...")

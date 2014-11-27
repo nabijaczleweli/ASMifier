@@ -1,8 +1,8 @@
 package com.nabijaczleweli.minecrasmer.resource
 
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.resources.IResourceManager
 import net.minecraft.util.StatCollector
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import scala.math.ScalaNumber
 

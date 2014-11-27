@@ -5,7 +5,7 @@ import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.Side
 import org.reflections.Reflections
 
 import scala.collection.JavaConversions._

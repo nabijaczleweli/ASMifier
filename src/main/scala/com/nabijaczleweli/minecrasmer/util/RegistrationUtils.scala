@@ -3,11 +3,11 @@ package com.nabijaczleweli.minecrasmer.util
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.block.Block
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, IFluidBlock}
+import net.minecraftforge.fml.common.registry.GameRegistry
 
 object RegistrationUtils {
 	implicit class IRecipeUtils(val recipe: IRecipe) extends AnyVal {

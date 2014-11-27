@@ -4,7 +4,7 @@ import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.material.Material
 import net.minecraft.util.BlockPos
 import net.minecraft.world.{IBlockAccess, World}
-import net.minecraftforge.fluids.BlockFluidFinite
+import net.minecraftforge.fluids.{BlockFluidBase, BlockFluidFinite}
 
 object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal, Material.water) {
 	/*private final      val stillIconIndex   = 0
@@ -36,4 +36,7 @@ object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal,
 			false
 		else
 			super.displaceIfPossible(world, pos)
+
+	override def getStateFromMeta(meta: Int) =
+		getDefaultState.withProperty(BlockFluidBase.LEVEL, meta)
 }

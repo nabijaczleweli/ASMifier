@@ -66,6 +66,6 @@ trait Computer extends NBTReloadable {
 }
 
 object Computer {
-	val stringTagIndex   = NBTBase.NBTTypes indexOf "STRING"
-	val compoundTagIndex = NBTBase.NBTTypes indexOf "COMPOUND"
+	val stringTagIndex   = NBTBase.NBT_TYPES indexOf "STRING"
+	val compoundTagIndex = NBTBase.NBT_TYPES indexOf "COMPOUND"
 }

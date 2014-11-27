@@ -1,7 +1,7 @@
-package com.nabijaczleweli.minecrasmer.render
+/*package com.nabijaczleweli.minecrasmer.render
 
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
-import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.entity.RenderItem
 import net.minecraft.client.renderer.{ItemRenderer, Tessellator}
 import net.minecraft.item.ItemStack
@@ -48,4 +48,4 @@ object FilledScoopRenderer extends IItemRenderer {
 				ItemRenderer.renderItemIn2D(Tessellator.instance, mainIcon.getMaxU, mainIcon.getMinV, mainIcon.getMinU, mainIcon.getMaxV, mainIcon.getIconWidth, mainIcon.getIconHeight, .065f)
 		}
 	}
-}
+}*/

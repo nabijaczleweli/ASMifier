@@ -8,12 +8,12 @@ import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.reference.{CompatLoader, Configuration, Container}
 import com.nabijaczleweli.minecrasmer.util.ReflectionUtil
-import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
-import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
-import cpw.mods.fml.common.{Mod, SidedProxy}
 import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids._
+import net.minecraftforge.fml.common.Mod.EventHandler
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent
+import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import net.minecraftforge.fml.common.{Mod, SidedProxy}
 
 import scala.collection.JavaConversions._
 

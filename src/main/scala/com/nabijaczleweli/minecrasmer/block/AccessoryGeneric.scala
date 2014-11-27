@@ -36,18 +36,18 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 
 	override def setBlockBoundsBasedOnState(world: IBlockAccess, pos: BlockPos) {
 		super.setBlockBoundsBasedOnState(world, pos)
-		world getBlockState pos match {
-			case 0 => // Down
+		world getBlockState pos getValue FACING match {
+			case EnumFacing.DOWN =>
 				setBlockBounds(0, 0, 0, 1, .2f, 1)
-			case 1 => // Up
+			case EnumFacing.UP =>
 				setBlockBounds(0, .8f, 0, 1, 1, 1)
-			case 2 => // North
+			case EnumFacing.NORTH =>
 				setBlockBounds(0, 0, 0, 1, 1, .2f)
-			case 3 => // South
+			case EnumFacing.SOUTH =>
 				setBlockBounds(0, 0, .8f, 1, 1, 1)
-			case 4 => // West
+			case EnumFacing.WEST =>
 				setBlockBounds(0, 0, 0, .2f, 1, 1)
-			case 5 => // East
+			case EnumFacing.EAST =>
 				setBlockBounds(.8f, 0, 0, 1, 1, 1)
 			case _ =>
 		}

@@ -1,7 +1,5 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-import java.util.Random
-
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
 import com.nabijaczleweli.minecrasmer.entity.Villager._
@@ -15,11 +13,9 @@ import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.{VillageComponentElectronicShop, WorldGenLiquidCrystal}
 import net.minecraft.block.Block
-import net.minecraft.entity.passive.EntityVillager
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
-import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
 import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
 import net.minecraftforge.fluids.FluidRegistry
@@ -169,20 +165,20 @@ class CommonProxy extends IProxy {
 		blacksmithChestGen addItem new WeightedRandomChestContent(scoopEmpty, 0, 1, 4, 3)
 
 
-		VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
+		/*VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
-		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)
+		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)*/
 
 		MapGenStructureIO.registerStructureComponent(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
 		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
 	}
 }
 
-private object CommonProxy extends IVillageTradeHandler {
+private object CommonProxy /*extends IVillageTradeHandler*/ {
 	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: ItemPartialIron :: Nil
 
 
-	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
+	/*override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
 		villager.getProfession match {
 			case 1 => // Librarian
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
@@ -192,5 +188,5 @@ private object CommonProxy extends IVillageTradeHandler {
 			case 3 => // Blacksmith
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage), new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
 			case _ =>
-		}
+		}*/
 }

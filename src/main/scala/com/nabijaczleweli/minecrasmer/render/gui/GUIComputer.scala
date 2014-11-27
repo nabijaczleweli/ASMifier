@@ -2,9 +2,10 @@ package com.nabijaczleweli.minecrasmer.render.gui
 
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
 import com.nabijaczleweli.minecrasmer.resource.MineCrASMerLocation
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.gui.{FontRenderer, GuiScreen}
+import net.minecraft.util.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import org.lwjgl.input.Keyboard
 import org.lwjgl.opengl.GL11._
 
@@ -25,7 +26,7 @@ object GUIComputer extends GuiScreen {
 	fontRendererObj = null
 
 	def init(world: World, x: Int, y: Int, z: Int) {
-		te = world.getTileEntity(x, y, z).asInstanceOf[TileEntityComputer]
+		te = world.getTileEntity(new BlockPos(x, y, z)).asInstanceOf[TileEntityComputer]
 	}
 
 	override def initGui() {

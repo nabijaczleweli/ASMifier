@@ -31,8 +31,8 @@ object NBTUtil {
 	}
 
 	implicit class GeneralNBTUtil(tag: NBTTagCompound) {
-		private val stringNBTIndex   = NBTBase.NBTTypes indexOf "STRING"
-		private val compoundNBTIndex = NBTBase.NBTTypes indexOf "COMPOUND"
+		private val stringNBTIndex   = NBTBase.NBT_TYPES indexOf "STRING"
+		private val compoundNBTIndex = NBTBase.NBT_TYPES indexOf "COMPOUND"
 
 		def hasTag(tagName: String) =
 			tag getTag tagName ne null

@@ -1,9 +1,9 @@
 package com.nabijaczleweli.minecrasmer.util
 
 import com.nabijaczleweli.minecrasmer.compat.ICompat
-import com.nabijaczleweli.minecrasmer.reference.{Reference, Configuration}
-import cpw.mods.fml.common.Loader.isModLoaded
+import com.nabijaczleweli.minecrasmer.reference.{Configuration, Reference}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
+import net.minecraftforge.fml.common.Loader.isModLoaded
 
 object CompatUtil {
 	implicit class CompatConv(val compat: ICompat) extends AnyVal {
