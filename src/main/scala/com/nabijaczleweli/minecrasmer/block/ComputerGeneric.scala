@@ -6,20 +6,20 @@ import com.google.common.base.Predicate
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.Block
 import net.minecraft.block.properties.PropertyDirection
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.state.{BlockState, IBlockState}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util._
 import net.minecraft.world.World
 
 //@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
-class ComputerGeneric(private final val suffix: String) extends Block(Container.materialComputer) /* with IPneumaticWrenchable*/ {
+class ComputerGeneric(suffix: String) extends Block(Container.materialComputer) /* with IPneumaticWrenchable*/ {
 	import com.nabijaczleweli.minecrasmer.block.ComputerGeneric.FACING
 
 	setHardness(.3f) // Glass-like
-	setHarvestLevel("wrench", 0)
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
 	setDefaultState(blockState.getBaseState.withProperty(FACING, EnumFacing.NORTH))
+	setHarvestLevel("wrench", 0)
 
 	/*protected final      val computerFrontIndex  = 0
 	protected final      val computerSideIndex   = 1
@@ -48,8 +48,23 @@ class ComputerGeneric(private final val suffix: String) extends Block(Container.
 				icons(computerSideIndex)
 		}*/
 
-	override def onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) =
+	override def getMetaFromState(state: IBlockState) =
+		(state getValue FACING).asInstanceOf[EnumFacing].getIndex
+
+	override def getStateFromMeta(meta: Int) = // Stolen from BlockFurnace
+		getDefaultState.withProperty(FACING, (EnumFacing getFront meta).getAxis match {
+			case EnumFacing.Axis.Y =>
+				EnumFacing.NORTH
+			case _ =>
+				EnumFacing getFront meta
+		})
+
+	override def createBlockState() =
+		new BlockState(this, FACING)
+
+	override def onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) {
 		worldIn.setBlockState(pos, state.withProperty(FACING, placer.func_174811_aO.getOpposite), 2)
+	}
 
 	override def getItemDropped(state: IBlockState, rand: Random, fortune: Int) =
 		Item getItemFromBlock BlockComputerOff

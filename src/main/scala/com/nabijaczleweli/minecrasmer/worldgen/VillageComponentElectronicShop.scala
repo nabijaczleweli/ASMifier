@@ -48,8 +48,16 @@ class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start,
 		super.writeStructureToNBT(par1NBTTagCompound)
 		hasMadeChest = par1NBTTagCompound getBoolean "createdChest"
 		isCarpetToggled = par1NBTTagCompound getBoolean "notCarpet"
-		glass = ItemStack loadItemStackFromNBT (par1NBTTagCompound getCompoundTag "glass")
-		pane = ItemStack loadItemStackFromNBT (par1NBTTagCompound getCompoundTag "pane")
+		ItemStack loadItemStackFromNBT (par1NBTTagCompound getCompoundTag "glass") match {
+			case null =>
+			case is =>
+				glass = is
+		}
+		ItemStack loadItemStackFromNBT (par1NBTTagCompound getCompoundTag "pane") match {
+			case null =>
+			case is =>
+				pane = is
+		}
 		fenceCarpetColor = par1NBTTagCompound getInteger "carpetColor"
 	}
 

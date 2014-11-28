@@ -4,7 +4,7 @@ import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.Block
 import net.minecraft.block.properties.PropertyDirection
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.state.{BlockState, IBlockState}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.util.{BlockPos, EnumFacing}
 import net.minecraft.world.{IBlockAccess, World}
@@ -15,13 +15,27 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 	import com.nabijaczleweli.minecrasmer.block.AccessoryGeneric.FACING
 
 	setHardness(.3f) // Glass-like
-	setHarvestLevel("wrench", 0)
 	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}accessory_$suffix")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setDefaultState(blockState.getBaseState.withProperty(FACING, EnumFacing.NORTH))
+	setHarvestLevel("wrench", 0)
 
 	/*@SideOnly(Side.CLIENT)
 	protected final lazy val icons = new Array[IIcon](1)*/
+
+	override def getMetaFromState(state: IBlockState) =
+		(state getValue FACING).asInstanceOf[EnumFacing].getIndex
+
+	override def getStateFromMeta(meta: Int) = // Stolen from BlockFurnace
+		getDefaultState.withProperty(FACING, (EnumFacing getFront meta).getAxis match {
+			case EnumFacing.Axis.Y =>
+				EnumFacing.NORTH
+			case _ =>
+				EnumFacing getFront meta
+		})
+
+	override def createBlockState() =
+		new BlockState(this, FACING)
 
 	override def getCollisionBoundingBox(worldIn: World, pos: BlockPos, state: IBlockState) = {
 		setBlockBoundsBasedOnState(worldIn, pos)

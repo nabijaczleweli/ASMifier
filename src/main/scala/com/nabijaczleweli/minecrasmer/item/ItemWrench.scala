@@ -25,10 +25,10 @@ object ItemWrench extends ItemTool(0, Container.materialWrench, _ItemWrench.effe
 }
 
 private object _ItemWrench {
-	lazy val effectiveAgainst = {{
-		for(c <- new Reflections("com.nabijaczleweli.minecrasmer.block") getSubTypesOf classOf[Block] filter {_.getSimpleName endsWith "$"}) yield
+	lazy val effectiveAgainst = {
+		new Reflections("com.nabijaczleweli.minecrasmer.block") getSubTypesOf classOf[Block] filter {_.getSimpleName endsWith "$"} map {
 			try
-				ReflectionUtils staticSingletonInstance c
+				ReflectionUtils.staticSingletonInstance
 			catch {
 				case _: Throwable =>
 					null
@@ -36,7 +36,11 @@ private object _ItemWrench {
 		} filter {_ != null}}.toSet.asInstanceOf[Set[Block]] filter {block =>
 			var eff = false
 			for(meta <- 0 until 16 if !eff)
-				eff = block.isToolEffective("wrench", block getStateFromMeta meta)
+				try
+					eff = block.isToolEffective("wrench", block getStateFromMeta meta)
+				catch {
+					case _: NullPointerException =>
+				}
 			eff
 		}
 }

@@ -18,8 +18,6 @@ import scala.util.Random
 object BlockAdditionalCPU extends AccessoryGeneric("processor") with ITileEntityProvider {
 	private val rand = new Random
 
-	//setBlockTextureName(Reference.NAMESPACED_PREFIX + "processor")
-
 	override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, side: EnumFacing, hitX: Float, hitY: Float, hitZ: Float) = {
 		playerIn.openGui(MineCrASMer, GUIAdditionalCPU.id, worldIn, pos.getX, pos.getY, pos.getZ)
 		true
