@@ -24,8 +24,8 @@ object Container extends IOreDictRegisterable {
 
 	lazy val liquidCrystal = new Fluid("liquidcrystal") setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock (BlockLiquidCrystalFluid: Block) setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal"
 
-	lazy val socketCPU          = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer// setTextureName s"${NAMESPACED_PREFIX}socket_cpu"
-	lazy val stoneRod           = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer// setTextureName s"${NAMESPACED_PREFIX}rod_stone"
+	lazy val socketCPU          = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer
+	lazy val stoneRod           = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer
 	lazy val scoopEmpty         = new ItemScoop(Blocks.air.asInstanceOf[BlockAir])
 	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid, 0x00FF00)
 	var foreignScoops: List[ItemScoop] = Nil

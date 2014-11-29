@@ -20,4 +20,6 @@ trait IProxy extends IOreDictRegisterable {
 	def registerRecipes(): Unit
 
 	def registerLoot(): Unit
+
+	def registerModels(): Unit
 }

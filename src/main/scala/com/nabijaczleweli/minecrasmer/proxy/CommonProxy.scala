@@ -172,6 +172,8 @@ class CommonProxy extends IProxy {
 		MapGenStructureIO.registerStructureComponent(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
 		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
 	}
+
+	override def registerModels() {}
 }
 
 private object CommonProxy /*extends IVillageTradeHandler*/ {

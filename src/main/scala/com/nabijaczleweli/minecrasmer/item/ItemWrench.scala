@@ -16,7 +16,6 @@ object ItemWrench extends ItemTool(0, Container.materialWrench, _ItemWrench.effe
 		_ItemWrench.effectiveAgainst
 
 	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "wrench")
-	//setTextureName(Reference.NAMESPACED_PREFIX + "wrench")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setHarvestLevel("wrench", 3)
 
