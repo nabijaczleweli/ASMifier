@@ -5,6 +5,7 @@ import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShred
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloaderListener}
+import com.nabijaczleweli.minecrasmer.util.IMultiModelItem
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.entity.RenderEntityItem
@@ -19,8 +20,9 @@ import scala.collection.mutable.{Queue => mQueue}
 
 @SideOnly(Side.CLIENT)
 class ClientProxy extends CommonProxy {
-	private implicit class ModelRegistrationUtils(item: Item) {
-		def registerModel() =
+	private implicit class ModelRegistrationUtils(item: Item) extends IMultiModelItem {
+		@inline
+		override def registerModels() =
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(item, 0, new ModelResourceLocation(item.getUnlocalizedName substring ".", "inventory"))
 	}
 
@@ -43,17 +45,17 @@ class ClientProxy extends CommonProxy {
 		Minecraft.getMinecraft.getResourceManager.asInstanceOf[IReloadableResourceManager] registerReloadListener ReloaderListener
 	}
 
-	override def registerModels() = {
+	override def registerModels() {
 		super.registerModels()
 
-		ItemWrench.registerModel()
-		//ItemPlastic.register()
-		//ItemPCB.register()
-		//ItemCPU.register()
-		socketCPU.registerModel()
-		stoneRod.registerModel()
-		//ItemQuartz.register()
-		//ItemPartialIron.register()
+		ItemWrench.registerModels()
+		ItemPlastic.registerModels()
+		ItemPCB.registerModels()
+		ItemCPU.registerModels()
+		socketCPU.registerModels()
+		stoneRod.registerModels()
+		ItemQuartz.registerModels()
+		ItemPartialIron.registerModels()
 
 		//scoopEmpty.register()
 		//scoopLiquidCrystal.register()

@@ -5,7 +5,9 @@ import java.util
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
-import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
+import com.nabijaczleweli.minecrasmer.util.{IMultiModelItem, IOreDictRegisterable}
+import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.MathHelper
@@ -16,16 +18,14 @@ import net.minecraftforge.oredict.OreDictionary
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object ItemCPU extends Item with IOreDictRegisterable {
+object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 	Container.eventBus register this
 
 	val subOreDictNames = Array("processorTier0", "processorTier1", "processorTier2")
 	private      val subIconNames   = Array("%selementary", "%ssimple", "%sgood")
 	private      val subNameNames   = Array("elementary", "simple", "good")
-	/*@SideOnly(Side.CLIENT)
-	private lazy val icons          = new Array[IIcon](subIconNames.length)*/
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"$getUnlocalizedName.${subNameNames(idx)}.name")}}.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name")}}.toList))
 
 	val elementaryDamage = 0
 	val simpleDamage     = 1
@@ -38,15 +38,6 @@ object ItemCPU extends Item with IOreDictRegisterable {
 	override def getMaxDamage =
 		0
 
-/*	@SideOnly(Side.CLIENT)
-	override def getIconFromDamage(idx: Int) =
-		icons(MathHelper.clamp_int(idx, 0, icons.length - 1))
-
-	@SideOnly(Side.CLIENT)
-	override def registerIcons(ir: IIconRegister) =
-		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_")*/
-
 	override def getItemStackDisplayName(is: ItemStack) =
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, localizedNames.length))
 
@@ -55,6 +46,9 @@ object ItemCPU extends Item with IOreDictRegisterable {
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
+
+	override def getUnlocalizedName(stack: ItemStack) =
+		"item." + Reference.NAMESPACED_PREFIX + '.' + subNameNames(stack.getMetadata)
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -67,6 +61,14 @@ object ItemCPU extends Item with IOreDictRegisterable {
 		for(i <- elementaryDamage to goodDamage) {
 			is setItemDamage i
 			OreDictionary.registerOre(oreDictName(i), is)
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	override def registerModels() {
+		for(i <- elementaryDamage to goodDamage) {
+			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"), "inventory"))
+			ModelBakery.addVariantName(this, Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"))
 		}
 	}
 
