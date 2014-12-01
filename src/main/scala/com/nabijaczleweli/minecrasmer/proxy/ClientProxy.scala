@@ -37,7 +37,7 @@ class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
 		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRenderer)
 
-		VillagerRegistry.instance.registerVillagerSkin(electronicsVillagerID, new MineCrASMerLocation("textures/entity/villager_electronic.png"))
+		VillagerRegistry.instance.registerVillagerSkin(electronicsVillagerID, new MineCrASMerLocation("textures/entity/villager/electronic.png"))
 	}
 
 	override def registerEvents() {
@@ -59,5 +59,7 @@ class ClientProxy extends CommonProxy {
 
 		//scoopEmpty.register()
 		//scoopLiquidCrystal.register()
+
+
 	}
 }

@@ -4,7 +4,7 @@ import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
 import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
-import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
+import com.nabijaczleweli.minecrasmer.entity.{Villager, EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler, EntityHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
@@ -168,6 +168,7 @@ class CommonProxy extends IProxy {
 		/*VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)*/
+		Villager.registerProfessions()
 
 		MapGenStructureIO.registerStructureComponent(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
 		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
@@ -176,7 +177,7 @@ class CommonProxy extends IProxy {
 	override def registerModels() {}
 }
 
-private object CommonProxy /*extends IVillageTradeHandler*/ {
+private object CommonProxy {
 	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: ItemPartialIron :: Nil
 
 

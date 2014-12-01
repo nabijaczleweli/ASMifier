@@ -5,7 +5,7 @@ import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import net.minecraft.block.Block
 import net.minecraft.item.crafting.IRecipe
-import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.item.{Item, ItemMultiTexture, ItemStack}
 import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, IFluidBlock}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
@@ -20,6 +20,12 @@ object RegistrationUtils {
 		@inline
 		def register() =
 			GameRegistry.registerBlock(block, block.getUnlocalizedName substring ":")
+	}
+
+	implicit class MultiItemBlockUtils(val block: Block with IMultiItemBlock) extends AnyVal {
+		@inline
+		def register() =
+			GameRegistry.registerBlock(block, classOf[ItemMultiTexture], block.getUnlocalizedName substring ":", block, block, block.additionalModelNames)
 	}
 
 	implicit class ItemUtils(val item: Item) extends AnyVal {
