@@ -1,7 +1,7 @@
 # Blocks
 tile.minecrasmer:computer.neutral.name=Компютер
-tile.minecrasmer:computeroff.name=Компютер
-tile.minecrasmer:computeron.name=Компютер (Бключён)
+tile.minecrasmer:computer_off.name=Компютер
+tile.minecrasmer:computer_on.name=Компютер (Бключён)
 tile.minecrasmer:liquidcrystal.name=Сжиженный хрусталь
 tile.minecrasmer:accessory_overclocker.name=Оверклокер
 tile.minecrasmer:accessory_processor.name=Добавочный процессор

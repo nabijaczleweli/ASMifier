@@ -1,0 +1,6 @@
+{
+  "parent": "minecrasmer:block/computer_off",
+  "textures": {
+    "north": "minecrasmer:blocks/computer_front"
+  }
+}

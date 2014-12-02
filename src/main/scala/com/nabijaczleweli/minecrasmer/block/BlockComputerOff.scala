@@ -18,7 +18,7 @@ object BlockComputerOff extends ComputerGeneric("off") {
 				if(onButtonSwitchPixels._1.contains(Math.floor(hitX * 16)) && onButtonSwitchPixels._2.contains(Math.floor(hitZ * 16))) {
 					if(!worldIn.isRemote) {
 						playerIn addChatMessage new ChatComponentText("Booting MC-DOS...")
-						worldIn.setBlockState(pos, BlockComputerOn.getDefaultState, 2 | 4)
+						worldIn.setBlockState(pos, BlockComputerOn.getDefaultState.withProperty(ComputerGeneric.FACING, worldIn getBlockState pos getValue ComputerGeneric.FACING), 2 | 4)
 					}
 					true
 				} else

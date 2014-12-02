@@ -1,7 +1,7 @@
 # Blocks
 tile.minecrasmer:computer.neutral.name=Fast sailor
-tile.minecrasmer:computeroff.name=Fast sailor
-tile.minecrasmer:computeron.name=Sailin' fast sailor
+tile.minecrasmer:computer_off.name=Fast sailor
+tile.minecrasmer:computer_on.name=Sailin' fast sailor
 tile.minecrasmer:liquidcrystal.name=Water diamond
 tile.minecrasmer:accessory_overclocker.name=Galley
 tile.minecrasmer:accessory_processor.name=Supplementar' sailor

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "minecrasmer:blocks/computer_side",
+    "down": "minecrasmer:blocks/computer_bottom",
+    "up": "minecrasmer:blocks/computer_top_clear",
+    "north": "minecrasmer:blocks/computer_side",
+    "east": "minecrasmer:blocks/computer_side",
+    "south": "minecrasmer:blocks/computer_side",
+    "west": "minecrasmer:blocks/computer_side"
+  }
+}

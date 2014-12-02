@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "minecrasmer:computer_on_n" },
+    "facing=south": { "model": "minecrasmer:computer_on_s" },
+    "facing=west": { "model": "minecrasmer:computer_on_w" },
+    "facing=east": { "model": "minecrasmer:computer_on_e" }
+  }
+}

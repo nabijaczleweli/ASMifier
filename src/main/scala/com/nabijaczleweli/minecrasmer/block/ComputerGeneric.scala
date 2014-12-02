@@ -13,11 +13,11 @@ import net.minecraft.util._
 import net.minecraft.world.World
 
 //@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
-class ComputerGeneric(suffix: String) extends Block(Container.materialComputer) /* with IPneumaticWrenchable*/ {
+class ComputerGeneric(suffix: String) extends Block(Container.materialComputer) /*with IPneumaticWrenchable*/ {
 	import com.nabijaczleweli.minecrasmer.block.ComputerGeneric.FACING
 
 	setHardness(.3f) // Glass-like
-	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "computer" + suffix)
+	setUnlocalizedName(Reference.NAMESPACED_PREFIX + "computer_" + suffix)
 	setDefaultState(blockState.getBaseState.withProperty(FACING, EnumFacing.NORTH))
 	setHarvestLevel("wrench", 0)
 

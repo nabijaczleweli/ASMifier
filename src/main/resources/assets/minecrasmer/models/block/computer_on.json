@@ -1,0 +1,6 @@
+{
+  "parent": "minecrasmer:block/computer",
+  "textures": {
+    "up": "minecrasmer:blocks/computer_top_clear"
+  }
+}
