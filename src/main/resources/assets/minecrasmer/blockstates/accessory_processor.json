@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down": { "model": "minecrasmer:accessory" },
+    "facing=up": { "model": "minecrasmer:accessory" },
+    "facing=north": { "model": "minecrasmer:accessory_processor_n" },
+    "facing=south": { "model": "minecrasmer:accessory_processor_s" },
+    "facing=west": { "model": "minecrasmer:accessory" },
+    "facing=east": { "model": "minecrasmer:accessory" }
+  }
+}

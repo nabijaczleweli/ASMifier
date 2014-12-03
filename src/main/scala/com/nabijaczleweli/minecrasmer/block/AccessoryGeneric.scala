@@ -2,7 +2,7 @@ package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import net.minecraft.block.Block
+import net.minecraft.block.{BlockPistonBase, Block}
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.{BlockState, IBlockState}
 import net.minecraft.entity.EntityLivingBase
@@ -50,7 +50,7 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 
 	override def setBlockBoundsBasedOnState(world: IBlockAccess, pos: BlockPos) {
 		super.setBlockBoundsBasedOnState(world, pos)
-		world getBlockState pos getValue FACING match {
+		actualStateOrDefault(world, pos) getValue FACING match {
 			case EnumFacing.DOWN =>
 				setBlockBounds(0, 0, 0, 1, .2f, 1)
 			case EnumFacing.UP =>
@@ -71,10 +71,21 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 		setBlockBounds(0, 0, .8f, 1, 1, 1)
 
 	override def onBlockPlaced(worldIn: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase) =
-		getDefaultState.withProperty(FACING, placer.func_174811_aO.getOpposite)
+		getDefaultState.withProperty(FACING, BlockPistonBase.func_180695_a(worldIn, pos, placer).getOpposite)
 
 	override def isOpaqueCube =
 		false
+
+	override def isSideSolid(world: IBlockAccess, pos: BlockPos, side: EnumFacing) =
+		(world getBlockState pos getValue FACING) == side
+
+	protected def actualStateOrDefault(world: IBlockAccess, pos: BlockPos) = {
+		val t = world getBlockState pos
+		if(t.getBlock == this)
+			t
+		else
+			getDefaultState
+	}
 
 	/*override def renderAsNormalBlock =
 		false
