@@ -3,14 +3,14 @@
   "textures": {
     "down": "minecrasmer:blocks/accessory_side",
     "up": "minecrasmer:blocks/accessory_side",
-    "north": "#custom",
+    "north": "minecrasmer:blocks/accessory_side",
     "south": "minecrasmer:blocks/accessory_side",
-    "west": "minecrasmer:blocks/accessory_side",
+    "west": "#custom",
     "east": "minecrasmer:blocks/accessory_side"
   },
   "elements": [
     {
-      "from": [ 0, 0, 12.8 ],
+      "from": [ 12.8, 0, 0 ],
       "to": [ 16, 16, 16 ],
       "faces": {
         "down": { "texture": "#down", "cullface": "down" },

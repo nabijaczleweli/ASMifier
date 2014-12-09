@@ -1,10 +1,10 @@
 {
   "variants": {
-    "facing=down": { "model": "minecrasmer:accessory" },
-    "facing=up": { "model": "minecrasmer:accessory" },
+    "facing=down": { "model": "minecrasmer:accessory_processor_d" },
+    "facing=up": { "model": "minecrasmer:accessory_processor_u" },
     "facing=north": { "model": "minecrasmer:accessory_processor_n" },
     "facing=south": { "model": "minecrasmer:accessory_processor_s" },
-    "facing=west": { "model": "minecrasmer:accessory" },
-    "facing=east": { "model": "minecrasmer:accessory" }
+    "facing=west": { "model": "minecrasmer:accessory_processor_w" },
+    "facing=east": { "model": "minecrasmer:accessory_processor_e" }
   }
 }

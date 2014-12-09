@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down": { "model": "minecrasmer:accessory_overclocker_d" },
+    "facing=up": { "model": "minecrasmer:accessory_overclocker_u" },
+    "facing=north": { "model": "minecrasmer:accessory_overclocker_n" },
+    "facing=south": { "model": "minecrasmer:accessory_overclocker_s" },
+    "facing=west": { "model": "minecrasmer:accessory_overclocker_w" },
+    "facing=east": { "model": "minecrasmer:accessory_overclocker_e" }
+  }
+}
