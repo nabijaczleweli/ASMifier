@@ -6,7 +6,8 @@
     "north": "minecrasmer:blocks/accessory_side",
     "south": "minecrasmer:blocks/accessory_side",
     "west": "#custom",
-    "east": "minecrasmer:blocks/accessory_side"
+    "east": "minecrasmer:blocks/accessory_side",
+    "particle": "minecrasmer:blocks/accessory_side"
   },
   "elements": [
     {

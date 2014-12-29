@@ -20,6 +20,12 @@ object StringUtils {
 			bldr.toString()
 		}
 
+		def toLower(idx: Int) = {
+			val bldr = new mutable.StringBuilder(string)
+			bldr.setCharAt(idx, bldr.charAt(idx).toLower)
+			bldr.toString()
+		}
+
 		def before(toFind: String) =
 			string match {
 				case `toFind` =>

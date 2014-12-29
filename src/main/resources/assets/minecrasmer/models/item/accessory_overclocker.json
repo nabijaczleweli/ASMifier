@@ -1,5 +1,5 @@
 {
-    "parent": "minecrasmer:block/computer_on_n",
+    "parent": "minecrasmer:block/accessory_overclocker_s",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

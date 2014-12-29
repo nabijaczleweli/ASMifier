@@ -10,8 +10,8 @@ tile.minecrasmer:accessory_processor.name=Добавочный процессо�
 # Items
 item.minecrasmer:wrench.name=Ключ
 
-item.minecrasmer:scoopEmpty.name=Полыя шумовка
-item.minecrasmer:scoopFilled.name=Содержание шумовки: %s
+item.minecrasmer:scoop_empty.name=Полыя шумовка
+item.minecrasmer:scoop_full.name=Содержание шумовки: %s
 
 item.minecrasmer:plastic.monomer.name=Мономер
 item.minecrasmer:plastic.polymer.name=Полимер

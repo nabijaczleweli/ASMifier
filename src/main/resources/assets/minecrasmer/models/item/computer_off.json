@@ -1,5 +1,5 @@
 {
-    "parent": "minecrasmer:block/computer_off_s",
+    "parent": "minecrasmer:block/computer_off_n",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

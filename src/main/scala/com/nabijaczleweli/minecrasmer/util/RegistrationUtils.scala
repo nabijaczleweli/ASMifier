@@ -22,6 +22,12 @@ object RegistrationUtils {
 			GameRegistry.registerBlock(block, block.getUnlocalizedName substring ":")
 	}
 
+	implicit class FluidBlockUtils(val block: Block with IFluidBlock) extends AnyVal {
+		@inline
+		def register() =
+			GameRegistry.registerBlock(block, null, block.getUnlocalizedName substring ":")
+	}
+
 	implicit class MultiItemBlockUtils(val block: Block with IMultiItemBlock) extends AnyVal {
 		@inline
 		def register() =

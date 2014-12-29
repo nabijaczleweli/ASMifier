@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import com.nabijaczleweli.minecrasmer.block.{BlockAdditionalCPU, BlockOverclocker, ComputerGeneric}
+import com.nabijaczleweli.minecrasmer.block.{BlockAccessoryAdditionalCPU, BlockAccessoryOverclocker, ComputerGeneric}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import mcp.mobius.waila.api.IWailaRegistrar
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -14,7 +14,7 @@ object WailaCompatRegisterer {
 		registrar.registerBodyProvider(ProviderComputer, classOf[ComputerGeneric])
 		registrar.registerStackProvider(ProviderComputer, classOf[ComputerGeneric])
 
-		registrar.registerBodyProvider(ProviderOverclocker, BlockOverclocker.getClass)
-		registrar.registerBodyProvider(ProviderAdditionalCPU, BlockAdditionalCPU.getClass)
+		registrar.registerBodyProvider(ProviderOverclocker, BlockAccessoryOverclocker.getClass)
+		registrar.registerBodyProvider(ProviderAdditionalCPU, BlockAccessoryAdditionalCPU.getClass)
 	}
 }

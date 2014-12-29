@@ -15,7 +15,7 @@ import net.minecraft.world.World
 
 import scala.util.Random
 
-object BlockAdditionalCPU extends AccessoryGeneric("processor") with ITileEntityProvider {
+object BlockAccessoryAdditionalCPU extends AccessoryGeneric("processor") with ITileEntityProvider {
 	private val rand = new Random
 
 	override def onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, side: EnumFacing, hitX: Float, hitY: Float, hitZ: Float) = {

@@ -10,8 +10,8 @@ tile.minecrasmer:accessory_processor.name=Supplementar' sailor
 # Items
 item.minecrasmer:wrench.name=Hammer
 
-item.minecrasmer:scoopEmpty.name=Oar
-item.minecrasmer:scoopFilled.name=Oar'o'%s
+item.minecrasmer:scoop_empty.name=Oar
+item.minecrasmer:scoop_full.name=Oar'o'%s
 
 item.minecrasmer:plastic.monomer.name=Single'o'mer
 item.minecrasmer:plastic.polymer.name=Two'o'mer

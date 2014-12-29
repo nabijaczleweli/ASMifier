@@ -10,8 +10,8 @@ tile.minecrasmer:accessory_processor.name=Additional CPU
 # Items
 item.minecrasmer:wrench.name=Wrench
 
-item.minecrasmer:scoopEmpty.name=Empty scoop
-item.minecrasmer:scoopFilled.name=Scoop with %s
+item.minecrasmer:scoop_empty.name=Empty scoop
+item.minecrasmer:scoop_full.name=Scoop with %s
 
 item.minecrasmer:plastic.monomer.name=Monomer
 item.minecrasmer:plastic.polymer.name=Polymer
