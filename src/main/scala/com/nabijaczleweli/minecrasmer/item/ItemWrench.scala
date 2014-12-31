@@ -2,11 +2,10 @@ package com.nabijaczleweli.minecrasmer.item
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
+import com.nabijaczleweli.minecrasmer.util.{IOreDictRegisterable, ReflectionUtil}
 import net.minecraft.block.Block
 import net.minecraft.item.ItemTool
 import net.minecraftforge.oredict.OreDictionary
-import org.reflections.Reflections
 
 import scala.collection.JavaConversions._
 import scala.reflect.runtime.ReflectionUtils
@@ -25,7 +24,7 @@ object ItemWrench extends ItemTool(0, Container.materialWrench, _ItemWrench.effe
 
 private object _ItemWrench {
 	lazy val effectiveAgainst = {
-		new Reflections("com.nabijaczleweli.minecrasmer.block") getSubTypesOf classOf[Block] filter {_.getSimpleName endsWith "$"} map {
+		ReflectionUtil.subClassesInPackage(classOf[Block], Package getPackage "com.nabijaczleweli.minecrasmer.block", {_.getSimpleName endsWith "$"}) map {
 			try
 				ReflectionUtils.staticSingletonInstance
 			catch {
