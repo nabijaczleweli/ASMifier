@@ -29,10 +29,10 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 							val base = new BlockPos(chunkX * 16 + random.nextInt(14) + 1, baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2,
 							                        chunkX * 16 + random.nextInt(14) + 1)
 							generate(world, base, 8)
-							generate(world, base.offsetNorth(), 8)
-							generate(world, base.offsetSouth(), 8)
-							generate(world, base.offsetWest(), 8)
-							generate(world, base.offsetEast(), 8)
+							generate(world, base.offsetNorth, 8)
+							generate(world, base.offsetSouth, 8)
+							generate(world, base.offsetWest, 8)
+							generate(world, base.offsetEast, 8)
 						} else {
 							val yLevel = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax)
 							generate(world, new BlockPos(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16)), random nextInt 4)
@@ -45,7 +45,7 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 			}
 
 	private def generate(world: World, pos: BlockPos, amt: Int) =
-		world.setBlockState(pos, BlockLiquidCrystalFluid getStateFromMeta amt , 1 | 2)
+		world.setBlockState(pos, BlockLiquidCrystalFluid getStateFromMeta amt, 1 | 2)
 
 	override def load(config: Configuration) {
 		baseGenerationLevel = config.getInt("baseGenLiquidCrystalLvl", Reference.CONFIG_WORLDGEN_CATEGORY, baseGenerationLevel, 2, 60, "Base level of generation")

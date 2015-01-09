@@ -2,7 +2,7 @@ package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import net.minecraft.block.{BlockPistonBase, Block}
+import net.minecraft.block.Block
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.{BlockState, IBlockState}
 import net.minecraft.entity.EntityLivingBase
@@ -71,7 +71,7 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 		setBlockBounds(0, 0, .8f, 1, 1, 1)
 
 	override def onBlockPlaced(worldIn: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase) =
-		getDefaultState.withProperty(FACING, BlockPistonBase.func_180695_a(worldIn, pos, placer).getOpposite)
+		getDefaultState.withProperty(FACING, facing.getOpposite)
 
 	override def isOpaqueCube =
 		false

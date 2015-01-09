@@ -3,14 +3,18 @@ package com.nabijaczleweli.minecrasmer.item
 import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.{IMultiModelItem, IOreDictRegisterable}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.entity.Entity
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.util.MathHelper
+import net.minecraft.world.World
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import net.minecraftforge.oredict.OreDictionary
@@ -46,6 +50,26 @@ object ItemQuartz extends Item with IMultiModelItem with IOreDictRegisterable {
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
+
+
+	override def createEntity(world: World, location: Entity, itemstack: ItemStack) = {
+		val source = location.asInstanceOf[EntityItem]
+		var ent: EntityItem = null
+
+		source.getEntityItem.getItemDamage match {
+			case `plateDamage` =>
+				ent = new EntityItemShredder(world, itemstack)
+			case `shardsDamage` =>
+				ent = new EntityItemCleaner(world, itemstack)
+		}
+
+		ent func_180432_n source // copyDataFromOld
+		ent
+	}
+
+
+	override def hasCustomEntity(stack: ItemStack) =
+		stack.getItemDamage == plateDamage || stack.getItemDamage == shardsDamage
 
 	override def getUnlocalizedName(stack: ItemStack) =
 		"item." + Reference.NAMESPACED_PREFIX + '.' + subNameNames(stack.getMetadata)

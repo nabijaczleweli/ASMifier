@@ -4,15 +4,14 @@ import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
 import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
-import com.nabijaczleweli.minecrasmer.entity.{Villager, EntityItemCleaner, EntityItemShredder}
-import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler, EntityHandler}
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder, Villager}
+import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.{VillageComponentElectronicShop, WorldGenLiquidCrystal}
-import net.minecraft.block.Block
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
@@ -35,11 +34,11 @@ class CommonProxy extends IProxy {
 		ItemQuartz.register()
 		ItemPartialIron.register()
 
-		(BlockLiquidCrystalFluid: Block).register()
+		BlockLiquidCrystalFluid.register()
 		BlockComputerOff.register()
 		BlockComputerOn.register()
-		BlockOverclocker.register()
-		BlockAdditionalCPU.register()
+		BlockAccessoryOverclocker.register()
+		BlockAccessoryAdditionalCPU.register()
 
 		scoopEmpty.register()
 		scoopLiquidCrystal.register()
@@ -54,7 +53,6 @@ class CommonProxy extends IProxy {
 
 	override def registerEvents() {
 		MinecraftForge.EVENT_BUS register BlocksHandler
-		MinecraftForge.EVENT_BUS register EntityHandler
 		FMLCommonHandler.instance.bus register CraftingHandler
 	}
 

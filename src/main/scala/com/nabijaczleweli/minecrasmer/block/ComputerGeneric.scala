@@ -63,7 +63,7 @@ class ComputerGeneric(suffix: String) extends Block(Container.materialComputer) 
 		new BlockState(this, FACING)
 
 	override def onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, placer.func_174811_aO.getOpposite), 2)
+		worldIn.setBlockState(pos, state.withProperty(FACING, placer.func_174811_aO.getOpposite), 2) // getHorizontalFacing
 	}
 
 	override def getItemDropped(state: IBlockState, rand: Random, fortune: Int) =

@@ -22,7 +22,7 @@ class EntityItemCleaner(world: World, x: Double, y: Double, z: Double, is: ItemS
 				case Blocks.water | Blocks.flowing_water =>
 					val purified = new EntityItem(worldObj)
 
-					purified func_180432_n this
+					purified func_180432_n this // copyDataFromOld
 					purified setEntityItemStack new ItemStack(ItemQuartz, getEntityItem.stackSize, ItemQuartz.cleanShardsDamage)
 
 					worldObj spawnEntityInWorld purified

@@ -1,14 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import java.util
-
-import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityAdditionalCPU
-import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
-import net.minecraft.world.World
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.{Side, SideOnly}
-
+/*
 @SideOnly(Side.CLIENT)
 object ProviderAdditionalCPU extends AccessoryWailaDataProvider[TileEntityAdditionalCPU] {
 	Container.eventBus register this
@@ -25,3 +17,4 @@ object ProviderAdditionalCPU extends AccessoryWailaDataProvider[TileEntityAdditi
 		multiplierMessage.reload()
 	}
 }
+*/

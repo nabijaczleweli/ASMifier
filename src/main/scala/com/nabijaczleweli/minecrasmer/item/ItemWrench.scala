@@ -26,7 +26,7 @@ private object _ItemWrench {
 	lazy val effectiveAgainst = {
 		ReflectionUtil.subClassesInPackage(classOf[Block], Package getPackage "com.nabijaczleweli.minecrasmer.block", {_.getSimpleName endsWith "$"}) map {
 			try
-				ReflectionUtils.staticSingletonInstance
+				ReflectionUtils staticSingletonInstance _
 			catch {
 				case _: Throwable =>
 					null

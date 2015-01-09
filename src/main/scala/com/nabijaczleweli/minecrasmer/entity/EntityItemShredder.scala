@@ -21,7 +21,7 @@ class EntityItemShredder(world: World, x: Double, y: Double, z: Double, is: Item
 		if(src.isExplosion && (getEntityItem.getItem == ItemQuartz && getEntityItem.getItemDamage == ItemQuartz.plateDamage) && getEntityItem.stackSize > 0 && isDead && !worldObj.isRemote) {
 			val shred = new EntityItem(worldObj)
 
-			shred func_180432_n this
+			shred func_180432_n this // copyDataFromOld
 			shred setEntityItemStack new ItemStack(ItemQuartz, (getEntityItem.stackSize * EntityItemShredder.plateToShardRate).toInt, ItemQuartz.shardsDamage)
 
 			worldObj spawnEntityInWorld shred

@@ -1,17 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import java.util
-
-import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
-import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
-import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
-import net.minecraft.item.{ItemBlock, ItemStack}
-import net.minecraftforge.fml.common.Optional
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.{Side, SideOnly}
-
+/*
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
@@ -101,3 +90,4 @@ object ProviderComputer extends IWailaDataProvider {
 				}
 		}
 }
+*/

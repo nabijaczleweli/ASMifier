@@ -1,5 +1,6 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
+import com.nabijaczleweli.minecrasmer.block.{BlockAccessoryAdditionalCPU, BlockAccessoryOverclocker, BlockComputerOff, BlockComputerOn}
 import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
 import com.nabijaczleweli.minecrasmer.item._
@@ -57,9 +58,12 @@ class ClientProxy extends CommonProxy {
 		ItemQuartz.registerModels()
 		ItemPartialIron.registerModels()
 
-		//scoopEmpty.register()
-		//scoopLiquidCrystal.register()
+		scoopEmpty.registerModels()
+		scoopLiquidCrystal.registerModels()
 
-
+		(Item getItemFromBlock BlockComputerOff).registerModels()
+		(Item getItemFromBlock BlockComputerOn).registerModels()
+		(Item getItemFromBlock BlockAccessoryOverclocker).registerModels()
+		(Item getItemFromBlock BlockAccessoryAdditionalCPU).registerModels()
 	}
 }

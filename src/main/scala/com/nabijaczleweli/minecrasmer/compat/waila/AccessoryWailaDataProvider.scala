@@ -1,15 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import java.util.{List => jList}
-
-import com.nabijaczleweli.minecrasmer.computing.ComputerAccessory
-import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
-import net.minecraft.item.ItemStack
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.world.World
-import net.minecraftforge.fml.common.Optional
-import net.minecraftforge.fml.relauncher.{Side, SideOnly}
-
+/*
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 trait AccessoryWailaDataProvider[-T <: TileEntity with ComputerAccessory] extends IWailaDataProvider {
@@ -31,3 +22,4 @@ trait AccessoryWailaDataProvider[-T <: TileEntity with ComputerAccessory] extend
 	override def getWailaTail(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
 }
+*/
