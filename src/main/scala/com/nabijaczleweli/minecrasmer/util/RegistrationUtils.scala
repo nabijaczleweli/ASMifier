@@ -1,12 +1,10 @@
 package com.nabijaczleweli.minecrasmer.util
 
-import com.nabijaczleweli.minecrasmer.item.ItemScoop
-import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import net.minecraft.block.Block
 import net.minecraft.item.crafting.IRecipe
-import net.minecraft.item.{Item, ItemMultiTexture, ItemStack}
-import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, IFluidBlock}
+import net.minecraft.item.{Item, ItemMultiTexture}
+import net.minecraftforge.fluids.IFluidBlock
 import net.minecraftforge.fml.common.registry.GameRegistry
 
 object RegistrationUtils {
@@ -38,16 +36,5 @@ object RegistrationUtils {
 		@inline
 		def register() =
 			GameRegistry.registerItem(item, item.getUnlocalizedName substring ":")
-	}
-
-	implicit class ScoopUtils(val item: ItemScoop) extends AnyVal {
-		def register() {
-			(item: Item).register()
-			item.contains match {
-				case contains: IFluidBlock if !item.empty =>
-					FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(contains.getFluid.getName, ItemScoop.capacity), new ItemStack(item), new ItemStack(Container.scoopEmpty))
-				case _ =>
-			}
-		}
 	}
 }

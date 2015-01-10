@@ -1,15 +1,13 @@
 package com.nabijaczleweli.minecrasmer
 
 import com.nabijaczleweli.minecrasmer.compat._
-import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.reference.{CompatLoader, Configuration, Container}
 import com.nabijaczleweli.minecrasmer.util.ReflectionUtil
-import net.minecraft.item.ItemStack
-import net.minecraftforge.fluids._
+import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
@@ -57,18 +55,11 @@ object MineCrASMer {
 		for(message <- event.getMessages)
 			message.key match {
 				case "register-scoop" if message.isNBTMessage => // This method of registering scoops requires the scoop item and fluid to be registered
-					try {
-						val itemStack = ItemStack loadItemStackFromNBT (message.getNBTValue getCompoundTag "itemstack")
-						FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(itemStack.getItem.asInstanceOf[ItemScoop].fluid.getName, ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
-
-						val item = itemStack.getItem.asInstanceOf[ItemScoop]
-						Container.foreignScoops ::= item
-						ScoopHandler.scoops += item.contains -> item
-
-						log info s"Successfully registered scoop with ${item.fluid.getName}."
-					} catch {
-						case exc: Throwable =>
-							log.warn(s"Unable to register scoop from ${message.getSender}:", exc)
+					FluidRegistry getFluid (message.getNBTValue getString "fluid_name") match {
+						case fluid =>
+							ItemScoop.colors += fluid -> (message.getNBTValue getInteger "color")
+						case null =>
+							log.warn(s"Unable to register scoop from ${message.getSender}: block of name '${message.getNBTValue getString "block_name"}' does not exist.")
 					}
 				case _ =>
 			}

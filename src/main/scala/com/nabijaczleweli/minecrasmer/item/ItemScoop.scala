@@ -1,51 +1,76 @@
 package com.nabijaczleweli.minecrasmer.item
 
-import com.nabijaczleweli.minecrasmer.MineCrASMer
+import java.util.{List => jList}
+
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
-import com.nabijaczleweli.minecrasmer.proxy.ClientProxy
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
-import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import net.minecraft.block.{Block, BlockAir}
+import com.nabijaczleweli.minecrasmer.util.ConstructibleNBTTagCompound
+import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.{ItemBucket, ItemStack}
+import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagString}
 import net.minecraft.util.MovingObjectPosition
 import net.minecraft.world.World
-import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, IFluidBlock}
-import net.minecraftforge.fml.common.FMLCommonHandler
+import net.minecraftforge.fluids.{Fluid, FluidContainerRegistry, FluidRegistry}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
+import scala.collection.immutable.HashMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends ItemBucket(contains) {
-	def this(block: Block with IFluidBlock, color: Int) =
-		this(block, block.getFluid, color)
+object ItemScoop extends Item {
+	@SideOnly(Side.CLIENT)
+	private lazy val localizedNames = new ReloadableStrings(Future(List(new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoop_full.name"),
+	                                                                    new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoop_empty.name"))))
+	val capacity = FluidContainerRegistry.BUCKET_VOLUME / 7
+	val emptyColor = 0x3a4d55 // Picked straight from the image file
+	var colors: Map[Fluid, Int] = HashMap(Container.liquidCrystal -> 0x00ff00)
+	val fluidKey = s"${Reference.NAMESPACED_PREFIX}fluid_name"
 
-	def this(block: BlockAir) =
-		this(block, null, 0)
 
-	val empty = contains.isInstanceOf[BlockAir] || fluid == null
-
-	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}scoop_${if(empty) "empty" else {contains.getUnlocalizedName substring 5 substring ":" toLower 0}}")
+	Container.eventBus register this
+	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}scoop")
 	setCreativeTab(CreativeTabMineCrASMer)
 	setMaxStackSize(1)
-	if(!empty) {
-		setContainerItem(Container.scoopEmpty)
-		if(FMLCommonHandler.instance.getEffectiveSide.isClient)
-			MineCrASMer.proxy.asInstanceOf[ClientProxy].scoopRenderQueue enqueue this
+
+	private def actualTagCompound(is: ItemStack) = {
+		if(!is.hasTagCompound)
+			is setTagCompound new NBTTagCompound
+		is.getTagCompound
 	}
 
+	def empty(is: ItemStack) =
+		!(actualTagCompound(is) hasKey fluidKey)
+
+	def contains(is: ItemStack) =
+		fluid(is) match {
+			case null =>
+				null
+			case fld =>
+				fld.getBlock
+		}
+
+	def fluid(is: ItemStack) =
+		FluidRegistry getFluid (actualTagCompound(is) getString fluidKey)
+
+	def scoopWith(fluid: Fluid) =
+		new ItemStack(this) ensuring {is => is setTagCompound new ConstructibleNBTTagCompound(Map(ItemScoop.fluidKey -> new NBTTagString(fluid.getName))); is.hasTagCompound}
+
+	def scoopEmpty =
+		new ItemStack(this)
+
+
 	override def getItemStackDisplayName(is: ItemStack) =
-		if(empty)
-			super.getItemStackDisplayName(is)
+		if(empty(is))
+			localizedNames(1)
 		else
-			ItemScoop localizedName 0 format contains.getLocalizedName
+			localizedNames(0) format contains(is).getLocalizedName
 
 	override def onItemRightClick(is: ItemStack, world: World, player: EntityPlayer) = {
-		val mop = getMovingObjectPositionFromPlayer(world, player, empty)
+		val mop = getMovingObjectPositionFromPlayer(world, player, empty(is))
 		if(mop == null)
 			is
 		else {
@@ -54,7 +79,7 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 					case MovingObjectPosition.MovingObjectType.MISS | MovingObjectPosition.MovingObjectType.ENTITY =>
 						is
 					case MovingObjectPosition.MovingObjectType.BLOCK =>
-						if(empty) {
+						if(empty(is)) {
 							val resultItemStack = ScoopHandler.fillScoop(world, mop)
 							if(resultItemStack == null)
 								is
@@ -79,23 +104,31 @@ class ItemScoop(val contains: Block, val fluid: Fluid, val color: Int) extends I
 		0
 
 	override def getColorFromItemStack(is: ItemStack, layer: Int) =
-		if(empty || layer == 0)
+		if(layer == 0)
 			super.getColorFromItemStack(is, layer)
+		else if(empty(is))
+			emptyColor
 		else
-			color
-}
-
-object ItemScoop {
-	Container.eventBus register this
-
-	val capacity = FluidContainerRegistry.BUCKET_VOLUME / 7
+			colors get fluid(is) match {
+				case Some(color) =>
+					color
+				case None =>
+					0xff00ff
+			}
 
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedName = new ReloadableStrings(Future(List(new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoop_full.name"))))
+	override def getSubItems(itemIn: Item, tab: CreativeTabs, subItems: jList[_]) = {
+		assume(itemIn == this)
+		val items = subItems.asInstanceOf[jList[ItemStack]]
+
+		for(flu <- colors.keys)
+			items add scoopWith(flu)
+		items add scoopEmpty
+	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
-		localizedName.reload()
+		localizedNames.reload()
 	}
 }

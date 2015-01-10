@@ -75,10 +75,13 @@ object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 	def oreDictName(dmg: Int) =
 		subOreDictNames(MathHelper.clamp_int(dmg, 0, subOreDictNames.length - 1))
 
-	def tier(is: ItemStack) = {
-		var temp = -1
-		for(name <- OreDictionary getOreIDs is map {OreDictionary.getOreName} if temp == -1)
-			temp = subOreDictNames indexOf name
-		temp + 1
-	}
+	def tier(is: ItemStack) =
+		if(is == null || is .getItem == null)
+			-1
+		else {
+			var temp = -1
+			for(name <- OreDictionary getOreIDs is map {OreDictionary.getOreName} if temp == -1)
+				temp = subOreDictNames indexOf name
+			temp + 1
+		}
 }

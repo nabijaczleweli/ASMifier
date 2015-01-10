@@ -18,7 +18,7 @@ class EntityItemCleaner(world: World, x: Double, y: Double, z: Double, is: ItemS
 	override def onEntityUpdate() {
 		super.onEntityUpdate()
 		if(ticksExisted == 100 && (getEntityItem.getItem == ItemQuartz && getEntityItem.getItemDamage == ItemQuartz.shardsDamage) && getEntityItem.stackSize > 0 && !isDead && !worldObj.isRemote)
-			worldObj.getBlockState(new BlockPos(posX, posY, posZ)) match {
+			worldObj.getBlockState(new BlockPos(posX, posY, posZ)).getBlock match {
 				case Blocks.water | Blocks.flowing_water =>
 					val purified = new EntityItem(worldObj)
 

@@ -2,11 +2,9 @@ package com.nabijaczleweli.minecrasmer.reference
 
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
-import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
+import net.minecraft.block.Block
 import net.minecraft.block.material.{MapColor, Material}
-import net.minecraft.block.{Block, BlockAir}
-import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraftforge.common.util.EnumHelper
 import net.minecraftforge.fluids.Fluid
@@ -24,11 +22,8 @@ object Container extends IOreDictRegisterable {
 
 	lazy val liquidCrystal = new Fluid("liquidcrystal") setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock (BlockLiquidCrystalFluid: Block) setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal"
 
-	lazy val socketCPU          = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer
-	lazy val stoneRod           = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer
-	lazy val scoopEmpty         = new ItemScoop(Blocks.air.asInstanceOf[BlockAir])
-	lazy val scoopLiquidCrystal = new ItemScoop(BlockLiquidCrystalFluid, 0x00FF00)
-	var foreignScoops: List[ItemScoop] = Nil
+	lazy val socketCPU = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer
+	lazy val stoneRod  = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer
 
 	val eventBus = new EventBus
 

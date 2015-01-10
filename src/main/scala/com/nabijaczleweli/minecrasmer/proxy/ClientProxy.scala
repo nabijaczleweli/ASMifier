@@ -27,8 +27,6 @@ class ClientProxy extends CommonProxy {
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(item, 0, new ModelResourceLocation(item.getUnlocalizedName substring ".", "inventory"))
 	}
 
-	val scoopRenderQueue = mQueue[ItemScoop]()
-
 	override def registerRenderers() {
 		super.registerRenderers()
 		/*while(scoopRenderQueue.size != 0)
@@ -57,9 +55,7 @@ class ClientProxy extends CommonProxy {
 		stoneRod.registerModels()
 		ItemQuartz.registerModels()
 		ItemPartialIron.registerModels()
-
-		scoopEmpty.registerModels()
-		scoopLiquidCrystal.registerModels()
+		ItemScoop.registerModels()
 
 		(Item getItemFromBlock BlockComputerOff).registerModels()
 		(Item getItemFromBlock BlockComputerOn).registerModels()

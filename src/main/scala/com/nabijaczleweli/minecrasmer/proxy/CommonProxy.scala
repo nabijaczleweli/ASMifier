@@ -17,11 +17,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
 import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
-import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fluids.{FluidStack, FluidContainerRegistry, FluidRegistry}
 import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
+
+import scala.collection.JavaConversions._
 
 class CommonProxy extends IProxy {
 	final override def registerItemsAndBlocks() {
@@ -33,15 +35,13 @@ class CommonProxy extends IProxy {
 		stoneRod.register()
 		ItemQuartz.register()
 		ItemPartialIron.register()
+		ItemScoop.register()
 
 		BlockLiquidCrystalFluid.register()
 		BlockComputerOff.register()
 		BlockComputerOn.register()
 		BlockAccessoryOverclocker.register()
 		BlockAccessoryAdditionalCPU.register()
-
-		scoopEmpty.register()
-		scoopLiquidCrystal.register()
 	}
 
 	final override def registerOreDict() =
@@ -69,6 +69,9 @@ class CommonProxy extends IProxy {
 
 	final override def registerFluids() {
 		FluidRegistry registerFluid liquidCrystal
+
+		for(fluid <- FluidRegistry.getRegisteredFluids.values)
+			FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemScoop.capacity), ItemScoop scoopWith fluid, ItemScoop.scoopEmpty)
 	}
 
 	override def registerRenderers() {}
@@ -85,12 +88,12 @@ class CommonProxy extends IProxy {
 		val polymer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.monomerDamage)
-		val crystalScoop = new ItemStack(scoopLiquidCrystal)
-		val emptyScoop = new ItemStack(scoopEmpty)
+		val crystalScoop = ItemScoop scoopWith liquidCrystal
+		val emptyScoop = ItemScoop.scoopEmpty
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 		val halfIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.halfDamage)
 		val halfIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.halfDamage)
-		val quarterIronx8 = new ItemStack(ItemPartialIron, 8, ItemPartialIron.quarterDamage)
+		val quarterIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.quarterDamage)
 		val quarterIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.quarterDamage)
 		val elementaryCPU = new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage)
 		val simpleCPU = new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage)
@@ -128,15 +131,14 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
+		new ShapedOreRecipe(socketCPU, "P P", " P ", " N ", 'P': Character, plasticOre, 'N': Character, goldOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
-		new ShapedOreRecipe(quarterIronx8, "H H", 'H': Character, halfIronx4).register()
+		new ShapedOreRecipe(quarterIronx4, "H H", 'H': Character, halfIronx4).register()
 		new ShapedOreRecipe(halfIronx4, "I I", 'I': Character, ironOre).register()
-		new ShapedOreRecipe(Items.iron_ingot, "HH", "HH", 'H': Character, halfIronx1).register()
-		new ShapedOreRecipe(halfIronx1, "QQ", "QQ", 'Q': Character, quarterIronx1).register()
-		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
+		new ShapedOreRecipe(Items.iron_ingot, "HH", 'H': Character, halfIronx1).register()
+		new ShapedOreRecipe(halfIronx1, "QQ", 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(goodCPU, "CgC", " S ", 'C': Character, simpleCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
 		new ShapedOreRecipe(simpleCPU, "CgC", " S ", 'C': Character, elementaryCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
@@ -160,7 +162,7 @@ class CommonProxy extends IProxy {
 		mineshaftChestGen addItem new WeightedRandomChestContent(ItemQuartz, ItemQuartz.shardsDamage, 3, 8, 2)
 
 		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
-		blacksmithChestGen addItem new WeightedRandomChestContent(scoopEmpty, 0, 1, 4, 3)
+		blacksmithChestGen addItem new WeightedRandomChestContent(ItemScoop.scoopEmpty, 1, 4, 3)
 
 
 		/*VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
