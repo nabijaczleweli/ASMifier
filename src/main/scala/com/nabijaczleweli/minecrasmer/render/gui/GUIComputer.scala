@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11._
 object GUIComputer extends GuiScreen {
 	val id = 0
 
-	private final      val resourceGUI          = new MineCrASMerLocation("textures/gui/computer.png")
+	private final      val resourceGUI          = MineCrASMerLocation("textures/gui/computer.png")
 	private final      val textureWidth         = 200
 	private final      val textureHeight        = 150
 	private final      val screenContentOffsetX = 5
@@ -33,7 +33,7 @@ object GUIComputer extends GuiScreen {
 		super.initGui()
 		Keyboard enableRepeatEvents true
 		if(fontRendererObj == null) // Such that we don't get java.lang.ExceptionInInitializerError
-			fontRendererObj = new FontRenderer(mc.gameSettings, new MineCrASMerLocation("textures/gui/ascii.png"), mc.renderEngine, false)
+			fontRendererObj = new FontRenderer(mc.gameSettings, MineCrASMerLocation("textures/gui/ascii.png"), mc.renderEngine, false)
 	}
 
 	override def drawScreen(mouseX: Int, mouseY: Int, f: Float) {

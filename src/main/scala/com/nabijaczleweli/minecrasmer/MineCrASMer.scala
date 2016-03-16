@@ -29,6 +29,7 @@ object MineCrASMer {
 
 		proxy.registerFluids()
 		proxy.registerItemsAndBlocks()
+		proxy.registerRenderers()
 		proxy.registerGUIs()
 		proxy.registerEntities()
 	}
@@ -46,7 +47,6 @@ object MineCrASMer {
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
-		proxy.registerRenderers()
 		proxy.registerLoot()
 	}
 
@@ -54,12 +54,12 @@ object MineCrASMer {
 	def processIMCs(event: IMCEvent) {
 		for(message <- event.getMessages)
 			message.key match {
-				case "register-scoop" if message.isNBTMessage => // This method of registering scoops requires the scoop item and fluid to be registered
+				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
 					FluidRegistry getFluid (message.getNBTValue getString "fluid_name") match {
-						case fluid =>
-							ItemScoop.colors += fluid -> (message.getNBTValue getInteger "color")
 						case null =>
 							log.warn(s"Unable to register scoop from ${message.getSender}: block of name '${message.getNBTValue getString "block_name"}' does not exist.")
+						case fluid =>
+							ItemScoop.colors += fluid -> (message.getNBTValue getInteger "color")
 					}
 				case _ =>
 			}

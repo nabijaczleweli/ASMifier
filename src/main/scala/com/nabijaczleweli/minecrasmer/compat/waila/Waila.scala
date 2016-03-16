@@ -17,7 +17,7 @@ class Waila extends ICompat {
 			case CLIENT =>
 				var notAllSent = false
 
-				notAllSent |= !FMLInterModComms.sendMessage(getModIDs(0), "register", WailaCompatRegisterer.pathToRegisterMethod)
+				notAllSent |= !FMLInterModComms.sendMessage(getModIDs.head, "register", WailaCompatRegisterer.pathToRegisterMethod)
 
 				if(notAllSent)
 					Failed

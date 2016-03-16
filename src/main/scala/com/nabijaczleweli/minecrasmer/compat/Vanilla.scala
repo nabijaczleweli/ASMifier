@@ -17,11 +17,11 @@ class Vanilla extends ICompat {
 		val nbt = new NBTTagCompound
 
 		nbt.setString("fluid_name", FluidRegistry.LAVA.getName)
-		nbt.setInteger("color", 0xec0808)
+		nbt.setInteger("color", 0xEC0808)
 		FMLInterModComms.sendMessage(Reference.MOD_ID, "register-scoop", nbt.copy.asInstanceOf[NBTTagCompound])
 
 		nbt.setString("fluid_name", FluidRegistry.WATER.getName)
-		nbt.setInteger("color", 0x344df4)
+		nbt.setInteger("color", 0x344DF4)
 		FMLInterModComms.sendMessage(Reference.MOD_ID, "register-scoop", nbt.copy.asInstanceOf[NBTTagCompound])
 
 		Successful

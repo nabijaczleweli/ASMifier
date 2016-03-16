@@ -2,6 +2,7 @@ package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.material.Material
+import net.minecraft.block.properties.IProperty
 import net.minecraft.util.BlockPos
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fluids.{BlockFluidBase, BlockFluidFinite}
@@ -38,5 +39,5 @@ object BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystal,
 			super.displaceIfPossible(world, pos)
 
 	override def getStateFromMeta(meta: Int) =
-		getDefaultState.withProperty(BlockFluidBase.LEVEL, meta)
+		getDefaultState.withProperty(BlockFluidBase.LEVEL: IProperty[Integer], meta: Integer)
 }

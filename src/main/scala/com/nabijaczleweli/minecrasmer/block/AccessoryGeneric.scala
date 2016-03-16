@@ -8,9 +8,10 @@ import net.minecraft.block.state.{BlockState, IBlockState}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.util.{BlockPos, EnumFacing}
 import net.minecraft.world.{IBlockAccess, World}
+import net.minecraftforge.fml.common.Optional
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-//@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
+@Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
 class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer) /*with IPneumaticWrenchable*/ {
 	import com.nabijaczleweli.minecrasmer.block.AccessoryGeneric.FACING
 
@@ -24,7 +25,7 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 	protected final lazy val icons = new Array[IIcon](1)*/
 
 	override def getMetaFromState(state: IBlockState) =
-		(state getValue FACING).asInstanceOf[EnumFacing].getIndex
+		(state getValue FACING).getIndex
 
 	override def getStateFromMeta(meta: Int) = // Stolen from BlockFurnace
 		getDefaultState.withProperty(FACING, (EnumFacing getFront meta).getAxis match {

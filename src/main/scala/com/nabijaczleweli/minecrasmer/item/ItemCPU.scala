@@ -4,7 +4,7 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
+import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.{IMultiModelItem, IOreDictRegisterable}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
@@ -42,7 +42,7 @@ object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, localizedNames.length))
 
 	@SideOnly(Side.CLIENT)
-	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) =
+	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[ItemStack]) =
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
@@ -68,7 +68,7 @@ object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 	override def registerModels() {
 		for(i <- elementaryDamage to goodDamage) {
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"), "inventory"))
-			ModelBakery.addVariantName(this, Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"))
+			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("cpu_")))
 		}
 	}
 

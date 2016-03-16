@@ -41,7 +41,7 @@ object ItemPCB extends Item with IMultiModelItem {
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subNameNames.length))
 
 	@SideOnly(Side.CLIENT)
-	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) {
+	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[ItemStack]) {
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
@@ -60,7 +60,7 @@ object ItemPCB extends Item with IMultiModelItem {
 	override def registerModels() {
 		for(i <- fullPCBDamage to LCDDamage) {
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_"), "inventory"))
-			ModelBakery.addVariantName(this, Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_"))
+			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("pcb_")))
 		}
 	}
 }

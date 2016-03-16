@@ -31,7 +31,7 @@ class GUIAdditionalCPU(container: ContainerAdditionalCPU) extends GuiContainer(c
 }
 
 object GUIAdditionalCPU {
-	private val background = new MineCrASMerLocation("textures/gui/additional_cpu.png")
+	private val background = MineCrASMerLocation("textures/gui/additional_cpu.png")
 
 	val id = 1
 }

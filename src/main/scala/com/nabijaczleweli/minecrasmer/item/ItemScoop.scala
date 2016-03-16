@@ -117,7 +117,7 @@ object ItemScoop extends Item {
 			}
 
 	@SideOnly(Side.CLIENT)
-	override def getSubItems(itemIn: Item, tab: CreativeTabs, subItems: jList[_]) = {
+	override def getSubItems(itemIn: Item, tab: CreativeTabs, subItems: jList[ItemStack]) = {
 		assume(itemIn == this)
 		val items = subItems.asInstanceOf[jList[ItemStack]]
 

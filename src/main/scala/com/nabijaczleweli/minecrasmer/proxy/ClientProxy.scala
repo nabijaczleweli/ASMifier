@@ -9,15 +9,14 @@ import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloaderLis
 import com.nabijaczleweli.minecrasmer.util.IMultiModelItem
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.entity.RenderEntityItem
+import net.minecraft.client.renderer.entity.{RenderEntityItem, RenderManager}
 import net.minecraft.client.resources.IReloadableResourceManager
 import net.minecraft.client.resources.model.ModelResourceLocation
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.item.Item
-import net.minecraftforge.fml.client.registry.RenderingRegistry
+import net.minecraftforge.fml.client.registry.{IRenderFactory, RenderingRegistry}
 import net.minecraftforge.fml.common.registry.VillagerRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
-
-import scala.collection.mutable.{Queue => mQueue}
 
 @SideOnly(Side.CLIENT)
 class ClientProxy extends CommonProxy {
@@ -27,16 +26,22 @@ class ClientProxy extends CommonProxy {
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(item, 0, new ModelResourceLocation(item.getUnlocalizedName substring ".", "inventory"))
 	}
 
+	private def itemRendererFactory[T <: EntityItem] =
+		new IRenderFactory[T] {
+			override def createRenderFor(manager: RenderManager) =
+				new RenderEntityItem(manager, Minecraft.getMinecraft.getRenderItem)
+		}
+
+
 	override def registerRenderers() {
 		super.registerRenderers()
 		/*while(scoopRenderQueue.size != 0)
 			MinecraftForgeClient.registerItemRenderer(scoopRenderQueue.dequeue(), FilledScoopRenderer)*/
 
-		val itemRenderer = new RenderEntityItem(Minecraft.getMinecraft.getRenderManager, Minecraft.getMinecraft.getRenderItem)
-		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRenderer)
-		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRenderer)
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemShredder], itemRendererFactory[EntityItemShredder])
+		RenderingRegistry.registerEntityRenderingHandler(classOf[EntityItemCleaner], itemRendererFactory[EntityItemCleaner])
 
-		VillagerRegistry.instance.registerVillagerSkin(electronicsVillagerID, new MineCrASMerLocation("textures/entity/villager/electronic.png"))
+		VillagerRegistry.instance.registerVillagerSkin(electronicsVillagerID, MineCrASMerLocation("textures/entity/villager/electronic.png"))
 	}
 
 	override def registerEvents() {

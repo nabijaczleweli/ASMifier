@@ -2,8 +2,8 @@ package com.nabijaczleweli.minecrasmer.reference
 
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
+import com.nabijaczleweli.minecrasmer.resource.MineCrASMerLocation
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
-import net.minecraft.block.Block
 import net.minecraft.block.material.{MapColor, Material}
 import net.minecraft.item.Item
 import net.minecraftforge.common.util.EnumHelper
@@ -20,7 +20,7 @@ object Container extends IOreDictRegisterable {
 
 	val log = LogManager.getRootLogger // Set by the mod instance in PreInit; needs not to be lazy (reflection)
 
-	lazy val liquidCrystal = new Fluid("liquidcrystal") setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock (BlockLiquidCrystalFluid: Block) setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal"
+	lazy val liquidCrystal = new Fluid("liquidcrystal", MineCrASMerLocation("liquidcrystal_still"), MineCrASMerLocation("liquidcrystal_flowing")) setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock BlockLiquidCrystalFluid setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal"
 
 	lazy val socketCPU = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer
 	lazy val stoneRod  = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer

@@ -4,7 +4,7 @@ import java.util
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
+import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
 import com.nabijaczleweli.minecrasmer.util.{IMultiModelItem, IOreDictRegisterable}
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
 import net.minecraft.client.Minecraft
@@ -45,7 +45,7 @@ object ItemPlastic extends Item with IMultiModelItem with IOreDictRegisterable {
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subIconNames.length))
 
 	@SideOnly(Side.CLIENT)
-	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) =
+	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[ItemStack]) =
 		if(item.isInstanceOf[this.type])
 			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
@@ -72,7 +72,7 @@ object ItemPlastic extends Item with IMultiModelItem with IOreDictRegisterable {
 		val cleanUnlocalizedName = super.getUnlocalizedName substring "."
 		for(i <- monomerDamage to plasticDamage) {
 			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(cleanUnlocalizedName + '_' + subIconNames(i), "inventory"))
-			ModelBakery.addVariantName(this, cleanUnlocalizedName + '_' + subIconNames(i))
+			ModelBakery.registerItemVariants(this, MineCrASMerLocation("plastic_" + subIconNames(i)))
 		}
 	}
 }

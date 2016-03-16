@@ -1,22 +1,18 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
 
 apply plugin: 'scala'
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 if(System.getenv().BUILD_NUMBER != null)
 	build_number = System.getenv().BUILD_NUMBER
@@ -26,16 +22,11 @@ group = "com.nabijaczleweli.minecrasmer" // http://maven.apache.org/guides/mini/
 archivesBaseName = "MineCrASMer"
 
 minecraft {
-    version = "${mc_version}-11.14.0.${forge_build}-${mc_version}"
+    version = "${mc_version}-11.15.1.${forge_build}"
     runDir = "eclipse"
 
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not allways work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    // mappings = "snapshot_nodoc_20141130"
-		
+    mappings = "stable_22"
+
     replaceIn "Reference.scala"
     replace "@MODNAME@", archivesBaseName
     replace "@MODVER@", project.version
@@ -53,7 +44,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -66,19 +57,16 @@ dependencies {
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
 
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

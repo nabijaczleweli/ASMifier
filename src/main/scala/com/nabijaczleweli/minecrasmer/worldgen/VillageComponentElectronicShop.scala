@@ -1,6 +1,6 @@
 package com.nabijaczleweli.minecrasmer.worldgen
 
-import java.util.{Random, List => jList}
+import java.util.{List => jList, Random}
 
 import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.reference.Reference
@@ -69,38 +69,38 @@ class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start,
 			boundingBox.offset(0, averageGroundLevel - boundingBox.maxY + 4, 0)
 		}
 
-		func_180777_a(world, sbb, 0, 2, 0, 6, 7, 6, Blocks.stonebrick.getDefaultState, false) // Main house; fillWithBlocks
+		randomlyRareFillWithBlocks(world, sbb, 0, 2, 0, 6, 7, 6, Blocks.stonebrick.getDefaultState, false) // Main house; fillWithBlocks
 		fillWithAir(world, sbb, 1, 3, 1, 5, 6, 5) // Empty space
-		func_175810_a(world, sbb, par3Random, 3, 3, 0, EnumFacing.NORTH) // Door; placeDoorAtCurrentPosition
-		func_175811_a(world, Blocks.stone_brick_stairs getStateFromMeta getMetadataWithOffset(Blocks.stone_brick_stairs, 3), 3, 2, -1, sbb) // Doorsteps; placeBlockAtCurrentPosition
+		placeDoorCurrentPosition(world, sbb, par3Random, 3, 3, 0, EnumFacing.NORTH) // Door; placeDoorAtCurrentPosition
+		setBlockState(world, Blocks.stone_brick_stairs getStateFromMeta getMetadataWithOffset(Blocks.stone_brick_stairs, 3), 3, 2, -1, sbb) // Doorsteps; placeBlockAtCurrentPosition
 		// Carpet
 		for(x <- 1 until 6; z <- 1 until 6)
 			if((((x + z) % 2) == 0) ^ isCarpetToggled)
-				func_175811_a(world, Blocks.carpet getStateFromMeta 0, x, 3, z, sbb)
+				setBlockState(world, Blocks.carpet getStateFromMeta 0, x, 3, z, sbb)
 			else
-				func_175811_a(world, Blocks.carpet getStateFromMeta 8, x, 3, z, sbb)
+				setBlockState(world, Blocks.carpet getStateFromMeta 8, x, 3, z, sbb)
 		// \Carpet
 		val glassState = glass.getItem.asInstanceOf[ItemBlock].block getStateFromMeta glass.getItemDamage
 		// Ceiling windows
-		func_175811_a(world, glassState, 2, 7, 2, sbb)
-		func_175811_a(world, glassState, 3, 7, 3, sbb)
-		func_175811_a(world, glassState, 4, 7, 4, sbb)
-		func_175811_a(world, glassState, 2, 7, 4, sbb)
-		func_175811_a(world, glassState, 4, 7, 2, sbb)
+		setBlockState(world, glassState, 2, 7, 2, sbb)
+		setBlockState(world, glassState, 3, 7, 3, sbb)
+		setBlockState(world, glassState, 4, 7, 4, sbb)
+		setBlockState(world, glassState, 2, 7, 4, sbb)
+		setBlockState(world, glassState, 4, 7, 2, sbb)
 		// \Ceiling windows
 		val paneState = pane.getItem.asInstanceOf[ItemBlock].block getStateFromMeta pane.getItemDamage
 		// Wall windows
-		func_180777_a(world, sbb, 0, 5, 2, 0, 5, 4, paneState, false)
-		func_180777_a(world, sbb, 6, 5, 2, 6, 5, 4, paneState, false)
+		randomlyRareFillWithBlocks(world, sbb, 0, 5, 2, 0, 5, 4, paneState, false)
+		randomlyRareFillWithBlocks(world, sbb, 6, 5, 2, 6, 5, 4, paneState, false)
 		// \Ceiling windows
 		// Fence + Toppings + Floor
-		func_175811_a(world, Blocks.nether_brick_fence.getDefaultState, 3, 3, 4, sbb)
-		func_175811_a(world, Blocks.nether_brick_fence.getDefaultState, 4, 3, 5, sbb)
-		func_175811_a(world, Blocks.nether_brick_fence.getDefaultState, 2, 3, 5, sbb)
-		func_175811_a(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 3, 4, 4, sbb)
-		func_175811_a(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 4, 4, 5, sbb)
-		func_175811_a(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 2, 4, 5, sbb)
-		func_175811_a(world, Blocks.heavy_weighted_pressure_plate.getDefaultState, 3, 3, 5, sbb)
+		setBlockState(world, Blocks.nether_brick_fence.getDefaultState, 3, 3, 4, sbb)
+		setBlockState(world, Blocks.nether_brick_fence.getDefaultState, 4, 3, 5, sbb)
+		setBlockState(world, Blocks.nether_brick_fence.getDefaultState, 2, 3, 5, sbb)
+		setBlockState(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 3, 4, 4, sbb)
+		setBlockState(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 4, 4, 5, sbb)
+		setBlockState(world, Blocks.carpet getStateFromMeta fenceCarpetColor, 2, 4, 5, sbb)
+		setBlockState(world, Blocks.heavy_weighted_pressure_plate.getDefaultState, 3, 3, 5, sbb)
 		// \Fence \Toppings \Floor
 
 		spawnVillagers(world, sbb, 3, 3, 5, 1)
@@ -123,8 +123,8 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 	ChestGenHooks getInfo ELECTRONICS_CHEST addItem new WeightedRandomChestContent(Items.book, 0, 1, 2, 35)
 	ChestGenHooks getInfo ELECTRONICS_CHEST addItem new WeightedRandomChestContent(Items.flint_and_steel, 0, 1, 1, 2)
 
-	def buildComponent(villagePiece: Start, pieces: jList[_], random: Random, p1: Int, p2: Int, p3: Int, p4: EnumFacing, p5: Int) = {
-		val structureboundingbox = StructureBoundingBox.func_175897_a(p1, p2, p3, 0, 0, 0, widX, heiY, lenZ, p4)
+	def buildComponent(villagePiece: Start, pieces: jList[StructureComponent], random: Random, p1: Int, p2: Int, p3: Int, p4: EnumFacing, p5: Int) = {
+		val structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p1, p2, p3, 0, 0, 0, widX, heiY, lenZ, p4)
 		if((Village canVillageGoDeeper structureboundingbox) && (StructureComponent.findIntersecting(pieces, structureboundingbox) == null))
 			new VillageComponentElectronicShop(villagePiece, p5, random, structureboundingbox, p4)
 		else
@@ -134,13 +134,14 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 	override def getVillagePieceWeight(random: Random, i: Int) =
 		new PieceWeight(getComponentClass, 15, i + (random nextInt 3))
 
-	override def buildComponent(villagePiece: PieceWeight, startPiece: Start, pieces: jList[_], random: Random, p1: Int, p2: Int, p3: Int, p4: EnumFacing, p5: Int) =
-		VillageComponentElectronicShop.buildComponent(startPiece, pieces, random, p1, p2, p3, p4, p5)
+	override def buildComponent(villagePiece: StructureVillagePieces.PieceWeight, startPiece: StructureVillagePieces.Start, pieces: jList[StructureComponent], random: Random, p1: Int, p2: Int, p3: Int, facing: EnumFacing, p5: Int) =
+		VillageComponentElectronicShop.buildComponent(startPiece, pieces, random, p1, p2, p3, facing, p5)
 
 	override def getComponentClass =
 		classOf[VillageComponentElectronicShop]
 
 	private def randomBlockFromOreDict(name: String) =
+		//noinspection ZeroIndexToHead
 		sRandom shuffle (OreDictionary getOres name).toSeq take 1 map { is =>
 			is.getItemDamage match {
 				case OreDictionary.WILDCARD_VALUE =>

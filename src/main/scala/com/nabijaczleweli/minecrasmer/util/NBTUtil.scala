@@ -1,7 +1,8 @@
 package com.nabijaczleweli.minecrasmer.util
 
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.{NBTBase, NBTTagCompound, NBTTagList, NBTTagString}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagList, NBTTagString}
+import net.minecraftforge.common.util.Constants.NBT
 
 object NBTUtil {
 	implicit class StringArraySaver(val strarr: Array[String]) extends AnyVal {
@@ -31,9 +32,6 @@ object NBTUtil {
 	}
 
 	implicit class GeneralNBTUtil(tag: NBTTagCompound) {
-		private val stringNBTIndex   = NBTBase.NBT_TYPES indexOf "STRING"
-		private val compoundNBTIndex = NBTBase.NBT_TYPES indexOf "COMPOUND"
-
 		def hasTag(tagName: String) =
 			tag getTag tagName ne null
 
@@ -41,7 +39,7 @@ object NBTUtil {
 			if(!hasTag(tagName))
 				new Array[String](0)
 			else {
-				val arrNBT = tag.getTagList(tagName, stringNBTIndex)
+				val arrNBT = tag.getTagList(tagName, NBT.TAG_STRING)
 
 				val result = new Array[String](tag getInteger (tagName + "Amount"))
 				for(i <- 0 until result.length)
@@ -51,7 +49,7 @@ object NBTUtil {
 		}
 
 		def readItemStackArray(tagName: String, isarr: Array[ItemStack]) = {
-			val tagList = tag.getTagList(tagName, compoundNBTIndex)
+			val tagList = tag.getTagList(tagName, NBT.TAG_COMPOUND)
 			for(idx <- 0 until tagList.tagCount) {
 				val tag = tagList getCompoundTagAt idx
 				val slot = tag getByte "item_index"

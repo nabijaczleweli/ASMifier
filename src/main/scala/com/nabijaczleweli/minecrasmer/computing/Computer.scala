@@ -2,7 +2,8 @@ package com.nabijaczleweli.minecrasmer.computing
 
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.util.NBTUtil.NBTReloadable
-import net.minecraft.nbt.{NBTBase, NBTTagCompound, NBTTagList, NBTTagString}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagList, NBTTagString}
+import net.minecraftforge.common.util.Constants.NBT
 
 import scala.collection.mutable
 import scala.reflect.runtime.ReflectionUtils
@@ -14,7 +15,7 @@ trait Computer extends NBTReloadable {
 
 	def processorTick() {
 		if(curopcode == null)
-			if(instructions.length == 0)
+			if(instructions.isEmpty)
 				return
 			else
 				curopcode = instructions.dequeue()
@@ -36,10 +37,10 @@ trait Computer extends NBTReloadable {
 		val size = instructionsNbt getInteger "size"
 		for(i <- 0 until size) {
 			try {
-				val path = instructionsNbt.getTagList("loaderList", Computer.stringTagIndex) getStringTagAt i
+				val path = instructionsNbt.getTagList("loaderList", NBT.TAG_STRING) getStringTagAt i
 				val loaderModule = ReflectionUtils.staticSingletonInstance(getClass.getClassLoader, path)
 				val openOpcodeMethod = loaderModule.getClass.getMethod("openFromNBT", classOf[NBTTagCompound])
-				val savedInstruction = instructionsNbt.getTagList("instructionList", Computer.compoundTagIndex) getCompoundTagAt i
+				val savedInstruction = instructionsNbt.getTagList("instructionList", NBT.TAG_COMPOUND) getCompoundTagAt i
 				instructions enqueue openOpcodeMethod.invoke(loaderModule, savedInstruction).asInstanceOf[Opcode]
 			} catch {
 				case t: Throwable =>
@@ -63,9 +64,4 @@ trait Computer extends NBTReloadable {
 		instructionsNbt.setTag("instructionList", instructionListNbt)
 		tag.setTag("instructions", instructionsNbt)
 	}
-}
-
-object Computer {
-	val stringTagIndex   = NBTBase.NBT_TYPES indexOf "STRING"
-	val compoundTagIndex = NBTBase.NBT_TYPES indexOf "COMPOUND"
 }

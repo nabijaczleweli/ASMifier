@@ -8,14 +8,14 @@ import com.nabijaczleweli.minecrasmer.util.{IConfigurable, SimpleDataProcessingT
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.{NBTBase, NBTTagCompound}
-import net.minecraft.server.gui.IUpdatePlayerListBox
-import net.minecraft.util.{ChatComponentText, ChatComponentTranslation}
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.util.{ITickable, ChatComponentText, ChatComponentTranslation}
 import net.minecraftforge.common.config.Configuration
+import net.minecraftforge.common.util.Constants.NBT
 import net.minecraftforge.oredict.OreDictionary
 import org.apache.logging.log4j.core.helpers.Strings
 
-class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory with IUpdatePlayerListBox {
+class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with ComputerAccessory with IInventory with ITickable {
 	val slots = new Array[ItemStack](1)
 	private var customName = ""
 
@@ -59,7 +59,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 		false
 	}
 
-	override def getStackInSlotOnClosing(id: Int) = {
+	override def removeStackFromSlot(id: Int) = {
 		val stack = getStackInSlot(id)
 		if(stack != null)
 			setInventorySlotContents(id, null)
@@ -107,7 +107,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 	override def readFromNBT(tag: NBTTagCompound) {
 		super.readFromNBT(tag)
 		tag.readItemStackArray("slots", slots)
-		if(tag.hasKey("display_name", TileEntityAdditionalCPU.stringTagIdx))
+		if(tag.hasKey("display_name", NBT.TAG_STRING))
 			customName = tag getString "display_name"
 	}
 
@@ -128,8 +128,6 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 }
 
 object TileEntityAdditionalCPU extends IConfigurable {
-	private val stringTagIdx = NBTBase.NBT_TYPES indexOf "STRING"
-
 	final var processors        = 1
 	final var multiplierPerTier = 1.5F
 

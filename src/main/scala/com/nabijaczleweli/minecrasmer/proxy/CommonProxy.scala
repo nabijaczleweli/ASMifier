@@ -17,8 +17,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
 import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
-import net.minecraftforge.fluids.{FluidStack, FluidContainerRegistry, FluidRegistry}
-import net.minecraftforge.fml.common.FMLCommonHandler
+import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, FluidStack}
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
@@ -53,7 +52,7 @@ class CommonProxy extends IProxy {
 
 	override def registerEvents() {
 		MinecraftForge.EVENT_BUS register BlocksHandler
-		FMLCommonHandler.instance.bus register CraftingHandler
+		MinecraftForge.EVENT_BUS register CraftingHandler
 	}
 
 	final override def registerEntities() {

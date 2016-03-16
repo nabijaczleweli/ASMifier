@@ -5,14 +5,14 @@ import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.util.NBTUtil._
 import com.nabijaczleweli.minecrasmer.util.{IConfigurable, SimpleDataProcessingTileEntity}
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.server.gui.IUpdatePlayerListBox
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.ITickable
 import net.minecraftforge.common.config.Configuration
 
 import scala.collection.mutable.{Buffer => mBuffer}
 import scala.util.Random
 
-class TileEntityComputer extends SimpleDataProcessingTileEntity with MulticlockedComputer with IUpdatePlayerListBox {
+class TileEntityComputer extends SimpleDataProcessingTileEntity with MulticlockedComputer with ITickable {
 	type accessoryType = TileEntity with ComputerAccessory
 	var lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", new Random().nextInt().toString)
 	private val entities = mBuffer[accessoryType]()

@@ -3,11 +3,11 @@ package com.nabijaczleweli.minecrasmer.entity.tile
 import com.nabijaczleweli.minecrasmer.computing.ComputerAccessory
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.util.IConfigurable
-import net.minecraft.server.gui.IUpdatePlayerListBox
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.ITickable
 import net.minecraftforge.common.config.Configuration
 
-class TileEntityOverclocker extends TileEntity with ComputerAccessory with IUpdatePlayerListBox {
+class TileEntityOverclocker extends TileEntity with ComputerAccessory with ITickable {
 	def multiplier =
 		TileEntityOverclocker.multiplier
 
