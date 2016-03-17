@@ -3,12 +3,12 @@ package com.nabijaczleweli.minecrasmer.handler
 import java.util.{Map => jMap}
 
 import com.nabijaczleweli.minecrasmer.item.{ItemPCB, ItemQuartz, ItemScoop}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.common.gameevent.PlayerEvent.{ItemCraftedEvent, ItemSmeltedEvent}
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.crafting.FurnaceRecipes
 import net.minecraft.item.{ItemPiston, ItemStack}
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.{ItemCraftedEvent, ItemSmeltedEvent}
 
 import scala.collection.JavaConversions._
 
@@ -36,12 +36,12 @@ object CraftingHandler {
 	@SubscribeEvent
 	def onScoopSmelted(event: ItemSmeltedEvent) =
 		if(!event.player.getEntityWorld.isRemote)
-			FurnaceRecipes.smelting.getSmeltingList.asInstanceOf[jMap[ItemStack, ItemStack]].entrySet filter {_.getValue.getItem == event.smelting.getItem} find {
-				_.getKey.getItem match {
+			FurnaceRecipes.instance.getSmeltingList.entrySet filter {_.getValue.getItem == event.smelting.getItem} find { ent =>
+				ent.getKey.getItem match {
 					case null =>
 						false
-					case item: ItemScoop =>
-						!item.empty
+					case ItemScoop =>
+						!ItemScoop.empty(ent.getKey)
 					case _ =>
 						false
 				}
@@ -66,8 +66,8 @@ object CraftingHandler {
 			case is =>
 				is.getItem match {
 					case null =>
-					case it: ItemScoop if !it.empty =>
-						is func_150996_a it.getContainerItem
+					case ItemScoop if !ItemScoop.empty(is) =>
+						is.getTagCompound removeTag ItemScoop.fluidKey
 						is.stackSize += 1
 					case _ =>
 				}

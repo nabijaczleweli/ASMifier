@@ -1,0 +1,6 @@
+{
+  "parent": "minecrasmer:block/accessory_e",
+  "textures": {
+    "custom": "minecrasmer:blocks/overclocker"
+  }
+}

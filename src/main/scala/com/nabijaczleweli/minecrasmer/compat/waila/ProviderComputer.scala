@@ -1,17 +1,6 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-import java.util
-
-import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
-import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
-import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
-import cpw.mods.fml.common.Optional
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
-import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
-import net.minecraft.item.{ItemBlock, ItemStack}
-
+/*
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
@@ -38,11 +27,11 @@ object ProviderComputer extends IWailaDataProvider {
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
-		val block = itemStack.getItem.asInstanceOf[ItemBlock].field_150939_a
+		val block = itemStack.getItem.asInstanceOf[ItemBlock].block
 		val position = accessor.getPosition
 		val world = accessor.getWorld
 		val on = block.isInstanceOf[BlockComputerOn.type]
-		lazy val te = world.getTileEntity(position.blockX, position.blockY, position.blockZ).asInstanceOf[TileEntityComputer]
+		lazy val te = world.getTileEntity(position.func_178782_a).asInstanceOf[TileEntityComputer]
 		lazy val CPUs = te.CPUs // It might be expensive, so better cache it
 
 		if(on) {
@@ -101,3 +90,4 @@ object ProviderComputer extends IWailaDataProvider {
 				}
 		}
 }
+*/

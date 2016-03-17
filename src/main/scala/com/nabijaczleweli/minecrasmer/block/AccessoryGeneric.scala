@@ -1,52 +1,68 @@
 package com.nabijaczleweli.minecrasmer.block
 
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
-import com.nabijaczleweli.minecrasmer.reference.{Reference, Container}
-import cpw.mods.fml.common.Optional
-import cpw.mods.fml.relauncher.{Side, SideOnly}
+import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import net.minecraft.block.Block
-import net.minecraft.client.renderer.texture.IIconRegister
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.IIcon
+import net.minecraft.block.properties.PropertyDirection
+import net.minecraft.block.state.{BlockState, IBlockState}
+import net.minecraft.entity.EntityLivingBase
+import net.minecraft.util.{BlockPos, EnumFacing}
 import net.minecraft.world.{IBlockAccess, World}
-import net.minecraftforge.common.util.ForgeDirection
-import pneumaticCraft.api.block.IPneumaticWrenchable
+import net.minecraftforge.fml.common.Optional
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 @Optional.Interface(iface = "pneumaticCraft.api.block.IPneumaticWrenchable", modid = "PneumaticCraft", striprefs = true)
-class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer) with IPneumaticWrenchable {
+class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer) /*with IPneumaticWrenchable*/ {
+	import com.nabijaczleweli.minecrasmer.block.AccessoryGeneric.FACING
+
 	setHardness(.3f) // Glass-like
-	setHarvestLevel("wrench", 0)
-	setBlockName(s"${Reference.NAMESPACED_PREFIX}accessory_$suffix")
+	setUnlocalizedName(s"${Reference.NAMESPACED_PREFIX}accessory_$suffix")
 	setCreativeTab(CreativeTabMineCrASMer)
+	setDefaultState(blockState.getBaseState.withProperty(FACING, EnumFacing.NORTH))
+	setHarvestLevel("wrench", 0)
 
-	@SideOnly(Side.CLIENT)
-	protected final lazy val icons = new Array[IIcon](1)
+	/*@SideOnly(Side.CLIENT)
+	protected final lazy val icons = new Array[IIcon](1)*/
 
-	override def getCollisionBoundingBoxFromPool(world: World, x: Int, y: Int, z: Int) = {
-		setBlockBoundsBasedOnState(world, x, y, z)
-		super.getCollisionBoundingBoxFromPool(world, x, y, z)
+	override def getMetaFromState(state: IBlockState) =
+		(state getValue FACING).getIndex
+
+	override def getStateFromMeta(meta: Int) = // Stolen from BlockFurnace
+		getDefaultState.withProperty(FACING, (EnumFacing getFront meta).getAxis match {
+			case EnumFacing.Axis.Y =>
+				EnumFacing.NORTH
+			case _ =>
+				EnumFacing getFront meta
+		})
+
+	override def createBlockState() =
+		new BlockState(this, FACING)
+
+	override def getCollisionBoundingBox(worldIn: World, pos: BlockPos, state: IBlockState) = {
+		setBlockBoundsBasedOnState(worldIn, pos)
+		super.getCollisionBoundingBox(worldIn, pos, state)
 	}
 
 	@SideOnly(Side.CLIENT)
-	override def getSelectedBoundingBoxFromPool(world: World, x: Int, y: Int, z: Int) = {
-		setBlockBoundsBasedOnState(world, x, y, z)
-		super.getSelectedBoundingBoxFromPool(world, x, y, z)
+	override def getSelectedBoundingBox(world: World, pos: BlockPos) = {
+		setBlockBoundsBasedOnState(world, pos)
+		super.getSelectedBoundingBox(world, pos)
 	}
 
-	override def setBlockBoundsBasedOnState(world: IBlockAccess, x: Int, y: Int, z: Int) {
-		super.setBlockBoundsBasedOnState(world, x, y, z)
-		world.getBlockMetadata(x, y, z) match {
-			case 0 => // Down
+	override def setBlockBoundsBasedOnState(world: IBlockAccess, pos: BlockPos) {
+		super.setBlockBoundsBasedOnState(world, pos)
+		actualStateOrDefault(world, pos) getValue FACING match {
+			case EnumFacing.DOWN =>
 				setBlockBounds(0, 0, 0, 1, .2f, 1)
-			case 1 => // Up
+			case EnumFacing.UP =>
 				setBlockBounds(0, .8f, 0, 1, 1, 1)
-			case 2 => // North
+			case EnumFacing.NORTH =>
 				setBlockBounds(0, 0, 0, 1, 1, .2f)
-			case 3 => // South
+			case EnumFacing.SOUTH =>
 				setBlockBounds(0, 0, .8f, 1, 1, 1)
-			case 4 => // West
+			case EnumFacing.WEST =>
 				setBlockBounds(0, 0, 0, .2f, 1, 1)
-			case 5 => // East
+			case EnumFacing.EAST =>
 				setBlockBounds(.8f, 0, 0, 1, 1, 1)
 			case _ =>
 		}
@@ -55,18 +71,24 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 	override def setBlockBoundsForItemRender() =
 		setBlockBounds(0, 0, .8f, 1, 1, 1)
 
-	override def onBlockPlaced(world: World, x: Int, y: Int, z: Int, side: Int, hitX: Float, hitY: Float, hitZ: Float, meta: Int) = {
-		super.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, meta)
-		// Bottom side -> Upward pointing  Bottom side = 0  Upward pointing = 1
-		// Top side -> Downward pointing   Top side = 1     Downward pointing = 0
-		// Works for all sides
-		side ^ 1
-	}
+	override def onBlockPlaced(worldIn: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase) =
+		getDefaultState.withProperty(FACING, facing.getOpposite)
 
 	override def isOpaqueCube =
 		false
 
-	override def renderAsNormalBlock =
+	override def isSideSolid(world: IBlockAccess, pos: BlockPos, side: EnumFacing) =
+		(world getBlockState pos getValue FACING) == side
+
+	protected def actualStateOrDefault(world: IBlockAccess, pos: BlockPos) = {
+		val t = world getBlockState pos
+		if(t.getBlock == this)
+			t
+		else
+			getDefaultState
+	}
+
+	/*override def renderAsNormalBlock =
 		false
 
 	@SideOnly(Side.CLIENT)
@@ -80,20 +102,13 @@ class AccessoryGeneric(suffix: String) extends Block(Container.materialComputer)
 		if((side >> 1) == (meta >> 1))
 			blockIcon
 		else
-			icons(0)
+			icons(0)*/
 
-	@Optional.Method(modid = "PneumaticCraft")
+	/*@Optional.Method(modid = "PneumaticCraft")
 	override def rotateBlock(world: World, player: EntityPlayer, x: Int, y: Int, z: Int, side: ForgeDirection) =
-		rotateBlock(world, x, y, z, side, invert = player.isSneaking)
+		rotateBlock(world, x, y, z, side, invert = player.isSneaking)*/
+}
 
-	override def rotateBlock(worldObj: World, x: Int, y: Int, z: Int, axis: ForgeDirection) =
-		rotateBlock(worldObj, x, y, z, axis, invert = false)
-
-	def rotateBlock(world: World, x: Int, y: Int, z: Int, side: ForgeDirection, invert: Boolean) =
-		if(!world.isRemote) {
-			val sideIndex = ForgeDirection.VALID_DIRECTIONS indexOf side
-			world.setBlockMetadataWithNotify(x, y, z, if(invert) sideIndex ^ 1 else sideIndex, 1 | 2)
-			true
-		} else
-			false
+object AccessoryGeneric {
+	val FACING = PropertyDirection create "facing"
 }

@@ -7,11 +7,11 @@ import net.minecraft.tileentity.TileEntity
 
 class SimpleDataProcessingTileEntity extends TileEntity {
 	override def onDataPacket(net: NetworkManager, pkt: S35PacketUpdateTileEntity) =
-		readFromNBT(pkt.func_148857_g())
+		readFromNBT(pkt.getNbtCompound)
 
 	override def getDescriptionPacket = {
 		val tag = new NBTTagCompound
 		writeToNBT(tag)
-		new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag)
+		new S35PacketUpdateTileEntity(pos, 0, tag)
 	}
 }

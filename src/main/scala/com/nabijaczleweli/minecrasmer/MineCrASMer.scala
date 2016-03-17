@@ -1,19 +1,17 @@
 package com.nabijaczleweli.minecrasmer
 
 import com.nabijaczleweli.minecrasmer.compat._
-import com.nabijaczleweli.minecrasmer.handler.ScoopHandler
 import com.nabijaczleweli.minecrasmer.item.ItemScoop
 import com.nabijaczleweli.minecrasmer.proxy.IProxy
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.reference.{CompatLoader, Configuration, Container}
 import com.nabijaczleweli.minecrasmer.util.ReflectionUtil
-import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent
-import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
-import cpw.mods.fml.common.{Mod, SidedProxy}
-import net.minecraft.item.ItemStack
-import net.minecraftforge.fluids._
+import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fml.common.Mod.EventHandler
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent
+import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import net.minecraftforge.fml.common.{Mod, SidedProxy}
 
 import scala.collection.JavaConversions._
 
@@ -31,6 +29,7 @@ object MineCrASMer {
 
 		proxy.registerFluids()
 		proxy.registerItemsAndBlocks()
+		proxy.registerRenderers()
 		proxy.registerGUIs()
 		proxy.registerEntities()
 	}
@@ -43,11 +42,11 @@ object MineCrASMer {
 		proxy.registerOreDict()
 		proxy.registerOreGen()
 		proxy.registerRecipes()
+		proxy.registerModels()
 	}
 
 	@EventHandler
 	def postInit(event: FMLPostInitializationEvent) {
-		proxy.registerRenderers()
 		proxy.registerLoot()
 	}
 
@@ -55,19 +54,12 @@ object MineCrASMer {
 	def processIMCs(event: IMCEvent) {
 		for(message <- event.getMessages)
 			message.key match {
-				case "register-scoop" if message.isNBTMessage => // This method of registering scoops requires the scoop item and fluid to be registered
-					try {
-						val itemStack = ItemStack loadItemStackFromNBT (message.getNBTValue getCompoundTag "itemstack")
-						FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(itemStack.getItem.asInstanceOf[ItemScoop].fluid.getName, ItemScoop.capacity), itemStack, new ItemStack(Container.scoopEmpty))
-
-						val item = itemStack.getItem.asInstanceOf[ItemScoop]
-						Container.foreignScoops ::= item
-						ScoopHandler.scoops += item.contains -> item
-
-						log info s"Successfully registered scoop with ${item.fluid.getName}."
-					} catch {
-						case exc: Throwable =>
-							log.warn(s"Unable to register scoop from ${message.getSender}:", exc)
+				case "register-scoop" if message.isNBTMessage =>  // This method of registering scoops requires the scoop item and fluid to be registered
+					FluidRegistry getFluid (message.getNBTValue getString "fluid_name") match {
+						case null =>
+							log.warn(s"Unable to register scoop from ${message.getSender}: block of name '${message.getNBTValue getString "block_name"}' does not exist.")
+						case fluid =>
+							ItemScoop.colors += fluid -> (message.getNBTValue getInteger "color")
 					}
 				case _ =>
 			}

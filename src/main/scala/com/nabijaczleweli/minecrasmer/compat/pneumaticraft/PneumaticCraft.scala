@@ -1,12 +1,7 @@
 package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
-import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat, Successful}
-import com.nabijaczleweli.minecrasmer.item.{ItemPlastic, ItemQuartz}
-import cpw.mods.fml.relauncher.Side
-import net.minecraft.item.ItemStack
-import net.minecraftforge.oredict.OreDictionary
-import pneumaticCraft.api.item.ItemSupplier
-import pneumaticCraft.api.recipe.PressureChamberRecipe
+import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat}
+import net.minecraftforge.fml.relauncher.Side
 
 class PneumaticCraft extends ICompat {
 	override def getModIDs =
@@ -15,7 +10,7 @@ class PneumaticCraft extends ICompat {
 	override def preLoad(side: Side) =
 		Empty
 
-	override def load(side: Side) = {
+	override def load(side: Side) = {/*
 		OreDictionary.registerOre(ItemPlastic oreDictName ItemPlastic.plasticDamage, new ItemStack(ItemSupplier getItem "plastic", 1, OreDictionary.WILDCARD_VALUE))
 
 
@@ -26,6 +21,7 @@ class PneumaticCraft extends ICompat {
 		PressureChamberRecipe.specialRecipes add new PressureChamberOreRecipe(Array((ItemQuartz oreDictName ItemQuartz.shardsDamage, 4)), Array(quartzPlate))
 
 
-		Successful
+		Successful*/
+		Empty
 	}
 }

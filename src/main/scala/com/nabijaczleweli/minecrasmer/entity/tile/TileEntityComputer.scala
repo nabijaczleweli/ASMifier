@@ -6,12 +6,13 @@ import com.nabijaczleweli.minecrasmer.util.NBTUtil._
 import com.nabijaczleweli.minecrasmer.util.{IConfigurable, SimpleDataProcessingTileEntity}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.ITickable
 import net.minecraftforge.common.config.Configuration
 
 import scala.collection.mutable.{Buffer => mBuffer}
 import scala.util.Random
 
-class TileEntityComputer extends SimpleDataProcessingTileEntity with MulticlockedComputer {
+class TileEntityComputer extends SimpleDataProcessingTileEntity with MulticlockedComputer with ITickable {
 	type accessoryType = TileEntity with ComputerAccessory
 	var lines: Array[String] = Array("TEXT0", "TEXT1", "TEXT2", "", "", "", new Random().nextInt().toString)
 	private val entities = mBuffer[accessoryType]()
@@ -33,9 +34,7 @@ class TileEntityComputer extends SimpleDataProcessingTileEntity with Multiclocke
 		(entities filter {_.isInstanceOf[TileEntityAdditionalCPU]}).asInstanceOf[mBuffer[TileEntityAdditionalCPU]] map {CPU => (CPU.processors, CPU.multiplier)}
 	}
 
-	override def updateEntity() {
-		super.updateEntity()
-
+	override def update() {
 		processorTick()
 		entities.clear()
 		markDirty()
@@ -43,8 +42,8 @@ class TileEntityComputer extends SimpleDataProcessingTileEntity with Multiclocke
 
 	private def readEntities() =
 		if(entities.isEmpty)
-			for(x <- xCoord - 1 to xCoord + 1; y <- yCoord - 1 to yCoord + 1; z <- zCoord - 1 to zCoord + 1)
-				worldObj.getTileEntity(x, y, z) match {
+			for(x <- -1 to 1; y <- -1 to 1; z <- -1 to 1)
+				worldObj getTileEntity pos.add(x, y, z) match {
 					case null =>
 					case ent: accessoryType =>
 						entities append ent

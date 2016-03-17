@@ -3,13 +3,13 @@ package com.nabijaczleweli.minecrasmer.creativetab
 import com.nabijaczleweli.minecrasmer.block.BlockComputerOff
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ReloadableStrings, ResourcesReloadedEvent}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object CreativeTabMineCrASMer extends CreativeTabs("ASMifier") {
 	Container.eventBus register this

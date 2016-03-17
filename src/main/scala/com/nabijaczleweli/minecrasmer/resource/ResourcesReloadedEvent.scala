@@ -1,8 +1,8 @@
 package com.nabijaczleweli.minecrasmer.resource
 
-import cpw.mods.fml.common.eventhandler.Event
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.resources.IResourceManager
+import net.minecraftforge.fml.common.eventhandler.Event
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 @SideOnly(Side.CLIENT)
 class ResourcesReloadedEvent(val manager: IResourceManager) extends Event

@@ -1,33 +1,28 @@
 package com.nabijaczleweli.minecrasmer.proxy
 
-import java.util.Random
-
 import com.nabijaczleweli.minecrasmer.MineCrASMer
 import com.nabijaczleweli.minecrasmer.block._
 import com.nabijaczleweli.minecrasmer.entity.Villager._
 import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
-import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder}
-import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler, EntityHandler}
+import com.nabijaczleweli.minecrasmer.entity.{EntityItemCleaner, EntityItemShredder, Villager}
+import com.nabijaczleweli.minecrasmer.handler.{BlocksHandler, CraftingHandler}
 import com.nabijaczleweli.minecrasmer.item._
 import com.nabijaczleweli.minecrasmer.reference.Container
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.render.gui.GUIHandler
 import com.nabijaczleweli.minecrasmer.util.RegistrationUtils._
 import com.nabijaczleweli.minecrasmer.worldgen.{VillageComponentElectronicShop, WorldGenLiquidCrystal}
-import cpw.mods.fml.common.FMLCommonHandler
-import cpw.mods.fml.common.network.NetworkRegistry
-import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler
-import cpw.mods.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
-import net.minecraft.block.Block
-import net.minecraft.entity.passive.EntityVillager
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.WeightedRandomChestContent
-import net.minecraft.village.{MerchantRecipe, MerchantRecipeList}
 import net.minecraft.world.gen.structure.MapGenStructureIO
 import net.minecraftforge.common.{ChestGenHooks, MinecraftForge}
-import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fluids.{FluidContainerRegistry, FluidRegistry, FluidStack}
+import net.minecraftforge.fml.common.network.NetworkRegistry
+import net.minecraftforge.fml.common.registry.{EntityRegistry, GameRegistry, VillagerRegistry}
 import net.minecraftforge.oredict.{ShapedOreRecipe, ShapelessOreRecipe}
+
+import scala.collection.JavaConversions._
 
 class CommonProxy extends IProxy {
 	final override def registerItemsAndBlocks() {
@@ -39,15 +34,13 @@ class CommonProxy extends IProxy {
 		stoneRod.register()
 		ItemQuartz.register()
 		ItemPartialIron.register()
+		ItemScoop.register()
 
-		(BlockLiquidCrystalFluid: Block).register()
+		BlockLiquidCrystalFluid.register()
 		BlockComputerOff.register()
 		BlockComputerOn.register()
-		BlockOverclocker.register()
-		BlockAdditionalCPU.register()
-
-		scoopEmpty.register()
-		scoopLiquidCrystal.register()
+		BlockAccessoryOverclocker.register()
+		BlockAccessoryAdditionalCPU.register()
 	}
 
 	final override def registerOreDict() =
@@ -59,8 +52,7 @@ class CommonProxy extends IProxy {
 
 	override def registerEvents() {
 		MinecraftForge.EVENT_BUS register BlocksHandler
-		MinecraftForge.EVENT_BUS register EntityHandler
-		FMLCommonHandler.instance.bus register CraftingHandler
+		MinecraftForge.EVENT_BUS register CraftingHandler
 	}
 
 	final override def registerEntities() {
@@ -76,6 +68,9 @@ class CommonProxy extends IProxy {
 
 	final override def registerFluids() {
 		FluidRegistry registerFluid liquidCrystal
+
+		for(fluid <- FluidRegistry.getRegisteredFluids.values)
+			FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemScoop.capacity), ItemScoop scoopWith fluid, ItemScoop.scoopEmpty)
 	}
 
 	override def registerRenderers() {}
@@ -92,12 +87,12 @@ class CommonProxy extends IProxy {
 		val polymer = new ItemStack(ItemPlastic, 1, ItemPlastic.polymerDamage)
 		val plastic = new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage)
 		val monomer = new ItemStack(ItemPlastic, 1, ItemPlastic.monomerDamage)
-		val crystalScoop = new ItemStack(scoopLiquidCrystal)
-		val emptyScoop = new ItemStack(scoopEmpty)
+		val crystalScoop = ItemScoop scoopWith liquidCrystal
+		val emptyScoop = ItemScoop.scoopEmpty
 		val quartzPlate = new ItemStack(ItemQuartz, 1, ItemQuartz.plateDamage)
 		val halfIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.halfDamage)
 		val halfIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.halfDamage)
-		val quarterIronx8 = new ItemStack(ItemPartialIron, 8, ItemPartialIron.quarterDamage)
+		val quarterIronx4 = new ItemStack(ItemPartialIron, 4, ItemPartialIron.quarterDamage)
 		val quarterIronx1 = new ItemStack(ItemPartialIron, 1, ItemPartialIron.quarterDamage)
 		val elementaryCPU = new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage)
 		val simpleCPU = new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage)
@@ -135,15 +130,14 @@ class CommonProxy extends IProxy {
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
 		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(socketCPU, "P P", " P ", 'P': Character, plasticOre).register()
+		new ShapedOreRecipe(socketCPU, "P P", " P ", " N ", 'P': Character, plasticOre, 'N': Character, goldOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 4), "S", "S", 'S': Character, Blocks.stone).register()
-		new ShapedOreRecipe(quarterIronx8, "H H", 'H': Character, halfIronx4).register()
+		new ShapedOreRecipe(quarterIronx4, "H H", 'H': Character, halfIronx4).register()
 		new ShapedOreRecipe(halfIronx4, "I I", 'I': Character, ironOre).register()
-		new ShapedOreRecipe(Items.iron_ingot, "HH", "HH", 'H': Character, halfIronx1).register()
-		new ShapedOreRecipe(halfIronx1, "QQ", "QQ", 'Q': Character, quarterIronx1).register()
-		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
+		new ShapedOreRecipe(Items.iron_ingot, "HH", 'H': Character, halfIronx1).register()
+		new ShapedOreRecipe(halfIronx1, "QQ", 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(emptyScoop, "  H", "QH ", "QQ ", 'H': Character, halfIronx1, 'Q': Character, quarterIronx1).register()
 		new ShapedOreRecipe(goodCPU, "CgC", " S ", 'C': Character, simpleCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
 		new ShapedOreRecipe(simpleCPU, "CgC", " S ", 'C': Character, elementaryCPU, 'g': Character, goldOre, 'S': Character, socketCPU).register()
@@ -167,23 +161,26 @@ class CommonProxy extends IProxy {
 		mineshaftChestGen addItem new WeightedRandomChestContent(ItemQuartz, ItemQuartz.shardsDamage, 3, 8, 2)
 
 		blacksmithChestGen addItem new WeightedRandomChestContent(ItemPCB, ItemPCB.PCBLCDDamage, 1, 1, 1)
-		blacksmithChestGen addItem new WeightedRandomChestContent(scoopEmpty, 0, 1, 4, 3)
+		blacksmithChestGen addItem new WeightedRandomChestContent(ItemScoop.scoopEmpty, 1, 4, 3)
 
 
-		VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
+		/*VillagerRegistry.instance.registerVillageTradeHandler(1, CommonProxy)
 		VillagerRegistry.instance.registerVillageTradeHandler(2, CommonProxy)
-		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)
+		VillagerRegistry.instance.registerVillageTradeHandler(3, CommonProxy)*/
+		Villager.registerProfessions()
 
-		MapGenStructureIO.func_143031_a(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
+		MapGenStructureIO.registerStructureComponent(VillageComponentElectronicShop.getComponentClass, "ElectronicShop")
 		VillagerRegistry.instance registerVillageCreationHandler VillageComponentElectronicShop
 	}
+
+	override def registerModels() {}
 }
 
-private object CommonProxy extends IVillageTradeHandler {
+private object CommonProxy {
 	private final lazy val oreRegistrables = ItemWrench :: ItemPlastic :: ItemCPU :: Container :: ItemQuartz :: ItemPartialIron :: Nil
 
 
-	override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
+	/*override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
 		villager.getProfession match {
 			case 1 => // Librarian
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
@@ -193,5 +190,5 @@ private object CommonProxy extends IVillageTradeHandler {
 			case 3 => // Blacksmith
 				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage), new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
 			case _ =>
-		}
+		}*/
 }

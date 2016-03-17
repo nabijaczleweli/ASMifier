@@ -5,10 +5,10 @@ import java.io.{BufferedReader, InputStreamReader}
 import com.nabijaczleweli.minecrasmer.compat.{Empty, ICompat}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{MineCrASMerLocation, ResourcesReloadedEvent}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.Minecraft
 import net.minecraft.util.StatCollector
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 object NEI extends ICompat {
 	Container.eventBus register this
@@ -38,7 +38,7 @@ object NEI extends ICompat {
 	@SubscribeEvent
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
 		def streamForKey(key: String) =
-			Minecraft.getMinecraft.getResourceManager.getResource(new MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
+			Minecraft.getMinecraft.getResourceManager.getResource(MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
 		def bufferForKey(key: String) =
 			new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 		def lineForKey(key: String, name: String) = {

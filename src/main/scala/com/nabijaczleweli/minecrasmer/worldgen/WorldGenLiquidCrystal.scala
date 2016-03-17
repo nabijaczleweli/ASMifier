@@ -5,10 +5,11 @@ import java.util.Random
 import com.nabijaczleweli.minecrasmer.block.BlockLiquidCrystalFluid
 import com.nabijaczleweli.minecrasmer.reference.Reference
 import com.nabijaczleweli.minecrasmer.util.IConfigurable
-import cpw.mods.fml.common.IWorldGenerator
+import net.minecraft.util.BlockPos
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.{World, WorldType}
 import net.minecraftforge.common.config.Configuration
+import net.minecraftforge.fml.common.IWorldGenerator
 
 object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 	var treshold            = 5
@@ -20,22 +21,21 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 
 	override def generate(random: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkProvider, chunkProvider: IChunkProvider) =
 		if(world.getWorldInfo.getTerrainType != WorldType.FLAT)
-			world.getBiomeGenForCoords(chunkX, chunkZ).biomeName match {
+			world.getBiomeGenForCoords(new BlockPos(chunkX * 16, 64, chunkZ * 16)).biomeName match {
 				case "Hell" | "Sky" =>
 				case _ =>
 					if(chunksBeforeGenerating == 0)
 						if(random.nextInt(bigVeinProbability) == 0) {
-							val baseY = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2
-							val baseX = chunkX * 16 + random.nextInt(14) + 1
-							val baseZ = chunkZ * 16 + random.nextInt(14) + 1
-							world.setBlock(baseX, baseY, baseZ, BlockLiquidCrystalFluid, 8, 1 | 2)
-							world.setBlock(baseX + 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
-							world.setBlock(baseX - 1, baseY, baseZ, BlockLiquidCrystalFluid, 2, 1 | 2)
-							world.setBlock(baseX, baseY, baseZ + 1, BlockLiquidCrystalFluid, 2, 1 | 2)
-							world.setBlock(baseX, baseY, baseZ - 1, BlockLiquidCrystalFluid, 2, 1 | 2)
+							val base = new BlockPos(chunkX * 16 + random.nextInt(14) + 1, baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2,
+							                        chunkX * 16 + random.nextInt(14) + 1)
+							generate(world, base, 8)
+							generate(world, base.north, 8)
+							generate(world, base.south, 8)
+							generate(world, base.west, 8)
+							generate(world, base.east, 8)
 						} else {
 							val yLevel = baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax)
-							world.setBlock(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16), BlockLiquidCrystalFluid, random.nextInt(4), 1 | 2)
+							generate(world, new BlockPos(chunkX * 16 + random.nextInt(16), yLevel max 2, chunkZ * 16 + random.nextInt(16)), random nextInt 4)
 						}
 
 					if(chunksBeforeGenerating < 1)
@@ -43,6 +43,9 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 					else
 						chunksBeforeGenerating -= 1
 			}
+
+	private def generate(world: World, pos: BlockPos, amt: Int) =
+		world.setBlockState(pos, BlockLiquidCrystalFluid getStateFromMeta amt, 1 | 2)
 
 	override def load(config: Configuration) {
 		baseGenerationLevel = config.getInt("baseGenLiquidCrystalLvl", Reference.CONFIG_WORLDGEN_CATEGORY, baseGenerationLevel, 2, 60, "Base level of generation")

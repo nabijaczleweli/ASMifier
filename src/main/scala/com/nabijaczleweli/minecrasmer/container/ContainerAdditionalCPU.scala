@@ -22,7 +22,7 @@ class ContainerAdditionalCPU(val inventoryPlayer: InventoryPlayer, val te: TileE
 
 	override def transferStackInSlot(player: EntityPlayer, id: Int): ItemStack = {
 		var itemstack: ItemStack = null
-		val slot = inventorySlots.get(id).asInstanceOf[Slot]
+		val slot = inventorySlots.get(id)
 
 		if(slot != null && slot.getHasStack) {
 			val itemstack1 = slot.getStack

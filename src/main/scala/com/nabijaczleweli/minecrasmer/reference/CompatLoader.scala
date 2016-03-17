@@ -4,11 +4,10 @@ import com.nabijaczleweli.minecrasmer.compat._
 import com.nabijaczleweli.minecrasmer.reference.Container._
 import com.nabijaczleweli.minecrasmer.reference.Reference._
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
+import com.nabijaczleweli.minecrasmer.util.ReflectionUtil
 import com.nabijaczleweli.minecrasmer.util.StringUtils._
-import cpw.mods.fml.relauncher.Side
-import org.reflections.Reflections
+import net.minecraftforge.fml.relauncher.Side
 
-import scala.collection.JavaConversions._
 import scala.collection.immutable.HashMap
 import scala.collection.mutable.ListBuffer
 import scala.reflect.runtime.ReflectionUtils
@@ -21,9 +20,7 @@ object CompatLoader {
 	private var namedCompats       : Map[String, ICompat]      = HashMap.empty
 
 	def identifyCompats(pckg: Package) {
-		Compiler.disable() // Don't fruitlessly JIT-compile a lot of classes, we need only those that we'll instantiate, not all from the package
-		val classes = new Reflections(pckg.getName).getSubTypesOf(classOf[ICompat]).toList
-		Compiler.enable()
+		val classes = ReflectionUtil.subClassesInPackage(classOf[ICompat], pckg, {!_.isInterface})
 		log info s"$MOD_NAME has identified ${classes.size} compats to load"
 
 		for(c <- classes) {
@@ -36,7 +33,7 @@ object CompatLoader {
 						instance = (ReflectionUtils staticSingletonInstance c).asInstanceOf[ICompat]
 					catch {
 						case t: Throwable =>
-							log warn s"Cannot instantiate nor get module of compat \'$c\'. Cause: $t"
+							log warn s"Cannot instantiate nor get instance of compat \'$c\'. Cause: $t"
 					}
 			}
 
@@ -100,7 +97,7 @@ object CompatLoader {
 
 		val sizes = sizeToCompat groupBy {_._1} mapValues {_ map {_._2}}
 		for((_, compatList) <- sizes) { // In-place sort
-			val sorted = compatList sortWith {(left, right) => (left.getModIDs mkString "").size < (right.getModIDs mkString "").size} // Sort by collective length of modIDs
+			val sorted = compatList sortWith {(left, right) => (left.getModIDs mkString "").length < (right.getModIDs mkString "").length} // Sort by collective length of modIDs
 			compatList.clear()
 			compatList ++= sorted
 		}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecrasmer:block/accessory_u",
+  "textures": {
+    "custom": "minecrasmer:blocks/processor"
+  }
+}

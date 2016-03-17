@@ -1,7 +1,7 @@
 # Blocks
 tile.minecrasmer:computer.neutral.name=Компютер
-tile.minecrasmer:computeroff.name=Компютер
-tile.minecrasmer:computeron.name=Компютер (Бключён)
+tile.minecrasmer:computer_off.name=Компютер
+tile.minecrasmer:computer_on.name=Компютер (Бключён)
 tile.minecrasmer:liquidcrystal.name=Сжиженный хрусталь
 tile.minecrasmer:accessory_overclocker.name=Оверклокер
 tile.minecrasmer:accessory_processor.name=Добавочный процессор
@@ -10,8 +10,8 @@ tile.minecrasmer:accessory_processor.name=Добавочный процессо�
 # Items
 item.minecrasmer:wrench.name=Ключ
 
-item.minecrasmer:scoopEmpty.name=Полыя шумовка
-item.minecrasmer:scoopFilled.name=Содержание шумовки: %s
+item.minecrasmer:scoop_empty.name=Полыя шумовка
+item.minecrasmer:scoop_full.name=Содержание шумовки: %s
 
 item.minecrasmer:plastic.monomer.name=Мономер
 item.minecrasmer:plastic.polymer.name=Полимер

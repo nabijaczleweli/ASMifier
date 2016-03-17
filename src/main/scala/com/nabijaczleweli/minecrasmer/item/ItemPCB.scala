@@ -5,25 +5,25 @@ import java.util
 import com.nabijaczleweli.minecrasmer.creativetab.CreativeTabMineCrASMer
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource._
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IIconRegister
+import com.nabijaczleweli.minecrasmer.util.IMultiModelItem
+import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.util.{IIcon, MathHelper}
+import net.minecraft.util.MathHelper
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object ItemPCB extends Item {
+object ItemPCB extends Item with IMultiModelItem {
 	Container.eventBus register this
 
 	private      val subIconNames   = Array("%selements", "%snoelements", "%slcd", "lcd")
 	private      val subNameNames   = Array("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
-	private lazy val icons          = new Array[IIcon](subIconNames.length)
-	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new AutoFormattingReloadableString(s"$getUnlocalizedName.${subNameNames(idx)}.name", "PCB")}}.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new AutoFormattingReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name", "PCB")}}.toList))
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1
@@ -37,29 +37,30 @@ object ItemPCB extends Item {
 	override def getMaxDamage =
 		0
 
-	@SideOnly(Side.CLIENT)
-	override def getIconFromDamage(idx: Int) =
-		icons(MathHelper.clamp_int(idx, 0, icons.length - 1))
-
-	@SideOnly(Side.CLIENT)
-	override def registerIcons(ir: IIconRegister) {
-		for(i <- 0 until icons.length)
-			icons(i) = ir registerIcon Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_")
-	}
-
 	override def getItemStackDisplayName(is: ItemStack) =
 		localizedNames(MathHelper.clamp_int(is.getItemDamage, 0, subNameNames.length))
 
 	@SideOnly(Side.CLIENT)
-	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) {
+	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[ItemStack]) {
 		if(item.isInstanceOf[this.type])
-			for(i <- 0 until icons.length)
+			for(i <- 0 until localizedNames.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
 	}
+
+	override def getUnlocalizedName(stack: ItemStack) =
+		"item." + Reference.NAMESPACED_PREFIX + '.' + subNameNames(stack.getMetadata)
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
 		localizedNames.reload()
+	}
+
+	@SideOnly(Side.CLIENT)
+	override def registerModels() {
+		for(i <- fullPCBDamage to LCDDamage) {
+			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_"), "inventory"))
+			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("pcb_")))
+		}
 	}
 }

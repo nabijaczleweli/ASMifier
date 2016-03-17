@@ -1,7 +1,7 @@
 # Blocks
 tile.minecrasmer:computer.neutral.name=Komputer
-tile.minecrasmer:computeroff.name=Komputer
-tile.minecrasmer:computeron.name=Komputer (włączony)
+tile.minecrasmer:computer_off.name=Komputer
+tile.minecrasmer:computer_on.name=Komputer (włączony)
 tile.minecrasmer:liquidcrystal.name=Ciekły kryształ
 tile.minecrasmer:accessory_overclocker.name=Przetaktowywacz
 tile.minecrasmer:accessory_processor.name=Dodatkowy procesor
@@ -10,8 +10,8 @@ tile.minecrasmer:accessory_processor.name=Dodatkowy procesor
 # Items
 item.minecrasmer:wrench.name=Klucz
 
-item.minecrasmer:scoopEmpty.name=Pusta łyżka
-item.minecrasmer:scoopFilled.name=Łyżka zawierająca %s
+item.minecrasmer:scoop_empty.name=Pusta łyżka
+item.minecrasmer:scoop_full.name=Łyżka zawierająca %s
 
 item.minecrasmer:plastic.monomer.name=Monomer
 item.minecrasmer:plastic.polymer.name=Polimer
