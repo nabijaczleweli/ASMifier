@@ -1,11 +1,11 @@
-/*package com.nabijaczleweli.minecrasmer.compat.nei
+package com.nabijaczleweli.minecrasmer.compat.nei
 
 import java.util.{ArrayList => jArrayList, List => jList}
 
 import codechicken.nei.recipe.{GuiRecipe, ICraftingHandler, IUsageHandler}
 import codechicken.nei.{NEIServerUtils, PositionedStack}
-import com.nabijaczleweli.minecrasmer.item.{ItemScoop, ItemQuartz}
-import com.nabijaczleweli.minecrasmer.reference.{Reference, Container => mContainer}
+import com.nabijaczleweli.minecrasmer.item.{ItemQuartz, ItemScoop}
+import com.nabijaczleweli.minecrasmer.reference.{Container => mContainer, Reference}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Container
@@ -29,7 +29,7 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 
 	// Explicit return type or AbstractMethodError
 	override def getRecipeHandler(outputId: String, results: Object*): ICraftingHandler =
-		if(results.length > 0 && results(0).isInstanceOf[ItemStack]) {
+		if(results.nonEmpty && results(0).isInstanceOf[ItemStack]) {
 			val inst = new NEIMineCrASMerInWorldCraftingManager
 			inst.target = results(0).asInstanceOf[ItemStack]
 			inst.addRecipes()
@@ -78,7 +78,7 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 
 	override def drawForeground(recipe: Int) =
 		if(outputs.size > recipe)
-			Minecraft.getMinecraft.fontRenderer.drawSplitString(details(offsets(recipe)), 10, 25, 150, 0)
+			Minecraft.getMinecraft.fontRendererObj.drawSplitString(details(offsets(recipe)), 10, 25, 150, 0)
 
 	override def hasOverlay(gui: GuiContainer, container: Container, recipe: Int) =
 		false
@@ -99,7 +99,9 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 	private def addRecipes() {
 		addRecipe(new ItemStack(ItemQuartz, 1, ItemQuartz.cleanShardsDamage), NEI.cleanQuartzShardsDescription)
 		addRecipe(new ItemStack(ItemQuartz, 1, ItemQuartz.shardsDamage), NEI.quartzShardsDescription)
-		for(scoop <- mContainer.scoopLiquidCrystal :: mContainer.foreignScoops)
-			addRecipe(new ItemStack(scoop), NEI.scoopsDescription.replace("$$$", new FluidStack(scoop.fluid, ItemScoop.capacity).getLocalizedName).replace("%%%", scoop.contains.getLocalizedName))
+		for(fluid <- ItemScoop.colors.keys) {
+			val scoop = ItemScoop scoopWith fluid
+			addRecipe(scoop, NEI.scoopsDescription.replace("$$$", new FluidStack(fluid, ItemScoop.capacity).getLocalizedName).replace("%%%", fluid.getBlock.getLocalizedName))
+		}
 	}
-}*/
+}

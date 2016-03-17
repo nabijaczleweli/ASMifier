@@ -1,6 +1,14 @@
 package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
-/*class PressureChamberOreRecipe(_input: Array[AnyRef], output: Array[ItemStack]) extends IPressureChamberRecipe {
+import net.minecraft.block.Block
+import net.minecraft.item.{Item, ItemStack}
+import net.minecraftforge.oredict.OreDictionary
+import pneumaticCraft.api.recipe.IPressureChamberRecipe
+
+import scala.collection.mutable.{HashMap => mHashMap}
+
+
+class PressureChamberOreRecipe(_input: Array[AnyRef], output: Array[ItemStack]) extends IPressureChamberRecipe {
 	private lazy val input =
 		try
 			for(in <- _input) yield
@@ -35,11 +43,11 @@ package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 		output
 
 	override def isValidRecipe(inputStacks: Array[ItemStack]) =
-		if(inputStacks.size < input.size)
+		if(inputStacks.length < input.length)
 			null
 		else {
 			val inputCpy = input.toBuffer
-			val idxToAmount = new mutable.HashMap[Int, Int]
+			val idxToAmount = new mHashMap[Int, Int]
 			inputStacks filter {stack =>
 				var genIdx = 0
 				inputCpy indexWhere {
@@ -84,4 +92,4 @@ package com.nabijaczleweli.minecrasmer.compat.pneumaticraft
 
 	override def shouldRemoveExactStacks() =
 		false
-}*/
+}

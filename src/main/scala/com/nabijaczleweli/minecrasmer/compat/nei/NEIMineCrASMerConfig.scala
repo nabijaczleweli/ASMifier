@@ -1,9 +1,9 @@
-/*package com.nabijaczleweli.minecrasmer.compat.nei
+package com.nabijaczleweli.minecrasmer.compat.nei
 
 import codechicken.nei.api.{API, IConfigureNEI}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.util.CompatUtil._
-import net.minecraftforge.fml.common.{API, Optional}
+import net.minecraftforge.fml.common.Optional
 
 @Optional.Interface(iface = "com.nabijaczleweli.minecrasmer.compat.nei.NEIMineCrASMerConfig", modid = "NotEnoughItems", striprefs = true)
 class NEIMineCrASMerConfig extends IConfigureNEI {
@@ -12,8 +12,8 @@ class NEIMineCrASMerConfig extends IConfigureNEI {
 		if(NEI.shouldPreLoad && NEI.hasAllLoaded && NEI.active != null) {
 			Container.log info s"Initializing $getName version $getVersion..."
 
-			API.registerUsageHandler(new NEIMineCrASMerInWorldCraftingManager)
-			API.registerRecipeHandler(new NEIMineCrASMerInWorldCraftingManager)
+			API registerUsageHandler new NEIMineCrASMerInWorldCraftingManager
+			API registerRecipeHandler new NEIMineCrASMerInWorldCraftingManager
 		} else
 			Container.log info s"NOT initializing $getName, since it\'s not enabled"
 
@@ -25,4 +25,3 @@ class NEIMineCrASMerConfig extends IConfigureNEI {
 	override def getVersion =
 		Reference.VERSION
 }
-*/

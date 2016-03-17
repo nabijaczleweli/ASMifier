@@ -96,7 +96,7 @@ object CompatLoader {
 			sizeToCompat prepend compat.getModIDs.size -> compat
 
 		val sizes = sizeToCompat groupBy {_._1} mapValues {_ map {_._2}}
-		for((_, compatList) <- sizes) { // In-place sort
+		for((_, compatList) <- sizes) {  // In-place sort
 			val sorted = compatList sortWith {(left, right) => (left.getModIDs mkString "").length < (right.getModIDs mkString "").length} // Sort by collective length of modIDs
 			compatList.clear()
 			compatList ++= sorted

@@ -26,7 +26,7 @@ object ItemScoop extends Item {
 	private lazy val localizedNames = new ReloadableStrings(Future(List(new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoop_full.name"),
 	                                                                    new ReloadableString(s"item.${Reference.NAMESPACED_PREFIX}scoop_empty.name"))))
 	val capacity = FluidContainerRegistry.BUCKET_VOLUME / 7
-	val emptyColor = 0x3a4d55 // Picked straight from the image file
+	val emptyColor = 0x3a4d55  // Picked straight from the image file
 	var colors: Map[Fluid, Int] = HashMap(Container.liquidCrystal -> 0x00ff00)
 	val fluidKey = s"${Reference.NAMESPACED_PREFIX}fluid_name"
 

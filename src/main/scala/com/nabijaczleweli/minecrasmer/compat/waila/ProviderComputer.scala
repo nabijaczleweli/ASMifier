@@ -1,6 +1,18 @@
 package com.nabijaczleweli.minecrasmer.compat.waila
 
-/*
+import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
+import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
+import com.nabijaczleweli.minecrasmer.reference.{Reference, Container}
+import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
+import mcp.mobius.waila.api.{IWailaDataProvider, IWailaDataAccessor, IWailaConfigHandler}
+import net.minecraft.item.{ItemBlock, ItemStack}
+import net.minecraftforge.fml.common.Optional
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
+
+import java.util.{List => jList}
+
+
 @SideOnly(Side.CLIENT)
 @Optional.Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = "Waila", striprefs = true)
 object ProviderComputer extends IWailaDataProvider {
@@ -22,17 +34,17 @@ object ProviderComputer extends IWailaDataProvider {
 	}
 
 	@Optional.Method(modid = "Waila")
-	override def getWailaHead(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
+	override def getWailaHead(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
 
 	@Optional.Method(modid = "Waila")
-	override def getWailaBody(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
+	override def getWailaBody(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) = {
 		val block = itemStack.getItem.asInstanceOf[ItemBlock].block
 		val position = accessor.getPosition
 		val world = accessor.getWorld
 		val on = block.isInstanceOf[BlockComputerOn.type]
 		lazy val te = world.getTileEntity(position.func_178782_a).asInstanceOf[TileEntityComputer]
-		lazy val CPUs = te.CPUs // It might be expensive, so better cache it
+		lazy val CPUs = te.CPUs  // It might be expensive, so better cache it
 
 		if(on) {
 			currenttip add PCOnState
@@ -45,7 +57,7 @@ object ProviderComputer extends IWailaDataProvider {
 	}
 
 	@Optional.Method(modid = "Waila")
-	override def getWailaTail(itemStack: ItemStack, currenttip: util.List[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
+	override def getWailaTail(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
 
 	@SubscribeEvent
@@ -90,4 +102,3 @@ object ProviderComputer extends IWailaDataProvider {
 				}
 		}
 }
-*/
