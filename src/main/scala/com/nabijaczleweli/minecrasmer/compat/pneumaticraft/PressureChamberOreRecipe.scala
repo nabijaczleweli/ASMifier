@@ -6,7 +6,7 @@ import net.minecraftforge.oredict.OreDictionary
 import pneumaticCraft.api.recipe.IPressureChamberRecipe
 
 import scala.collection.mutable.{HashMap => mHashMap}
-
+import scala.collection.JavaConversions._
 
 class PressureChamberOreRecipe(_input: Array[AnyRef], output: Array[ItemStack]) extends IPressureChamberRecipe {
 	private lazy val input =
@@ -54,10 +54,7 @@ class PressureChamberOreRecipe(_input: Array[AnyRef], output: Array[ItemStack]) 
 					case is: ItemStack =>
 						OreDictionary.itemMatches(stack, is, false)
 					case (str: AnyRef, _) =>
-						var anyMatch = false
-						for(is <- OreDictionary getOres str.asInstanceOf[String] if !anyMatch)
-							anyMatch = OreDictionary.itemMatches(stack, is, false)
-						anyMatch
+						!(OreDictionary getOres str.asInstanceOf[String] exists {OreDictionary.itemMatches(stack, _, false)})
 					case _ =>
 						false
 				} match {

@@ -1,12 +1,10 @@
 package com.nabijaczleweli.minecrasmer.compat
 
-import appeng.api.AEApi
-import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityComputer, TileEntityOverclocker, TileEntityAdditionalCPU}
-import com.nabijaczleweli.minecrasmer.item.ItemCPU
+//import appeng.api.AEApi
+import com.nabijaczleweli.minecrasmer.entity.tile.{TileEntityAdditionalCPU, TileEntityComputer, TileEntityOverclocker}
 import com.nabijaczleweli.minecrasmer.util.IOreDictRegisterable
 import net.minecraftforge.fml.common.event.FMLInterModComms
 import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.oredict.OreDictionary
 
 import scala.language.postfixOps
 
@@ -33,8 +31,8 @@ class AE2 extends ICompat with IOreDictRegisterable {
 		Empty
 
 	override def registerOreDict() {
-		OreDictionary.registerOre(ItemCPU oreDictName 0, AEApi.instance.definitions.materials.logicProcessor maybeStack 1 get)
+		/*OreDictionary.registerOre(ItemCPU oreDictName 0, AEApi.instance.definitions.materials.logicProcessor maybeStack 1 get)
 		OreDictionary.registerOre(ItemCPU oreDictName 1, AEApi.instance.definitions.materials.calcProcessor maybeStack 1 get)
-		OreDictionary.registerOre(ItemCPU oreDictName 2, AEApi.instance.definitions.materials.engProcessor maybeStack 1 get)
+		OreDictionary.registerOre(ItemCPU oreDictName 2, AEApi.instance.definitions.materials.engProcessor maybeStack 1 get)*/
 	}
 }

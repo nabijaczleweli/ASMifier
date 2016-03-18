@@ -2,15 +2,20 @@ package com.nabijaczleweli.minecrasmer.compat.waila
 
 import com.nabijaczleweli.minecrasmer.block.BlockComputerOn
 import com.nabijaczleweli.minecrasmer.entity.tile.TileEntityComputer
-import com.nabijaczleweli.minecrasmer.reference.{Reference, Container}
+import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
 import com.nabijaczleweli.minecrasmer.resource.{ReloadableString, ResourcesReloadedEvent}
-import mcp.mobius.waila.api.{IWailaDataProvider, IWailaDataAccessor, IWailaConfigHandler}
+import mcp.mobius.waila.api.{IWailaConfigHandler, IWailaDataAccessor, IWailaDataProvider}
 import net.minecraft.item.{ItemBlock, ItemStack}
 import net.minecraftforge.fml.common.Optional
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
-
 import java.util.{List => jList}
+
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.BlockPos
+import net.minecraft.world.World
 
 
 @SideOnly(Side.CLIENT)
@@ -43,7 +48,7 @@ object ProviderComputer extends IWailaDataProvider {
 		val position = accessor.getPosition
 		val world = accessor.getWorld
 		val on = block.isInstanceOf[BlockComputerOn.type]
-		lazy val te = world.getTileEntity(position.func_178782_a).asInstanceOf[TileEntityComputer]
+		lazy val te = world.getTileEntity(position).asInstanceOf[TileEntityComputer]
 		lazy val CPUs = te.CPUs  // It might be expensive, so better cache it
 
 		if(on) {
@@ -59,6 +64,10 @@ object ProviderComputer extends IWailaDataProvider {
 	@Optional.Method(modid = "Waila")
 	override def getWailaTail(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
 		currenttip
+
+	@Optional.Method(modid = "Waila")
+	override def getNBTData(player: EntityPlayerMP, te: TileEntity, tag: NBTTagCompound, world: World, pos: BlockPos) =
+		tag
 
 	@SubscribeEvent
 	def onResourcesReloaded(event: ResourcesReloadedEvent) = {

@@ -18,7 +18,7 @@ if(System.getenv().BUILD_NUMBER != null)
 	build_number = System.getenv().BUILD_NUMBER
 
 version = "${mc_version}-${build_number}"
-group = "com.nabijaczleweli.minecrasmer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.nabijaczleweli.minecrasmer"  // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "MineCrASMer"
 
 minecraft {
@@ -37,23 +37,38 @@ repositories {
         name = "maven2"
         url = "http://repo1.maven.org/maven2"
     }
+
+    maven {
+        name = "MineMaarten repo"
+        url = "http://maven.k-4u.nl/"
+    }
+
+    maven {
+        name = "Amadornes repo"
+        url = "http://maven.amadornes.com/"
+    }
+
+    maven {
+        name = "CLI repo"
+        url = "http://maven.cil.li/"
+    }
+
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
 }
 
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
     compile "org.reflections:reflections:0.9.9"
+
+    compile "pneumaticCraft:PneumaticCraft-1.8.9:1.13.8-12:api"
+    compile "mcp.mobius.waila:Waila:1.6.0-B3_1.8.8"
 }
 
 processResources {

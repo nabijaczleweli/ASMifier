@@ -29,7 +29,7 @@ trait AccessoryWailaDataProvider[-T <: TileEntity with ComputerAccessory] extend
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaBody(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =
-		getWailaBodyImpl(accessor.getWorld, currenttip, accessor.getWorld.getTileEntity(accessor.getPosition.func_178782_a).asInstanceOf[T])
+		getWailaBodyImpl(accessor.getWorld, currenttip, accessor.getWorld.getTileEntity(accessor.getPosition).asInstanceOf[T])
 
 	@Optional.Method(modid = "Waila")
 	override def getWailaTail(itemStack: ItemStack, currenttip: jList[String], accessor: IWailaDataAccessor, config: IWailaConfigHandler) =

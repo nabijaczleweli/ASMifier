@@ -1,4 +1,4 @@
-package com.nabijaczleweli.minecrasmer.compat.nei
+/*package com.nabijaczleweli.minecrasmer.compat.nei
 
 import codechicken.nei.api.{API, IConfigureNEI}
 import com.nabijaczleweli.minecrasmer.reference.{Container, Reference}
@@ -25,3 +25,4 @@ class NEIMineCrASMerConfig extends IConfigureNEI {
 	override def getVersion =
 		Reference.VERSION
 }
+*/

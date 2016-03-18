@@ -1,11 +1,11 @@
-package com.nabijaczleweli.minecrasmer.compat.nei
+/*package com.nabijaczleweli.minecrasmer.compat.nei
 
 import java.util.{ArrayList => jArrayList, List => jList}
 
 import codechicken.nei.recipe.{GuiRecipe, ICraftingHandler, IUsageHandler}
 import codechicken.nei.{NEIServerUtils, PositionedStack}
 import com.nabijaczleweli.minecrasmer.item.{ItemQuartz, ItemScoop}
-import com.nabijaczleweli.minecrasmer.reference.{Container => mContainer, Reference}
+import com.nabijaczleweli.minecrasmer.reference.{Reference, Container => mContainer}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Container
@@ -105,3 +105,4 @@ class NEIMineCrASMerInWorldCraftingManager extends ICraftingHandler with IUsageH
 		}
 	}
 }
+*/
