@@ -20,7 +20,8 @@ object Container extends IOreDictRegisterable {
 
 	val log = LogManager.getRootLogger // Set by the mod instance in PreInit; needs not to be lazy (reflection)
 
-	lazy val liquidCrystal = new Fluid("liquidcrystal", MineCrASMerLocation("liquidcrystal_still"), MineCrASMerLocation("liquidcrystal_flowing")) setLuminosity 13 setViscosity Integer.MAX_VALUE setBlock BlockLiquidCrystalFluid setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal"
+	lazy val liquidCrystal = (new Fluid("liquidcrystal", MineCrASMerLocation("liquidcrystal_still"), MineCrASMerLocation("liquidcrystal_flowing")) setLuminosity 13
+		setViscosity Integer.MAX_VALUE setBlock BlockLiquidCrystalFluid setUnlocalizedName s"${NAMESPACED_PREFIX}liquidcrystal")
 
 	lazy val socketCPU = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}CPUSocket" setCreativeTab CreativeTabMineCrASMer
 	lazy val stoneRod  = new Item setUnlocalizedName s"${NAMESPACED_PREFIX}rodStone" setCreativeTab CreativeTabMineCrASMer

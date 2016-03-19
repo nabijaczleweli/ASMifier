@@ -18,8 +18,9 @@ import net.minecraftforge.oredict.OreDictionary
 import scala.collection.JavaConversions._
 import scala.util.{Random => sRandom}
 
-/** HEAVILY based on `planetminecraft.com/blog/modding-trouble---adding-village-components-forge-164` */
-class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start, par2: Int, par3Random: Random, par4StructureBoundingBox: StructureBoundingBox, par5: EnumFacing) extends Village(villagePiece, par2) {
+/** Heavily based on `planetminecraft.com/blog/modding-trouble---adding-village-components-forge-164` */
+class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start, par2: Int, par3Random: Random, par4StructureBoundingBox: StructureBoundingBox,
+                                     par5: EnumFacing) extends Village(villagePiece, par2) {
 	import com.nabijaczleweli.minecrasmer.worldgen.VillageComponentElectronicShop.random
 
 	private var averageGroundLevel = -1
@@ -69,10 +70,10 @@ class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start,
 			boundingBox.offset(0, averageGroundLevel - boundingBox.maxY + 4, 0)
 		}
 
-		randomlyRareFillWithBlocks(world, sbb, 0, 2, 0, 6, 7, 6, Blocks.stonebrick.getDefaultState, false) // Main house; fillWithBlocks
-		fillWithAir(world, sbb, 1, 3, 1, 5, 6, 5) // Empty space
-		placeDoorCurrentPosition(world, sbb, par3Random, 3, 3, 0, EnumFacing.NORTH) // Door; placeDoorAtCurrentPosition
-		setBlockState(world, Blocks.stone_brick_stairs getStateFromMeta getMetadataWithOffset(Blocks.stone_brick_stairs, 3), 3, 2, -1, sbb) // Doorsteps; placeBlockAtCurrentPosition
+		randomlyRareFillWithBlocks(world, sbb, 0, 2, 0, 6, 7, 6, Blocks.stonebrick.getDefaultState, false)  // Main house
+		fillWithAir(world, sbb, 1, 3, 1, 5, 6, 5)  // Empty space
+		placeDoorCurrentPosition(world, sbb, par3Random, 3, 3, 0, EnumFacing.NORTH)  // Door
+		setBlockState(world, Blocks.stone_brick_stairs getStateFromMeta getMetadataWithOffset(Blocks.stone_brick_stairs, 3), 3, 2, -1, sbb)  // Doorsteps
 		// Carpet
 		for(x <- 1 until 6; z <- 1 until 6)
 			if((((x + z) % 2) == 0) ^ isCarpetToggled)
@@ -107,7 +108,7 @@ class VillageComponentElectronicShop(villagePiece: StructureVillagePieces.Start,
 		true
 	}
 
-	override def func_180779_c(default: Int, idx: Int) = // getVillagerType
+	override def func_180779_c(default: Int, idx: Int) =  // getVillagerType
 		electronicsVillagerID
 }
 
@@ -134,7 +135,8 @@ object VillageComponentElectronicShop extends IVillageCreationHandler {
 	override def getVillagePieceWeight(random: Random, i: Int) =
 		new PieceWeight(getComponentClass, 15, i + (random nextInt 3))
 
-	override def buildComponent(villagePiece: StructureVillagePieces.PieceWeight, startPiece: StructureVillagePieces.Start, pieces: jList[StructureComponent], random: Random, p1: Int, p2: Int, p3: Int, facing: EnumFacing, p5: Int) =
+	override def buildComponent(villagePiece: StructureVillagePieces.PieceWeight, startPiece: StructureVillagePieces.Start, pieces: jList[StructureComponent],
+	                            random: Random, p1: Int, p2: Int, p3: Int, facing: EnumFacing, p5: Int) =
 		VillageComponentElectronicShop.buildComponent(startPiece, pieces, random, p1, p2, p3, facing, p5)
 
 	override def getComponentClass =

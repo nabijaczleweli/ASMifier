@@ -26,7 +26,8 @@ object ItemPartialIron extends Item with IMultiModelItem with IOreDictRegisterab
 	private val subOreDictNames = Array("dust", "dustTiny")
 
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subIconNames(idx)}.name")}}.toList))
+	private lazy val localizedNames =
+		new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subIconNames(idx)}.name")}}.toList))
 
 	val halfDamage = 0
 	val quarterDamage = 1

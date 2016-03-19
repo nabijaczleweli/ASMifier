@@ -38,7 +38,8 @@ object NEI extends ICompat {
 	@SubscribeEvent
 	def onResourcesReloaded(event: ResourcesReloadedEvent) {
 		def streamForKey(key: String) =
-			Minecraft.getMinecraft.getResourceManager.getResource(MineCrASMerLocation(StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
+			Minecraft.getMinecraft.getResourceManager.getResource(MineCrASMerLocation(
+				StatCollector translateToLocal s"hud.${Reference.NAMESPACED_PREFIX}compat.nei.inworld.$key.description.name")).getInputStream
 		def bufferForKey(key: String) =
 			new BufferedReader(new InputStreamReader(streamForKey(key), "UTF-8"))
 		def lineForKey(key: String, name: String) = {

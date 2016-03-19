@@ -25,7 +25,8 @@ object ItemPlastic extends Item with IMultiModelItem with IOreDictRegisterable {
 	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
 
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subIconNames(idx)}.name")}}.toList))
+	private lazy val localizedNames =
+		new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subIconNames(idx)}.name")}}.toList))
 
 	val monomerDamage = 0
 	val polymerDamage = 1

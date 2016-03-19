@@ -18,7 +18,8 @@ class EntityItemShredder(world: World, x: Double, y: Double, z: Double, is: Item
 
 	override def attackEntityFrom(src: DamageSource, dmg: Float) = {
 		super.attackEntityFrom(src, dmg)
-		if(src.isExplosion && (getEntityItem.getItem == ItemQuartz && getEntityItem.getItemDamage == ItemQuartz.plateDamage) && getEntityItem.stackSize > 0 && isDead && !worldObj.isRemote) {
+		if(src.isExplosion && (getEntityItem.getItem == ItemQuartz && getEntityItem.getItemDamage == ItemQuartz.plateDamage) && getEntityItem.stackSize > 0
+			 && isDead && !worldObj.isRemote) {
 			val shred = new EntityItem(worldObj)
 
 			shred copyDataFromOld this
@@ -35,5 +36,6 @@ object EntityItemShredder extends IConfigurable {
 	final var plateToShardRate = 2.5F
 
 	override def load(config: Configuration) =
-		plateToShardRate = config.getFloat("EntItShredderPlateToShardRate", Reference.CONFIG_ENTIRY_CATEGORY, plateToShardRate, 0, 10, "Multiplier of original stackSize to stackSize of the shredded one")
+		plateToShardRate = config.getFloat("EntItShredderPlateToShardRate", Reference.CONFIG_ENTIRY_CATEGORY, plateToShardRate, 0, 10,
+		                                   "Multiplier of original stackSize to stackSize of the shredded one")
 }

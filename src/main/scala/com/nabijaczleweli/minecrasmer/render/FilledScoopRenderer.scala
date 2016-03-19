@@ -38,14 +38,18 @@ object FilledScoopRenderer extends IItemRenderer {
 				glDisable(GL_BLEND)
 			case ENTITY =>
 				glTranslated(-.5, 0, -0)
-				ItemRenderer.renderItemIn2D(Tessellator.instance, containingIcon.getMaxU, containingIcon.getMinV, containingIcon.getMinU, containingIcon.getMaxV, containingIcon.getIconWidth, containingIcon.getIconHeight, .07f)
+				ItemRenderer.renderItemIn2D(Tessellator.instance, containingIcon.getMaxU, containingIcon.getMinV, containingIcon.getMinU, containingIcon.getMaxV,
+				                            containingIcon.getIconWidth, containingIcon.getIconHeight, .07f)
 				glColor4f(1f, 1f, 1f, 1f)
-				ItemRenderer.renderItemIn2D(Tessellator.instance, mainIcon.getMaxU, mainIcon.getMinV, mainIcon.getMinU, mainIcon.getMaxV, mainIcon.getIconWidth, mainIcon.getIconHeight, .065f)
+				ItemRenderer.renderItemIn2D(Tessellator.instance, mainIcon.getMaxU, mainIcon.getMinV, mainIcon.getMinU, mainIcon.getMaxV, mainIcon.getIconWidth,
+				                            mainIcon.getIconHeight, .065f)
 				glTranslated(.5, 0, 0)
 			case _ =>
-				ItemRenderer.renderItemIn2D(Tessellator.instance, containingIcon.getMaxU, containingIcon.getMinV, containingIcon.getMinU, containingIcon.getMaxV, containingIcon.getIconWidth, containingIcon.getIconHeight, .07f)
+				ItemRenderer.renderItemIn2D(Tessellator.instance, containingIcon.getMaxU, containingIcon.getMinV, containingIcon.getMinU, containingIcon.getMaxV,
+				                            containingIcon.getIconWidth, containingIcon.getIconHeight, .07f)
 				glColor4f(1f, 1f, 1f, 1f)
-				ItemRenderer.renderItemIn2D(Tessellator.instance, mainIcon.getMaxU, mainIcon.getMinV, mainIcon.getMinU, mainIcon.getMaxV, mainIcon.getIconWidth, mainIcon.getIconHeight, .065f)
+				ItemRenderer.renderItemIn2D(Tessellator.instance, mainIcon.getMaxU, mainIcon.getMinV, mainIcon.getMinU, mainIcon.getMaxV, mainIcon.getIconWidth,
+				                            mainIcon.getIconHeight, .065f)
 		}
 	}
 }*/

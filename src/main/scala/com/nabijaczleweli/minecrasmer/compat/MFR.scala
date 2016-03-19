@@ -18,7 +18,8 @@ class MFR extends ICompat {
 		OreDictionary.registerOre("dustPlastic", new ItemStack(ItemPlastic, 1, ItemPlastic.plasticDamage))
 
 		try
-			OreDictionary.registerOre(ItemPlastic oreDictName ItemPlastic.plasticDamage, (Class forName "powercrystals.minefactoryreloaded.MineFactoryReloadedCore" getField "rawPlasticItem" get null).asInstanceOf[Item])
+			OreDictionary.registerOre(ItemPlastic oreDictName ItemPlastic.plasticDamage, (Class forName "powercrystals.minefactoryreloaded.MineFactoryReloadedCore"
+			                                                                              getField "rawPlasticItem" get null).asInstanceOf[Item])
 		catch {
 			case _: Throwable =>
 				worked = false

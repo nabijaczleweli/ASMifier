@@ -23,7 +23,8 @@ class PneumaticCraft extends ICompat {
 
 		PneumaticRegistry.getInstance.getRecipeRegistry registerPressureChamberRecipe new PressureChamberOreRecipe(Array(("gemQuartz", 4)), Array(quartzPlate))
 		PneumaticRegistry.getInstance.getRecipeRegistry registerPressureChamberRecipe new PressureChamberOreRecipe(Array("blockQuartz"), Array(quartzPlate))
-		PneumaticRegistry.getInstance.getRecipeRegistry registerPressureChamberRecipe new PressureChamberOreRecipe(Array((ItemQuartz oreDictName ItemQuartz.shardsDamage, 4)), Array(quartzPlate))
+		PneumaticRegistry.getInstance.getRecipeRegistry registerPressureChamberRecipe new PressureChamberOreRecipe(Array((ItemQuartz oreDictName ItemQuartz.shardsDamage, 4)),
+		                                                                                                           Array(quartzPlate))
 
 
 		Successful

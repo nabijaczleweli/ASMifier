@@ -29,7 +29,8 @@ object ItemQuartz extends Item with IMultiModelItem with IOreDictRegisterable {
 	private      val subNameNames    = Array("plate", "shards", "cleanshards")
 	private      val subOreDictNames = Array("plateQuartz", "shardsQuartz", null)
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames  = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name")}}.toList))
+	private lazy val localizedNames  =
+		new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name")}}.toList))
 
 	val plateDamage       = 0
 	val shardsDamage      = 1
@@ -101,7 +102,8 @@ object ItemQuartz extends Item with IMultiModelItem with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	override def registerModels() {
 		for(i <- plateDamage to cleanShardsDamage) {
-			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("_quartz"), "inventory"))
+			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("_quartz"),
+			                                                                          "inventory"))
 			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("_quartz")))
 		}
 	}

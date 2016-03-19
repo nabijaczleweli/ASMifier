@@ -34,7 +34,7 @@ class TileEntityAdditionalCPU extends SimpleDataProcessingTileEntity with Comput
 		slots.length
 
 	override def decrStackSize(id: Int, maxAmount: Int) =
-		if(id >= slots.size || slots(id) == null)
+		if(id >= slots.length || slots(id) == null)
 			null
 		else {
 			val result = slots(id).copy()
@@ -132,7 +132,9 @@ object TileEntityAdditionalCPU extends IConfigurable {
 	final var multiplierPerTier = 1.5F
 
 	override def load(config: Configuration) {
-		processors = config.getInt("TEAdditionalCPUProcessors", Reference.CONFIG_COMPUTE_CATEGORY, processors, 0, Int.MaxValue, "Amount of processors each TileEntityAdditionalCPU provides")
-		multiplierPerTier = config.getFloat("TEAdditionalCPUMultiplierPerTier", Reference.CONFIG_COMPUTE_CATEGORY, multiplierPerTier, 0, 20F, "Multiplier of additional processor speed per processor tier")
+		processors = config.getInt("TEAdditionalCPUProcessors", Reference.CONFIG_COMPUTE_CATEGORY, processors, 0, Int.MaxValue,
+		                           "Amount of processors each TileEntityAdditionalCPU provides")
+		multiplierPerTier = config.getFloat("TEAdditionalCPUMultiplierPerTier", Reference.CONFIG_COMPUTE_CATEGORY, multiplierPerTier, 0, 20F,
+		                                    "Multiplier of additional processor speed per processor tier")
 	}
 }

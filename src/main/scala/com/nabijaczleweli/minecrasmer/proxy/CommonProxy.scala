@@ -126,10 +126,14 @@ class CommonProxy extends IProxy {
 		new ShapelessOreRecipe(quartzPlate, quartzShardsOre, quartzShardsOre, quartzShardsOre, quartzShardsOre, Blocks.sticky_piston, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P': Character, plasticOre, 'L': Character, crystalScoop, 'G': Character, goldOre).register()
 		new ShapedOreRecipe(PCBLCD, " L ", "GPG", 'P': Character, emptyPCB, 'L': Character, LCD, 'G': Character, goldOre).register()
-		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
-		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.piston).register()
-		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
-		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre, 'p': Character, Blocks.sticky_piston).register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre,
+		                                                   'p': Character, Blocks.piston).register()
+		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre,
+		                                                   'p': Character, Blocks.piston).register()
+		new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre,
+		                                                   'p': Character, Blocks.sticky_piston).register()
+		new ShapedOreRecipe(emptyPCB, " P ", "GNG", " Pp", 'P': Character, plasticOre, 'G': Character, paneOre, 'N': Character, goldOre,
+		                                                   'p': Character, Blocks.sticky_piston).register()
 		new ShapedOreRecipe(socketCPU, "P P", " P ", " N ", 'P': Character, plasticOre, 'N': Character, goldOre).register()
 		new ShapedOreRecipe(ItemWrench, "  I", " T ", "TRR", 'I': Character, ironOre, 'T': Character, stoneRodOre, 'R': Character, redDyeOre).register()
 		new ShapedOreRecipe(new ItemStack(stoneRod, 2), "C", "C", 'C': Character, Blocks.cobblestone).register()
@@ -183,12 +187,15 @@ private object CommonProxy {
 	/*override def manipulateTradesForVillager(villager: EntityVillager, recipeList: MerchantRecipeList, random: Random) =
 		villager.getProfession match {
 			case 1 => // Librarian
-				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
+				recipeList add new MerchantRecipe(new ItemStack(Items.emerald, random nextInt 10 max 3), new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage))
 			case 2 => // Priest
-				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage), new ItemStack(Items.emerald, random nextInt 8 max 3), new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage))
-				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage), new ItemStack(Items.emerald, random nextInt 30 max 12), new ItemStack(ItemCPU, 1, ItemCPU.goodDamage))
+				recipeList add new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.elementaryDamage), new ItemStack(Items.emerald, random nextInt 8 max 3),
+				                                  new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage))
+				recipeList add new MerchantRecipe(new ItemStack(ItemCPU, 1, ItemCPU.simpleDamage), new ItemStack(Items.emerald, random nextInt 30 max 12),
+				                                  new ItemStack(ItemCPU, 1, ItemCPU.goodDamage))
 			case 3 => // Blacksmith
-				recipeList addToListWithCheck new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage), new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
+				recipeList add new MerchantRecipe(new ItemStack(ItemPCB, 1, ItemPCB.emptyPCBDamage), new ItemStack(ItemPCB, 1, ItemPCB.LCDDamage),
+				                                  new ItemStack(ItemPCB, 1, ItemPCB.PCBLCDDamage))
 			case _ =>
 		}*/
 }

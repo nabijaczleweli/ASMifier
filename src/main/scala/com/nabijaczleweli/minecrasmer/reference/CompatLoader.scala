@@ -59,7 +59,8 @@ object CompatLoader {
 	def getCompatStatus(name: String) =
 		getCompatByName(name) map {compatLoadingStates.apply}
 
-	private def doLoadCompats(invoke: ICompat => CompatResult, shouldLoad: ICompat => Boolean, side: Side, excludedStates: Seq[CompatState], finalState: CompatState, baseWord: String) =
+	private def doLoadCompats(invoke: ICompat => CompatResult, shouldLoad: ICompat => Boolean, side: Side, excludedStates: Seq[CompatState], finalState: CompatState,
+	                          baseWord: String) =
 		for(compat <- compats if !(excludedStates contains compatLoadingStates(compat)))
 			if(shouldLoad(compat))
 				if(compat.hasAllLoaded)

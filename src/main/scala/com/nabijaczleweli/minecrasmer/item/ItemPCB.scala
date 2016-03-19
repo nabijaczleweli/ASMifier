@@ -23,7 +23,8 @@ object ItemPCB extends Item with IMultiModelItem {
 	private      val subIconNames   = Array("%selements", "%snoelements", "%slcd", "lcd")
 	private      val subNameNames   = Array("elements", "noelements", "withlcd", "lcd")
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new AutoFormattingReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name", "PCB")}}.toList))
+	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map
+		{idx => new AutoFormattingReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name", "PCB")}}.toList))
 
 	val fullPCBDamage  = 0
 	val emptyPCBDamage = 1
@@ -59,7 +60,8 @@ object ItemPCB extends Item with IMultiModelItem {
 	@SideOnly(Side.CLIENT)
 	override def registerModels() {
 		for(i <- fullPCBDamage to LCDDamage) {
-			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_"), "inventory"))
+			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("pcb_"),
+			                                                                                                    "inventory"))
 			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("pcb_")))
 		}
 	}

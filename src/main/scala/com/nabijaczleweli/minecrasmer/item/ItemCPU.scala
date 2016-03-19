@@ -25,7 +25,8 @@ object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 	private      val subIconNames   = Array("%selementary", "%ssimple", "%sgood")
 	private      val subNameNames   = Array("elementary", "simple", "good")
 	@SideOnly(Side.CLIENT)
-	private lazy val localizedNames = new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name")}}.toList))
+	private lazy val localizedNames =
+		new ReloadableStrings(Future({subIconNames.indices map {idx => new ReloadableString(s"${super.getUnlocalizedName}.${subNameNames(idx)}.name")}}.toList))
 
 	val elementaryDamage = 0
 	val simpleDamage     = 1
@@ -67,7 +68,8 @@ object ItemCPU extends Item with IMultiModelItem with IOreDictRegisterable {
 	@SideOnly(Side.CLIENT)
 	override def registerModels() {
 		for(i <- elementaryDamage to goodDamage) {
-			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"), "inventory"))
+			Minecraft.getMinecraft.getRenderItem.getItemModelMesher.register(this, i, new ModelResourceLocation(Reference.NAMESPACED_PREFIX + subIconNames(i).format("cpu_"),
+			                                                                                                    "inventory"))
 			ModelBakery.registerItemVariants(this, MineCrASMerLocation(subIconNames(i).format("cpu_")))
 		}
 	}

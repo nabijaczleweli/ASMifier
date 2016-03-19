@@ -26,7 +26,8 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 				case _ =>
 					if(chunksBeforeGenerating == 0)
 						if(random.nextInt(bigVeinProbability) == 0) {
-							val base = new BlockPos(chunkX * 16 + random.nextInt(14) + 1, baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2,
+							val base = new BlockPos(chunkX * 16 + random.nextInt(14) + 1,
+							                        baseGenerationLevel + (if(random.nextBoolean()) -random.nextInt(offLevelMax) else random nextInt offLevelMax) max 2,
 							                        chunkX * 16 + random.nextInt(14) + 1)
 							generate(world, base, 8)
 							generate(world, base.north, 8)
@@ -49,10 +50,12 @@ object WorldGenLiquidCrystal extends IWorldGenerator with IConfigurable {
 
 	override def load(config: Configuration) {
 		baseGenerationLevel = config.getInt("baseGenLiquidCrystalLvl", Reference.CONFIG_WORLDGEN_CATEGORY, baseGenerationLevel, 2, 60, "Base level of generation")
-		bigVeinProbability = config.getInt("propGenLiquidCrystalBigVein", Reference.CONFIG_WORLDGEN_CATEGORY, bigVeinProbability, 0, Int.MaxValue, "Probability of generating a big vein (1/x)")
+		bigVeinProbability = config.getInt("propGenLiquidCrystalBigVein", Reference.CONFIG_WORLDGEN_CATEGORY, bigVeinProbability, 0, Int.MaxValue,
+		                                   "Probability of generating a big vein (1/x)")
 		offLevelMax = config.getInt("deviationGenLiquidCrystalMax", Reference.CONFIG_WORLDGEN_CATEGORY, offLevelMax, 0, 50, "Maximal deviation of level of generation")
-		treshold = config.getInt("chunkGenLiquidCrystalTreshold", Reference.CONFIG_WORLDGEN_CATEGORY, treshold, 0, 500, "Amount of chunks of which generation will happen (1/x)")
+		treshold = config.getInt("chunkGenLiquidCrystalTreshold", Reference.CONFIG_WORLDGEN_CATEGORY, treshold, 0, 500,
+		                         "Amount of chunks of which generation will happen (1/x)")
 
-		chunksBeforeGenerating = new Random() nextInt treshold
+		chunksBeforeGenerating = new Random nextInt treshold
 	}
 }

@@ -8,7 +8,8 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry
 import net.minecraftforge.fml.common.registry.VillagerRegistry.{VillagerCareer, VillagerProfession}
 
 object Villager extends IConfigurable {
-	val electronicsVillagerProfession = new VillagerProfession(Reference.NAMESPACED_PREFIX + "electronic", Reference.NAMESPACED_PREFIX + "textures/entity/villager/electronic.png")
+	val electronicsVillagerProfession = new VillagerProfession(Reference.NAMESPACED_PREFIX + "electronic",
+	                                                           Reference.NAMESPACED_PREFIX + "textures/entity/villager/electronic.png")
 	final var electronicsVillagerID = 4637
 
 	override def load(config: Configuration) =
